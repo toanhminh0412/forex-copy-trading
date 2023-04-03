@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
-import { OutlineButton, TagButton } from '@/components/Buttons';
+import { OutlineButton, TagButton, CarouselButton } from '@/components/Buttons';
 import { Section } from '@/components/PageLayouts';
 import { DisplayCase, Card } from '@/components/Cards';
 import { AiOutlineCheck } from 'react-icons/ai';
@@ -134,7 +134,7 @@ export function HistoryGallery() {
   const months = ["Nov 2022", "Dec 2022"]
   const [month, setMonth] = useState(0);
   const [showAll, setShowAll] = useState(false)
-  const [lighBoxSrc, setLightBoxSrc] = useState('');
+  const [lighBoxSrc, setLightBoxSrc] = useState('/img/stock-graph.jpg');
   const [lighBoxOpened, setLighBoxOpened] = useState(false);
 
   return (
@@ -268,14 +268,14 @@ export function SocialMedia() {
             <a href="mailto:realfxcopier@gmail.com" className="ml-3 my-auto text-2xl">realfxcopier@gmail.com</a>
           </div>
           <p className="mt-4 text-lg">Feel free to send me emails to ask about anything. This is my main contact for business.</p>
-          <div className="flex flex-row mt-6">
+          <div className="flex flex-row flex-wrap mt-6">
             <div className="relative w-8 h-8">
               <Image src="/img/social-medias/facebook.png" alt="Facebook" fill/>
             </div>
             <a href="https://www.facebook.com/profile.php?id=100086521276292" target="_blank" className="ml-3 my-auto text-2xl">https://www.facebook.com/profile.php?id=100086521276292</a>
           </div>
           <p className="mt-4 text-lg">I posted my trades once in a while on Facebook. I also will be posting some educational contents on Facebook some time in the future.</p>
-          <div className="flex flex-row mt-6">
+          <div className="flex flex-row flex-wrap mt-6">
             <div className="relative w-8 h-8">
               <Image src="/img/social-medias/telegram.png" alt="Telegram" fill/>
             </div>
@@ -289,7 +289,7 @@ export function SocialMedia() {
 }
 
 export function ContactUs() {
-  return(
+  return (
     <Section style="bg-slate-100">
       <h1 className="font-semibold text-4xl lg:text-6xl text-center">Contact us</h1>
       <p className="text-2xl lg:text-3xl mt-2 lg:mt-4 text-center">Ask me anything!</p>
@@ -303,5 +303,64 @@ export function ContactUs() {
   )
 }
 
-{/* <input type="email" placeholder="Your email" required></input>
-        <textarea placeholder="Describe how I can help you (Explain your needs, ask questions about a service, etc.)" required></textarea> */}
+export function Testimonials() {
+  const [reviews, setReviews] = useState([
+    {'company': 'ForexCopyTrade', 
+    'content': '“Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias molestiae. Numquam corrupti in laborum sed rerum et corporis.”',
+    'img': '/img/customer.avif', 
+    'name': 'Judith Black', 
+    'job': 'Accountant in the UK'},
+    {'company': 'ForexCopyTrade', 
+    'content': '“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley”',
+    'img': '/img/customer-1.jpg', 
+    'name': 'Archie To', 
+    'job': 'Software engineer in Canada'}
+  ])
+  const [reviewShown, setReviewShown] = useState(0);
+  console.log(reviews);
+
+  return (
+    <section className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:px-8">
+      <h1 className="font-semibold text-4xl lg:text-6xl text-center">Testimonials</h1>
+      <p className="text-2xl lg:text-3xl mt-2 lg:mt-4 text-center">What our customers say about us!</p>
+      <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20" />
+      <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
+      <div className="mx-auto max-w-2xl lg:max-w-4xl mt-12">
+        <CarouselButton side="left" style={`top-8 bottom-0 ${reviewShown === 0 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown - 1)}}/>
+        <CarouselButton side="right" style={`top-8 bottom-0 ${reviewShown === reviews.length - 1 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown + 1)}}/>
+        {reviews.map((review, index) => (
+          <div key={index} className={`${reviewShown === index ? '' : 'hidden'}`}>
+            <div className="text-center text-2xl text-violet-700 font-semibold">
+              <p>{review.company}</p>
+            </div>
+            <figure className="mt-10">
+              <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
+                <p>
+                  {review.content}
+                </p>
+              </blockquote>
+              <figcaption className="mt-10">
+                <div className="relative mx-auto h-10 w-10 rounded-full">
+                <Image
+                  src={review.img}
+                  alt=""
+                  className="rounded-full"
+                  fill
+                />
+                </div>
+                <div className="mt-4 flex items-center justify-center space-x-3 text-base">
+                  <div className="font-semibold text-gray-900">{review.name}</div>
+                  <svg viewBox="0 0 2 2" width={3} height={3} aria-hidden="true" className="fill-gray-900">
+                    <circle cx={1} cy={1} r={1} />
+                  </svg>
+                  <div className="text-gray-600">{review.job}</div>
+                </div>
+              </figcaption>
+            </figure>
+          </div>
+        ))}
+        
+      </div>
+    </section>
+  )
+}

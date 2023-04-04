@@ -39,7 +39,7 @@ export function About() {
           <h2 className="text-2xl lg:text-4xl font-normal mt-8 lg:mt-0">Who am I?</h2>
           <p className="mt-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
           <h2 className="text-2xl lg:text-4xl font-normal mt-8">Mission statement</h2>
-          <p className="mt-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          <p className="mt-4">We shoot for a gain of 1-10%daily. It is very possible to gain more but I prefer sticking to strict set of rules. It is still a better return than any bank will give you or any financial planner.</p>
         </div>
       </div>
     </Section>
@@ -76,7 +76,7 @@ export function Service() {
             <li className="flex flex-row my-2"><RxCross1 className="text-red-800 font-semibold mt-2 mr-2"/>Higest-priced package</li>
           </ul>
           <div className="mt-8 mb-4 text-center">
-            <OutlineButton color="violet-900" style="text-xl px-4" text="Buy now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
+            <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
           </div>
         </Card>
 
@@ -93,7 +93,7 @@ export function Service() {
             <li className="flex flex-row my-2"><br></br></li>
           </ul>
           <div className="mt-8 mb-4 text-center">
-            <OutlineButton color="violet-900" style="text-xl px-4" text="Buy now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
+            <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
           </div>
         </Card>
 
@@ -110,10 +110,11 @@ export function Service() {
             <li className="flex flex-row my-2 font-semibold"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Recommended</li>
           </ul>
           <div className="mt-8 mb-4 text-center">
-            <OutlineButton color="violet-900" style="text-xl px-4" text="Buy now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
+            <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
           </div>
         </Card>
       </DisplayCase>
+      <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">All subscriptions are cancellable but not refundable!</h1>
     </Section>
   )
 }
@@ -131,7 +132,7 @@ export function EightcapProfile() {
 
 export function HistoryGallery() {
   // const months = ["Nov 2022", "Dec 2022", "Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023"]
-  const months = ["Nov 2022", "Dec 2022"]
+  const months = ["Nov 2022", "Dec 2022", "Mar 2023"]
   const [month, setMonth] = useState(0);
   const [showAll, setShowAll] = useState(false)
   const [lighBoxSrc, setLightBoxSrc] = useState('/img/stock-graph.jpg');
@@ -246,6 +247,11 @@ export function HistoryGallery() {
             <p className="font-semibold text-xl absolute inset-0 m-auto w-fit h-fit">See {showAll ? 'less' : 'more'} ...</p>
           </div>
         </DisplayCase>
+        <DisplayCase style={`mt-4 ${month === 2 ? '': 'hidden'}`}>
+          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/mar-1.jpg"); setLighBoxOpened(true);}}>
+            <Image src="/img/history-trades/mar-1.jpg" alt="Stock graph" fill/>
+          </div>
+        </DisplayCase>
       </div>
     </Section>
   )
@@ -306,15 +312,15 @@ export function ContactUs() {
 export function Testimonials() {
   const [reviews, setReviews] = useState([
     {'company': 'ForexCopyTrade', 
-    'content': '“Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo expedita voluptas culpa sapiente alias molestiae. Numquam corrupti in laborum sed rerum et corporis.”',
-    'img': '/img/customer.avif', 
-    'name': 'Judith Black', 
-    'job': 'Accountant in the UK'},
+    'content': '“I have been on Robb’s copy trader platform for two years and have seen steady growth. He’s very knowledgeable and stays current through online training and group trading platforms. I started with a small amount then added more capital to see higher returns monthly. I’m very pleased with the results. ”',
+    'img': '/img/blank-user.png', 
+    'name': 'Kim Novak', 
+    'job': 'Customer from Canada'},
     {'company': 'ForexCopyTrade', 
-    'content': '“Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley”',
-    'img': '/img/customer-1.jpg', 
-    'name': 'Archie To', 
-    'job': 'Software engineer in Canada'}
+    'content': '“I do not have much experience in this sphere so for me trading with someone I trust is the way to go. I appreciate that they work within my means so that I can have the opportunity to try trading. I started with them in November and has been great so far.  What I like about this broker is the serious approach to trading and investing and I can say with confidence that this is a place where professionals work. They are very knowledgeable and able to guide me through all the questions I have had. Looking forward to the future of trading.”',
+    'img': '/img/blank-user.png', 
+    'name': 'Denise Jonas', 
+    'job': 'Customer from Canada'}
   ])
   const [reviewShown, setReviewShown] = useState(0);
 

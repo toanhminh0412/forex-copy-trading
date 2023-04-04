@@ -6,7 +6,7 @@ export default function UpperNav({active="home"}) {
   const [smMenuOpened, setSmMenuOpened] = useState(false);
   
   return (
-    <div className="bg-violet-700 shadow-lg fixed z-30 w-screen">
+    <div className="bg-gradient-to-r from-violet-500 to-violet-900 shadow-lg fixed z-30 w-screen">
       <div className="px-2 py-3 lg:px-20 flex flex-row justify-between">
         <h1 className="text-white text-xl lg:text-3xl font-medium">ForexCopyTrade</h1>
         <div className="hidden lg:flex lg:flex-row">

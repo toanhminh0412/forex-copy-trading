@@ -1,9 +1,11 @@
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi"
+import Link from 'next/link'
+
 
 export function OutlineButton({color, style="", text, link="", target=""}) {
   if (link) {
     return (
-      <a href={link} target={target} className={`text-${color} border hover:border-2 font-semilight hover:font-semibold border-${color} rounded-sm p-2 w-fit cursor-default ${style}`}>{text}</a>
+      <Link href={link} target={target} className={`text-${color} border hover:border-2 font-semilight hover:font-semibold border-${color} rounded-sm p-2 w-fit cursor-default ${style}`}>{text}</Link>
     )
   } else {
     return (

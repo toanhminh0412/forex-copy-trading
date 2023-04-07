@@ -21,7 +21,7 @@ export function Header() {
         <h1 className="text-white font-semibold text-4xl">ForexCopyTrade</h1>
         <p className='text-white text-lg lg:text-2xl mt-2'>A copy trade service for those who cannot sit at a screen for hours on end</p>
         <div className='w-fit mx-auto mt-10'>
-          <OutlineButton color="white" style="mx-2" text="Link Account Now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
+          <OutlineButton color="white" style="mx-2" text="Visit Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
           <OutlineButton color="white" style="mx-2" text="Contact us" link="/contact-us"/>
         </div>
       </div>
@@ -33,16 +33,19 @@ export function About() {
   return (
     <Section>
       <h1 className="font-semibold text-4xl text-center lg:text-6xl">About me</h1>
-      <p className="text-2xl lg:text-3xl text-center mt-4">This is a placeholder for a slogan. The slogan is approximately this long!</p>
+      {/*<p className="text-2xl lg:text-3xl text-center mt-4">This is a placeholder for a slogan. The slogan is approximately this long!</p>*/}
       <div className="lg:flex lg:flex-row lg:justify-center mt-6 lg:mt-12">
         <div className="relative h-40vh lg:h-50vh w-80vw lg:w-45% max-w-xl mx-auto lg:mx-6">
           <Image src="/img/stock-laptop.jpg" alt="Stock graph" fill/>
         </div>
         <div className="lg:w-1/2 lg:mx-6">
           <h2 className="text-2xl lg:text-4xl font-normal mt-8 lg:mt-0">Who am I?</h2>
-          <p className="mt-4">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+          <p className="mt-4">I am just a simple guy that was looking to add income through investing. I went the traditional way and decided that the banks did not have my best interest at heart. The same can be said for Forex brokers and the so-called &ldquo;guru&apos;s&rdquo;. All of them put on a great show telling me of fortunes to come. Pictures of high end sports cars, fancy mansions, beautiful people surrounding me. Well guess what. None of that was true. The fancy indicators were just a selling point and relieved me of my money. There&apos;s a reason 97% of traders fail. I was one of those 97%. However........ After well over 100k in loss and reliance on indicators. I took time to figure it out.
+Well I have a very tight grasp on it. I Don&apos;t have a 100% win rate, (if someone tells you they do, they&apos;re lying) but then again, nobody does. My win rate is very good alongside good money management. I learned some very valuable lessons. The biggest was accepting loss. Remove emotion. I trade what I see and not what I hope to come true. 
+You can make money in forex. It takes some time with small balances but it can be done. 
+I decided to offer copy trade so folks can see some positive results in their account as they learn. (This was not available when I was learning) I encourage you to trade your own account alongside what I do.</p>
           <h2 className="text-2xl lg:text-4xl font-normal mt-8">Mission statement</h2>
-          <p className="mt-4">We shoot for a gain of 1-10%daily. It is very possible to gain more but I prefer sticking to strict set of rules. It is still a better return than any bank will give you or any financial planner.</p>
+          <p className="mt-4">We shoot for a gain of 1-10%daily. It is very possible to gain more but I prefer sticking to strict set of rules. It is still a better return than any bank will give you or any financial planner. Remember, losses are a factor. Be prepared and accept it. As long as we are going forward in the long run.</p>
         </div>
       </div>
     </Section>
@@ -66,33 +69,17 @@ export function Service() {
       <h1 className="font-semibold text-4xl lg:text-6xl">Our services</h1>
       <p className="text-lg lg:text-2xl font-semilight mt-4">Our company provides the following services. Feel free to email us at <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a> if you have any question about any service!</p>
       <DisplayCase style="mt-12 justify-center">
-        <Card header="1 month" style="mx-auto">
+        <Card header="Month-to-month subscription" style="mx-auto">
           <div className="text-center">
-            <span className="text-6xl font-semibold">100</span>
-            <span className="text-xl font-normal ml-1">CAD</span>
-            <div className="text-xl font-light ml-1 text-slate-500">one time paymet</div>
-          </div>
-          <ul className="mt-8 px-2 text-lg font-semilight">
-            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Real time trade mirrorings</li>
-            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Access to a Telegram community</li>
-            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Renewable after 1 month</li>
-            <li className="flex flex-row my-2"><RxCross1 className="text-red-800 font-semibold mt-2 mr-2"/>Higest-priced package</li>
-          </ul>
-          <div className="mt-8 mb-4 text-center">
-            <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
-          </div>
-        </Card>
-
-        <Card header="3 month" style="mx-auto">
-          <div className="text-center">
-            <span className="text-6xl font-semibold">70</span>
+            <span className="text-6xl font-semibold">90</span>
             <span className="text-xl font-normal ml-1">CAD</span>
             <div className="text-xl font-light ml-1 text-slate-500">per month</div>
           </div>
           <ul className="mt-8 px-2 text-lg font-semilight">
             <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Real time trade mirrorings</li>
             <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Access to a Telegram community</li>
-            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Renewable after 3 months</li>
+            <li className="flex flex-row my-2"><RxCross1 className="text-red-800 font-semibold mt-2 mr-2"/>Highest-priced package</li>
+            <li className="flex flex-row my-2"><RxCross1 className="text-red-800 font-semibold mt-2 mr-2"/>No refunds</li>
             <li className="flex flex-row my-2"><br></br></li>
           </ul>
           <div className="mt-8 mb-4 text-center">
@@ -100,20 +87,39 @@ export function Service() {
           </div>
         </Card>
 
-        <Card header="6 month" style="mx-auto" highlighted>
+        <Card header="3 month subscription" style="mx-auto" highlighted>
           <div className="text-center">
-            <span className="text-6xl font-semibold">50</span>
+            <span className="text-6xl font-semibold">240</span>
             <span className="text-xl font-normal ml-1">CAD</span>
-            <div className="text-xl font-light ml-1 text-slate-500">per month</div>
+            <div className="text-xl font-light ml-1 text-slate-500">every 3 months</div>
           </div>
           <ul className="mt-8 px-2 text-lg font-semilight">
             <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Real time trade mirrorings</li>
             <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Access to a Telegram community</li>
-            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Renewable after 1 month</li>
-            <li className="flex flex-row my-2 font-semibold"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Recommended</li>
+            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Lowest-priced package</li>
+            <li className="flex flex-row my-2"><RxCross1 className="text-red-800 font-semibold mt-2 mr-2"/>No refunds</li>
+            <li className="flex flex-row my-2"><br></br></li>
           </ul>
           <div className="mt-8 mb-4 text-center">
             <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
+          </div>
+        </Card>
+
+        <Card header="1 hour coaching session" style="mx-auto">
+          <div className="text-center">
+            <span className="text-6xl font-semibold">100</span>
+            <span className="text-xl font-normal ml-1">CAD</span>
+            <div className="text-xl font-light ml-1 text-slate-500">per occasion</div>
+          </div>
+          <ul className="mt-8 px-2 text-lg font-semilight">
+            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>One on one traning or trade session</li>
+            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>Real time coaching via Skype</li>
+            <li className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>One time payment</li>
+            <li className="flex flex-row my-2"><RxCross1 className="text-red-800 font-semibold mt-2 mr-2"/>No refunds</li>
+            <li className="flex flex-row my-2"><br></br></li>
+          </ul>
+          <div className="mt-8 mb-4 text-center">
+            <OutlineButton color="violet-900" style="text-xl px-4" text="Buy now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
           </div>
         </Card>
       </DisplayCase>
@@ -125,9 +131,10 @@ export function Service() {
 export function EightcapProfile() {
   return (
     <Section style="bg-violet-700 text-white">
-      <h1 className="font-semibold text-3xl text-center lg:text-5xl">Check out my trader profile on Eightcap broker platform!</h1>
+      <h1 className="font-semibold text-2xl text-center lg:text-3xl">Sign up for an Eightcap account and pay the subscription fee, I will input you to my copier platform rightaway!</h1>
+      <p className="text-white text-lg lg:text-xl font-semilight text-center my-10">Check out my trader profile on Eightcap! This is my favorite broker platform. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
       <div className='w-fit mx-auto mt-10'>
-          <OutlineButton color="white" style="mx-2 text-2xl border-2 hover:border-3 px-4" text="Link Account Now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
+          <OutlineButton color="white" style="mx-2 text-2xl border-2 hover:border-3 px-4" text="Visit Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
         </div>
     </Section>
   )
@@ -135,7 +142,7 @@ export function EightcapProfile() {
 
 export function HistoryGallery() {
   // const months = ["Nov 2022", "Dec 2022", "Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023"]
-  const months = ["Nov 2022", "Dec 2022", "Mar 2023"]
+  const months = ["Nov 2022", "Dec 2022", "Mar 2023", "Apr 2023"]
   const [month, setMonth] = useState(0);
   const [showAll, setShowAll] = useState(false)
   const [lighBoxSrc, setLightBoxSrc] = useState('/img/stock-graph.jpg');
@@ -253,6 +260,11 @@ export function HistoryGallery() {
         <DisplayCase style={`mt-4 ${month === 2 ? '': 'hidden'}`}>
           <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/mar-1.jpg"); setLighBoxOpened(true);}}>
             <Image src="/img/history-trades/mar-1.jpg" alt="Stock graph" fill/>
+          </div>
+        </DisplayCase>
+        <DisplayCase style={`mt-4 ${month === 3 ? '': 'hidden'}`}>
+          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/apr-1.jpg"); setLighBoxOpened(true);}}>
+            <Image src="/img/history-trades/apr-1.jpg" alt="Stock graph" fill/>
           </div>
         </DisplayCase>
       </div>

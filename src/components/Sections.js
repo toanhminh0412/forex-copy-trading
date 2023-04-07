@@ -9,7 +9,7 @@ import { AiOutlineCheck } from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
 import { Carousel } from '@/components/Carousel';
 import { LightBox } from '@/components/ImageDisplays';
-import { Input, Textarea } from '@/components/Forms';
+import { Input, Textarea, TestimonialForm } from '@/components/Forms';
 import { SuccessAlert, DangerAlert } from '@/components/Alerts';
 
 export function Header() {
@@ -387,6 +387,7 @@ export function Testimonials() {
     'job': 'Customer from Canada'}
   ])
   const [reviewShown, setReviewShown] = useState(0);
+  const [reviewFormOpened, setReviewFormOpened] = useState(false);
 
   return (
     <section className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:px-8">
@@ -394,7 +395,7 @@ export function Testimonials() {
       <p className="text-2xl lg:text-3xl mt-2 lg:mt-4 text-center">What our customers say about us!</p>
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20" />
       <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
-      <div className="mx-auto max-w-2xl lg:max-w-4xl mt-12">
+      {reviewFormOpened === false ? (<div className="mx-auto max-w-2xl lg:max-w-4xl mt-12">
         <CarouselButton side="left" style={`top-8 bottom-0 ${reviewShown === 0 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown - 1)}}/>
         <CarouselButton side="right" style={`top-8 bottom-0 ${reviewShown === reviews.length - 1 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown + 1)}}/>
         {reviews.map((review, index) => (
@@ -428,9 +429,13 @@ export function Testimonials() {
             </figure>
           </div>
         ))}
-        <div className="text-center mt-12">
-          <OutlineButton color="violet-700" style="text-2xl border-2 hover:border-3 px-4" text="Leave us a review"/>
-        </div>
+      </div>):
+      (<div className="mx-auto max-w-xl lg:max-w-2xl mt-12">
+        <TestimonialForm/>
+      </div>)}
+      <div className="text-center mt-12">
+        {/* <OutlineButton color="violet-700" style="text-2xl border-2 hover:border-3 px-4" text="Leave us a review"/> */}
+        <button className={`btn ${reviewFormOpened === false ? 'bg-violet-500 border-violet-500' : 'bg-violet-700 border-violet-700'} hover:bg-violet-900 hover:border-violet-900 text-xl border-2 hover:border-3 px-6`} onClick={() => {setReviewFormOpened(!reviewFormOpened)}}>Leave us a review</button>
       </div>
     </section>
   )

@@ -19,12 +19,17 @@ export function Textarea({rows="4", cols="10", placeholder="", required=false, s
   }
 
 export function TestimonialForm() {
-  const [name, setName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastInitial, setLastInitial] = useState('');
   const [country, setCountry] = useState('');
   const [content, setContent] = useState('');
 
-  const updateName = e => {
-    setName(e.target.value);
+  const updateFirstName = e => {
+    setFirstName(e.target.value);
+  }
+
+  const updateLastInitial = e => {
+    setLastInitial(e.target.value);
   }
 
   const updateCountry = e => {
@@ -43,8 +48,9 @@ export function TestimonialForm() {
   return (
     <form className="p-6 border border-slate-200 shadow-md rounded-sm w-full" onSubmit={postReview}>
       <h1 className="text-2xl lg:text-3xl">Enjoy our service? Leave us a review!</h1>
-      <div className="mt-4 lg:mt-8">
-        <input type="text" value={name} placeholder="Your name" className="input input-bordered w-full" required onChange={updateName}/>
+      <div className="mt-4 lg:mt-8 flex flex-row justify-between">
+        <input type="text" value={firstName} placeholder="First name" className="input input-bordered w-[49%]" required onChange={updateFirstName}/>
+        <input type="text" value={lastInitial} placeholder="Last initial" maxLength={1} className="input input-bordered w-[49%]" required onChange={updateLastInitial}/>
       </div>
       <div className="mt-1 lg:mt-2">
         <input type="text" value={country} placeholder="Which country are you from?" className="input input-bordered w-full" required onChange={updateCountry}/>

@@ -378,12 +378,12 @@ export function Testimonials() {
     {'company': 'ForexCopyTrade', 
     'content': '“I have been on Robb’s copy trader platform for two years and have seen steady growth. He’s very knowledgeable and stays current through online training and group trading platforms. I started with a small amount then added more capital to see higher returns monthly. I’m very pleased with the results. ”',
     'img': '/img/blank-user.png', 
-    'name': 'Kim Novak', 
+    'name': 'Kim N', 
     'job': 'Customer from Canada'},
     {'company': 'ForexCopyTrade', 
     'content': '“I do not have much experience in this sphere so for me trading with someone I trust is the way to go. I appreciate that they work within my means so that I can have the opportunity to try trading. I started with them in November and has been great so far.  What I like about this broker is the serious approach to trading and investing and I can say with confidence that this is a place where professionals work. They are very knowledgeable and able to guide me through all the questions I have had. Looking forward to the future of trading.”',
     'img': '/img/blank-user.png', 
-    'name': 'Denise Jonas', 
+    'name': 'Denise J', 
     'job': 'Customer from Canada'}
   ])
   const [reviewShown, setReviewShown] = useState(0);

@@ -7,8 +7,10 @@ export default function AboutPage() {
     <>
       <UpperNav active="about"/>
       <LoginModal/>
-      <Header/>
-      <About/>
+      <div className='pt-12 lg:pt-16'>
+        <Header/>
+        <About/>
+      </div>
     </>
   )
 }

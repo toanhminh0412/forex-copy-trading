@@ -7,8 +7,10 @@ export default function ContactUsPage() {
     <>
       <UpperNav active="contact-us"/>
       <LoginModal/>
-      <Header/>
-      <ContactUs/>
+      <div className='pt-12 lg:pt-16'>
+        <Header/>
+        <ContactUs/>
+      </div>
     </>
   )
 }

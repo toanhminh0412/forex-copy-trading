@@ -11,15 +11,17 @@ export default function Home() {
     <>
     <UpperNav/>
     <LoginModal/>
-    <Header/>
-    <About/>
-    <Disclaimer/>
-    <Service/>
-    <EightcapProfile/>
-    <HistoryGallery/>
-    <SocialMedia/>
-    <ContactUs/>
-    <Testimonials/>
+    <div className='pt-12 lg:pt-16'>
+      <Header/>
+      <About/>
+      <Disclaimer/>
+      <Service/>
+      <EightcapProfile/>
+      <HistoryGallery/>
+      <SocialMedia/>
+      <ContactUs/>
+      <Testimonials/>
+    </div>
     </>
   )
 }

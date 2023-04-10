@@ -7,8 +7,10 @@ export default function ServicePage() {
     <>
       <UpperNav active="services"/>
       <LoginModal/>
-      <Header/>
-      <Service/>
+      <div className='pt-12 lg:pt-16'>
+        <Header/>
+        <Service/>
+      </div>
     </>
   )
 }

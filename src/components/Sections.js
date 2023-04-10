@@ -12,9 +12,9 @@ import { LightBox } from '@/components/ImageDisplays';
 import { Input, Textarea, TestimonialForm } from '@/components/Forms';
 import { SuccessAlert, DangerAlert } from '@/components/Alerts';
 
-export function Header() {
+export function Header({style=""}) {
   return (
-    <div className="w-full h-40vh lg:h-50vh relative">
+    <div className={`w-full h-40vh lg:h-50vh relative ${style}`}>
       <Image src="/img/stock-graph.jpg" alt="Stock graph" fill/>
       <div className="w-full h-full bg-black z-10 opacity-70"></div>
       <div className="absolute top-24 md:top-32 lg:top-40 z-20 inset-x-0 mx-auto text-center px-2">

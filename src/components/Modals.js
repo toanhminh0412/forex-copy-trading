@@ -16,6 +16,7 @@ export function LoginModal() {
 
   const login = e => {
     e.preventDefault();
+
     if (username === process.env.NEXT_PUBLIC_USERNAME && password === process.env.NEXT_PUBLIC_PASSWORD) {
       window.localStorage.setItem('forex_trade_login', true)
       window.location.href = '/';

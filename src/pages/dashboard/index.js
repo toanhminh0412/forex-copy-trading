@@ -1,10 +1,40 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import UpperNav from '@/components/upperNav'
 import { Header, About, Disclaimer, Service, EightcapProfile, HistoryGallery, SocialMedia, ContactUs, Testimonials } from '@/components/Sections';
 import { LoginModal } from '@/components/Modals';
 import {BiMenu} from "react-icons/bi";
 
 export default function DashboardPage() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userId = window.localStorage.getItem('forexUserId');
+
+    if (userId === null) {
+      window.location.href ='/';
+      return;
+    }
+    
+    fetch('api/authenticate?' + new URLSearchParams({
+      userId: userId
+    }))
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      if (!data.active) {
+        window.localStorage.removeItem('forexUserId');
+        window.location.href = '/';
+      } else {
+        setLoading(false);
+      }
+    })
+  }, [])
+
+  if (loading) {
+    return (
+      <div>Loading...</div>
+    )
+  }
   return(
     <>
       <UpperNav active="dashboard"/>
@@ -266,8 +296,50 @@ function ContactUsEditSection() {
 }
 
 function TestimonialsEditSection() {
+    const [openedTab, setOpenedTab] = useState(0);
+    const [reviews, setReviews] = useState([]);
+
+    useEffect(() => {
+      // Get all reviews
+      fetch('/api/review')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        if (data.reviews) {
+          setReviews(data.reviews);
+        }
+      })
+    }, [])
+
     return (
         <div>
+        <div className="tabs mt-4">
+          <a className={`tab tab-lg tab-lifted ${openedTab === 0 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(0)}}>Reviews</a> 
+          <a className={`tab tab-lg tab-lifted ${openedTab === 1 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(1)}}>Edit page</a> 
+        </div>
+
+        <div className={`${openedTab === 0 ? '' : 'hidden'} flex flex-row flex-wrap p-4`}>
+          {reviews.map(review => (
+            <div key={review._id} className="card bg-white border border-slate-200 shadow-md rounded-md w-96 ml-3 mt-3">
+              <div className="card-body">
+                <div className='flex flex-row'>
+                <h2 className="card-title">
+                  {review.firstName} {review.lastInitial}
+                </h2>
+                <span className='text-md font-light text-slate-500 mt-auto ml-2'>from {review.country}</span>
+                </div>
+                <p>“{review.content}”</p>
+                <button className='btn btn-ghost bg-slate-200 w-full mt-4'>Show</button>
+                <textarea className="textarea textarea-bordered w-full mt-4" rows="3" placeholder="Your comment"></textarea>
+                <div className="card-actions justify-end mt-2">
+                  <button className="btn btn-dark">Comment</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className={`${openedTab === 1 ? '' : 'hidden'}`}>
         <Testimonials/>
         <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
             <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">header</span></h1>
@@ -285,6 +357,7 @@ function TestimonialsEditSection() {
             </div>
             <button className="btn btn-primary w-full text-md mt-2">Submit</button>
         </form>
+        </div>
         </div>
     )
 }

@@ -21,7 +21,7 @@ export function Header({style=""}) {
         <h1 className="text-white font-semibold text-4xl">ForexCopyTrade</h1>
         <p className='text-white text-lg lg:text-2xl mt-2'>A copy trade service for those who cannot sit at a screen for hours on end</p>
         <div className='w-fit mx-auto mt-10'>
-          <OutlineButton color="white" style="mx-2" text="Visit Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
+          <OutlineButton color="white" style="mx-2" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
           <OutlineButton color="white" style="mx-2" text="Contact us" link="/contact-us"/>
         </div>
       </div>
@@ -132,9 +132,9 @@ export function EightcapProfile() {
   return (
     <Section style="bg-violet-700 text-white">
       <h1 className="font-semibold text-2xl text-center lg:text-3xl">Sign up for an Eightcap account and pay the subscription fee, I will input you to my copier platform rightaway!</h1>
-      <p className="text-white text-lg lg:text-xl font-semilight text-center my-10">Check out my trader profile on Eightcap! This is my favorite broker platform. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
+      <p className="text-white text-lg lg:text-xl font-semilight text-center my-10">Eightcap is my favorite broker platform. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
       <div className='w-fit mx-auto mt-10'>
-          <OutlineButton color="white" style="mx-2 text-2xl border-2 hover:border-3 px-4" text="Visit Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
+          <OutlineButton color="white" style="mx-2 text-2xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
         </div>
     </Section>
   )
@@ -395,7 +395,7 @@ export function Testimonials() {
       <p className="text-2xl lg:text-3xl mt-2 lg:mt-4 text-center">What our customers say about us!</p>
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20" />
       <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
-      {reviewFormOpened === false ? (<div className="mx-auto max-w-2xl lg:max-w-4xl mt-12">
+      <div className={`${reviewFormOpened === false ? '' : 'hidden'} mx-auto max-w-2xl lg:max-w-4xl mt-12`}>
         <CarouselButton side="left" style={`top-8 bottom-0 ${reviewShown === 0 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown - 1)}}/>
         <CarouselButton side="right" style={`top-8 bottom-0 ${reviewShown === reviews.length - 1 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown + 1)}}/>
         {reviews.map((review, index) => (
@@ -429,10 +429,10 @@ export function Testimonials() {
             </figure>
           </div>
         ))}
-      </div>):
-      (<div className="mx-auto max-w-xl lg:max-w-2xl mt-12">
-        <TestimonialForm/>
-      </div>)}
+      </div>:
+      <div className="mx-auto max-w-xl lg:max-w-2xl mt-12">
+        <TestimonialForm style={`${reviewFormOpened === true ? '' : 'hidden'}`}/>
+      </div>
       <div className="text-center mt-12">
         {/* <OutlineButton color="violet-700" style="text-2xl border-2 hover:border-3 px-4" text="Leave us a review"/> */}
         <button className={`btn ${reviewFormOpened === false ? 'bg-violet-500 border-violet-500' : 'bg-violet-700 border-violet-700'} hover:bg-violet-900 hover:border-violet-900 text-xl border-2 hover:border-3 px-6`} onClick={() => {setReviewFormOpened(!reviewFormOpened)}}>Leave us a review</button>

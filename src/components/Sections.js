@@ -374,7 +374,7 @@ export function ContactUs() {
 }
 
 export function Testimonials({paramReviews=undefined}) {
-  const [reviews, setReviews] = useState(paramReviews ? paramReviews.filter(review => review.show === true) : undefined);
+  const [reviews, setReviews] = useState(paramReviews);
   const [reviewShown, setReviewShown] = useState(0);
   const [reviewFormOpened, setReviewFormOpened] = useState(false);
 
@@ -387,8 +387,10 @@ export function Testimonials({paramReviews=undefined}) {
       .then(data => {
         setReviews(data.reviews);
       })
+    } else {
+      setReviews(paramReviews.filter(review => review.show === true))
     }
-  }, [])
+  }, [paramReviews])
 
   if (reviews === undefined) {
     return (

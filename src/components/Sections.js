@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import emailjs from '@emailjs/browser';
 
@@ -373,70 +373,89 @@ export function ContactUs() {
   )
 }
 
-export function Testimonials() {
-  const [reviews, setReviews] = useState([
-    {'company': 'ForexCopyTrade', 
-    'content': '“I have been on Robb’s copy trader platform for two years and have seen steady growth. He’s very knowledgeable and stays current through online training and group trading platforms. I started with a small amount then added more capital to see higher returns monthly. I’m very pleased with the results. ”',
-    'img': '/img/blank-user.png', 
-    'name': 'Kim N', 
-    'job': 'Customer from Canada'},
-    {'company': 'ForexCopyTrade', 
-    'content': '“I do not have much experience in this sphere so for me trading with someone I trust is the way to go. I appreciate that they work within my means so that I can have the opportunity to try trading. I started with them in November and has been great so far.  What I like about this broker is the serious approach to trading and investing and I can say with confidence that this is a place where professionals work. They are very knowledgeable and able to guide me through all the questions I have had. Looking forward to the future of trading.”',
-    'img': '/img/blank-user.png', 
-    'name': 'Denise J', 
-    'job': 'Customer from Canada'}
-  ])
+export function Testimonials({paramReviews=undefined}) {
+  const [reviews, setReviews] = useState(paramReviews ? paramReviews.filter(review => review.show === true) : undefined);
   const [reviewShown, setReviewShown] = useState(0);
   const [reviewFormOpened, setReviewFormOpened] = useState(false);
 
-  return (
-    <section className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:px-8">
-      <h1 className="font-semibold text-4xl lg:text-6xl text-center">Testimonials</h1>
-      <p className="text-2xl lg:text-3xl mt-2 lg:mt-4 text-center">What our customers say about us!</p>
-      <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20" />
-      <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
-      <div className={`${reviewFormOpened === false ? '' : 'hidden'} mx-auto max-w-2xl lg:max-w-4xl mt-12`}>
-        <CarouselButton side="left" style={`top-8 bottom-0 ${reviewShown === 0 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown - 1)}}/>
-        <CarouselButton side="right" style={`top-8 bottom-0 ${reviewShown === reviews.length - 1 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown + 1)}}/>
-        {reviews.map((review, index) => (
-          <div key={index} className={`${reviewShown === index ? '' : 'hidden'}`}>
-            <div className="text-center text-2xl text-violet-700 font-semibold">
-              <p>{review.company}</p>
+  useEffect(() => {
+    if (paramReviews === undefined)  {
+      fetch('api/review?' + new URLSearchParams({
+        show: true
+      }))
+      .then(res => res.json())
+      .then(data => {
+        setReviews(data.reviews);
+      })
+    }
+  }, [])
+
+  if (reviews === undefined) {
+    return (
+      <div>Loading...</div>
+    )
+  } else {
+    return (
+      <section className="relative isolate overflow-hidden bg-white px-6 py-24 sm:py-32 lg:px-8">
+        <h1 className="font-semibold text-4xl lg:text-6xl text-center">Testimonials</h1>
+        <p className="text-2xl lg:text-3xl mt-2 lg:mt-4 text-center">What our customers say about us!</p>
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(45rem_50rem_at_top,theme(colors.indigo.100),white)] opacity-20" />
+        <div className="absolute inset-y-0 right-1/2 -z-10 mr-16 w-[200%] origin-bottom-left skew-x-[-30deg] bg-white shadow-xl shadow-indigo-600/10 ring-1 ring-indigo-50 sm:mr-28 lg:mr-0 xl:mr-16 xl:origin-center" />
+        <div className={`${reviewFormOpened === false ? '' : 'hidden'} mx-auto max-w-2xl lg:max-w-4xl mt-12`}>
+          <CarouselButton side="left" style={`top-8 bottom-0 ${reviewShown === 0 || reviews.length === 0 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown - 1)}}/>
+          <CarouselButton side="right" style={`top-8 bottom-0 ${reviewShown === reviews.length - 1 || reviews.length === 0 ? 'hidden' : ''}`} onClick={() => {setReviewShown(reviewShown + 1)}}/>
+          {reviews.length === 0 ? (
+          <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
+            <p>
+              No reviews yet. Be the first to leave us one!
+            </p>
+          </blockquote>
+          ) : (<div>:</div>)}
+          {reviews.map((review, index) => (
+            <div key={review._id} className={`${reviewShown === index ? '' : 'hidden'}`}>
+              <div className="text-center text-2xl text-violet-700 font-semibold">
+                <p>ForexCopyTrade</p>
+              </div>
+              <figure className="mt-10 border-b border-slate-200 pb-5">
+                <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
+                  <p>
+                    {review.content}
+                  </p>
+                </blockquote>
+                <div className="mt-5">
+                  <div className="flex items-center justify-center space-x-3 text-base">
+                    <div className="font-semibold text-gray-900">{review.firstName} {review.lastInitial}</div>
+                    <svg viewBox="0 0 2 2" width={3} height={3} aria-hidden="true" className="fill-gray-900">
+                      <circle cx={1} cy={1} r={1} />
+                    </svg>
+                    <div className="text-gray-600">from {review.country}</div>
+                  </div>
+                </div>
+              </figure>
+              {review.comment? (
+                <figure className="mt-5">
+                <blockquote className="text-center text-xl font-normal text-gray-900">
+                  <p>{review.comment}</p>
+                </blockquote>
+                <div className="mt-5">
+                  <div className="flex items-center justify-center space-x-3 text-base">
+                    <div className="font-semibold text-gray-900">Robb</div>
+                  </div>
+                </div>
+              </figure>
+              ) : (<div></div>)}
             </div>
-            <figure className="mt-10">
-              <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
-                <p>
-                  {review.content}
-                </p>
-              </blockquote>
-              <figcaption className="mt-10">
-                <div className="relative mx-auto h-10 w-10 rounded-full">
-                <Image
-                  src={review.img}
-                  alt=""
-                  className="rounded-full"
-                  fill
-                />
-                </div>
-                <div className="mt-4 flex items-center justify-center space-x-3 text-base">
-                  <div className="font-semibold text-gray-900">{review.name}</div>
-                  <svg viewBox="0 0 2 2" width={3} height={3} aria-hidden="true" className="fill-gray-900">
-                    <circle cx={1} cy={1} r={1} />
-                  </svg>
-                  <div className="text-gray-600">{review.job}</div>
-                </div>
-              </figcaption>
-            </figure>
-          </div>
-        ))}
-      </div>:
-      <div className="mx-auto max-w-xl lg:max-w-2xl mt-12">
-        <TestimonialForm style={`${reviewFormOpened === true ? '' : 'hidden'}`}/>
-      </div>
-      <div className="text-center mt-12">
-        {/* <OutlineButton color="violet-700" style="text-2xl border-2 hover:border-3 px-4" text="Leave us a review"/> */}
-        <button className={`btn ${reviewFormOpened === false ? 'bg-violet-500 border-violet-500' : 'bg-violet-700 border-violet-700'} hover:bg-violet-900 hover:border-violet-900 text-xl border-2 hover:border-3 px-6`} onClick={() => {setReviewFormOpened(!reviewFormOpened)}}>Leave us a review</button>
-      </div>
-    </section>
-  )
+          ))}
+        </div>:
+        <div className="mx-auto max-w-xl lg:max-w-2xl mt-12">
+          <TestimonialForm style={`${reviewFormOpened === true ? '' : 'hidden'}`}/>
+        </div>
+        <div className="text-center mt-12">
+          {/* <OutlineButton color="violet-700" style="text-2xl border-2 hover:border-3 px-4" text="Leave us a review"/> */}
+          <button className={`btn ${reviewFormOpened === false ? 'bg-violet-500 border-violet-500' : 'bg-violet-700 border-violet-700'} hover:bg-violet-900 hover:border-violet-900 text-xl border-2 hover:border-3 px-6`} onClick={() => {setReviewFormOpened(!reviewFormOpened)}}>Leave us a review</button>
+        </div>
+      </section>
+    )
+  }
+  
 }

@@ -47,10 +47,6 @@ export function TestimonialForm({style=""}) {
   const postReview = e => {
     e.preventDefault();
     setDisableSubmit(true);
-    console.log(firstName);
-    console.log(lastInitial);
-    console.log(country);
-    console.log(content);
     fetch('/api/review', {
       method: "POST",
       mode: "cors",

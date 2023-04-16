@@ -103,12 +103,12 @@ function HistoryGalleryEditSection() {
 
   return (
     <div>
-      <div className="tabs mt-4 w-fit">
+      {/* <div className="tabs mt-4 w-fit">
         <a className={`tab tab-lg tab-lifted ${openedTab === 0 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(0)}}>Edit</a> 
         <a className={`tab tab-lg tab-lifted ${openedTab === 1 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(1)}}>Preview</a> 
-      </div>
-      <HistoryGallery style={`${openedTab !== 0 ? 'hidden': ''}`} edit/>
-      <HistoryGallery style={`${openedTab !== 1 ? 'hidden': ''}`}/>
+      </div> */}
+      <HistoryGallery edit/>
+      {/* <HistoryGallery style={`${openedTab !== 1 ? 'hidden': ''}`}/> */}
     </div>
   )
 }
@@ -161,18 +161,18 @@ function TestimonialsEditSection() {
     } else {
       return (
         <div>
-        <div className="tabs mt-4">
+        {/* <div className="tabs mt-4">
           <a className={`tab tab-lg tab-lifted ${openedTab === 0 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(0)}}>Reviews</a> 
           <a className={`tab tab-lg tab-lifted ${openedTab === 1 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(1)}}>Preview</a> 
-        </div>
+        </div> */}
 
-        <div className={`${openedTab === 0 ? '' : 'hidden'} flex flex-row flex-wrap p-4`}>
+        <div className="flex flex-row flex-wrap p-4">
           {reviews.map(review => <ReviewCard key={review._id} id={review._id} firstName={review.firstName} lastInitial={review.lastInitial} country={review.country} content={review.content} comment={review.comment} show={review.show} updateReviewComment={(id, comment) => updateReviewComment(id, comment)} toggleReview={id => toggleReview(id)}/>)}
         </div>
 
-        <div className={`${openedTab === 1 ? '' : 'hidden'}`}>
+        {/* <div className={`${openedTab === 1 ? '' : 'hidden'}`}>
         <Testimonials paramReviews={reviews}/>
-        </div>
+        </div> */}
         </div>
       )
     }

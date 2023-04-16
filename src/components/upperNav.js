@@ -45,13 +45,13 @@ export default function UpperNav({active="home"}) {
         <BiMenu size={30} className={`${smMenuOpened ? 'text-violet-200': 'text-white'} hover:text-violet-200 font-normal text-2xl my-auto lg:hidden`} onClick={() => {setSmMenuOpened(!smMenuOpened)}}/>
       </div>
       <div className="relative">
-        <SmMenu opened={smMenuOpened} active={active} loggedIn={loggedIn} logOutFunc={logout}></SmMenu>
+        <SmMenu opened={smMenuOpened} active={active} loggedIn={loggedIn} logOutFunc={logout} loadLogout={loadLogout}></SmMenu>
       </div>
     </div>
   );
 }
 
-function SmMenu({opened=false, active="home", loggedIn=false, logOutFunc}) {
+function SmMenu({opened=false, active="home", loggedIn=false, logOutFunc, loadLogout=false}) {
   if (opened) {
     return (
       <div className="bg-violet-500 lg:hidden fixed top-14 left-0 z-40 w-screen">

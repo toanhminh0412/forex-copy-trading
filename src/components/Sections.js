@@ -103,7 +103,7 @@ export function Service() {
             <li className="flex flex-row my-2"><br></br></li>
           </ul>
           <div className="mt-8 mb-4 text-center">
-            <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
+            <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/00g8zn57O6NKayI9AF" target="_blank"/>
           </div>
         </Card>
 
@@ -121,7 +121,7 @@ export function Service() {
             <li className="flex flex-row my-2"><br></br></li>
           </ul>
           <div className="mt-8 mb-4 text-center">
-            <OutlineButton color="violet-900" style="text-xl px-4" text="Buy now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
+            <OutlineButton color="violet-900" style="text-xl px-4" text="Buy now" link="https://buy.stripe.com/7sI4j743Kb40fT2dQX" target="_blank"/>
           </div>
         </Card>
       </DisplayCase>

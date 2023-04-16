@@ -74,96 +74,6 @@ function DashboardMainContent() {
   )
 }
 
-function HeaderEditSection() {
-  return (
-    <div>
-      <Header/>
-      <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
-        <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">header</span></h1>
-        <div className="mt-2">
-          <label className="label">
-            <span className="label-text">Heading</span>
-          </label>
-          <input type="text" placeholder="Header heading (e.g. company name)" className="input input-bordered w-full" />
-        </div>
-        <div className="mt-2">
-          <label className="label">
-            <span className="label-text">Short summary</span>
-          </label>
-          <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="Short description of your service/website"></textarea>
-        </div>
-        <button className="btn btn-primary w-full text-md mt-2">Submit</button>
-      </form>
-    </div>
-  )
-}
-
-function AboutMeEditSection() {
-  return (
-    <div>
-      <About/>
-      <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
-        <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">About</span> section</h1>
-        <div className="mt-2">
-          <label className="label">
-            <span className="label-text">Page heading</span>
-          </label>
-          <input type="text" placeholder="Page heading (e.g. About me)" className="input input-bordered w-full" />
-        </div>
-        <div className="mt-2">
-          <label className="label">
-            <span className="label-text">Paragraph 1 heading</span>
-          </label>
-          <input type="text" placeholder="(e.g. Who am I?)" className="input input-bordered w-full" />
-        </div>
-        <div className="mt-2">
-          <label className="label">
-            <span className="label-text">Paragraph 1 content</span>
-          </label>
-          <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="(e.g. Short description of yourself)"></textarea>
-        </div>
-        <div className="mt-2">
-          <label className="label">
-            <span className="label-text">Paragraph 2 heading</span>
-          </label>
-          <input type="text" placeholder="(e.g. Mission statement)" className="input input-bordered w-full" />
-        </div>
-        <div className="mt-2">
-          <label className="label">
-            <span className="label-text">Paragraph 2 content</span>
-          </label>
-          <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="(e.g. Summary of mission statement)"></textarea>
-        </div>
-        <button className="btn btn-primary w-full text-md mt-2">Submit</button>
-      </form>
-    </div>
-  ) 
-}
-
-function DisclaimerEditSection() {
-    return (
-        <div>
-        <Disclaimer/>
-        <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
-        <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">Disclaimer</span> section</h1>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Heading</span>
-            </label>
-            <input type="text" placeholder="e.g. Risk exposure" className="input input-bordered w-full" />
-            </div>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Short summary</span>
-            </label>
-            <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="Short summary of disclaimer"></textarea>
-            </div>
-            <button className="btn btn-primary w-full text-md mt-2">Submit</button>
-        </form>
-        </div>
-    )
-}
-
 function ServicesEditSection() {
     return (
         <div>
@@ -188,100 +98,19 @@ function ServicesEditSection() {
     )
 }
 
-function EightcapProfileEditSection() {
-    return (
-        <div>
-        <EightcapProfile/>
-        <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
-            <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">header</span></h1>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Heading</span>
-            </label>
-            <input type="text" placeholder="Header heading (e.g. company name)" className="input input-bordered w-full" />
-            </div>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Short summary</span>
-            </label>
-            <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="Short description of your service/website"></textarea>
-            </div>
-            <button className="btn btn-primary w-full text-md mt-2">Submit</button>
-        </form>
-        </div>
-    )
-}
-
 function HistoryGalleryEditSection() {
-    return (
-        <div>
-        <HistoryGallery/>
-        <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
-            <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">header</span></h1>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Heading</span>
-            </label>
-            <input type="text" placeholder="Header heading (e.g. company name)" className="input input-bordered w-full" />
-            </div>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Short summary</span>
-            </label>
-            <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="Short description of your service/website"></textarea>
-            </div>
-            <button className="btn btn-primary w-full text-md mt-2">Submit</button>
-        </form>
-        </div>
-    )
-}
+  const [openedTab, setOpenedTab] = useState(0);
 
-function SocialMediasEditSection() {
-    return (
-        <div>
-        <SocialMedia/>
-        <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
-            <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">header</span></h1>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Heading</span>
-            </label>
-            <input type="text" placeholder="Header heading (e.g. company name)" className="input input-bordered w-full" />
-            </div>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Short summary</span>
-            </label>
-            <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="Short description of your service/website"></textarea>
-            </div>
-            <button className="btn btn-primary w-full text-md mt-2">Submit</button>
-        </form>
-        </div>
-    )
-}
-
-function ContactUsEditSection() {
-    return (
-        <div>
-        <ContactUs/>
-        <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
-            <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">header</span></h1>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Heading</span>
-            </label>
-            <input type="text" placeholder="Header heading (e.g. company name)" className="input input-bordered w-full" />
-            </div>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Short summary</span>
-            </label>
-            <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="Short description of your service/website"></textarea>
-            </div>
-            <button className="btn btn-primary w-full text-md mt-2">Submit</button>
-        </form>
-        </div>
-    )
+  return (
+    <div>
+      <div className="tabs mt-4 w-fit">
+        <a className={`tab tab-lg tab-lifted ${openedTab === 0 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(0)}}>Edit</a> 
+        <a className={`tab tab-lg tab-lifted ${openedTab === 1 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(1)}}>Preview</a> 
+      </div>
+      <HistoryGallery style={`${openedTab !== 0 ? 'hidden': ''}`} edit/>
+      <HistoryGallery style={`${openedTab !== 1 ? 'hidden': ''}`}/>
+    </div>
+  )
 }
 
 function TestimonialsEditSection() {

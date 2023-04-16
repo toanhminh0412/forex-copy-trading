@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import emailjs from '@emailjs/browser';
+import imageCompression from 'browser-image-compression';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 import { OutlineButton, TagButton, CarouselButton } from '@/components/Buttons';
 import { Section } from '@/components/PageLayouts';
 import { DisplayCase, Card } from '@/components/Cards';
-import { AiOutlineCheck } from 'react-icons/ai';
+import { AiOutlineCheck, AiOutlinePlus } from 'react-icons/ai';
 import { RxCross1 } from 'react-icons/rx';
-import { Carousel } from '@/components/Carousel';
-import { LightBox } from '@/components/ImageDisplays';
+import { LightBox, GalleryImage } from '@/components/ImageDisplays';
 import { Input, Textarea, TestimonialForm } from '@/components/Forms';
 import { SuccessAlert, DangerAlert } from '@/components/Alerts';
+import {storage} from '../../lib/firebase';
 
 export function Header({style=""}) {
   return (
@@ -131,8 +133,8 @@ export function Service() {
 export function EightcapProfile() {
   return (
     <Section style="bg-violet-700 text-white">
-      <h1 className="font-semibold text-2xl text-center lg:text-3xl">Sign up for an Eightcap account and pay the subscription fee, I will input you to my copier platform rightaway!</h1>
-      <p className="text-white text-lg lg:text-xl font-semilight text-center my-10">Eightcap is my favorite broker platform. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
+      <h1 className="font-semibold text-2xl text-center lg:text-3xl">Sign up today and begin your journey!</h1>
+      <p className="text-white text-lg lg:text-xl font-semilight text-center my-10">Eightcap is our <strong>preferred</strong> broker. We recommend using this broker as it is the master account brokerage. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
       <div className='w-fit mx-auto mt-10'>
           <OutlineButton color="white" style="mx-2 text-2xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
         </div>
@@ -140,133 +142,333 @@ export function EightcapProfile() {
   )
 }
 
-export function HistoryGallery() {
+export function HistoryGallery({style="", edit=false}) {
   // const months = ["Nov 2022", "Dec 2022", "Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023"]
-  const months = ["Nov 2022", "Dec 2022", "Mar 2023", "Apr 2023"]
+  // const months = ["Nov 2022", "Dec 2022", "Mar 2023", "Apr 2023"]
+  const [historyImages, setHistoryImages] = useState([]);
+  // const [months, setMonths] = useState(["Nov 2022", "Dec 2022", "Mar 2023", "Apr 2023"])
+  const [months, setMonths] = useState([]);
   const [month, setMonth] = useState(0);
   const [showAll, setShowAll] = useState(false)
   const [lighBoxSrc, setLightBoxSrc] = useState('/img/stock-graph.jpg');
   const [lighBoxOpened, setLighBoxOpened] = useState(false);
 
+  // For editing
+  const [newImageMonth, setNewImageMonth] = useState(0);
+  const [monthTagInput, setMonthTagInput] = useState(false);
+  const [newMonth, setNewMonth] = useState('');
+  const [newImage, setNewImage] = useState(null);
+  const [fileDataURL, setFileDataURL] = useState(null);
+  const imageMimeType = /image\/(png|jpg|jpeg)/i;
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // For image deletion
+  const [imageSelectMode, setImageSelectMode] = useState(false);
+  const [selectedImages, setSelectedImages] = useState([]);
+
+  useEffect(() => {
+    fetch('api/history_image')
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      if (data.historyImages) {
+        setHistoryImages(data.historyImages);
+        let historyMonths = []
+        data.historyImages.forEach(rec => {
+          historyMonths.push(rec.month);
+        })
+        setMonths(historyMonths);
+      }
+    })
+  }, [])
+
+  useEffect(() => {
+    if (edit) {
+      let fileReader, isCancel = false;
+      if (newImage) {
+        fileReader = new FileReader();
+        fileReader.onload = (e) => {
+          const { result } = e.target;
+          if (result && !isCancel) {
+            setFileDataURL(result)
+          }
+        }
+        fileReader.readAsDataURL(newImage);
+      }
+      return () => {
+        isCancel = true;
+        if (fileReader && fileReader.readyState === 1) {
+          fileReader.abort();
+        }
+      }
+    }
+  }, [newImage]);
+  
+  const updateNewMonth = e => {
+    setNewMonth(e.target.value);
+  }
+
+  const updateNewImage = async (e) => {
+    const file = e.target.files[0];
+    if (!file.type.match(imageMimeType)) {
+      alert("Image mime type is not valid");
+      return;
+    }
+    const options = {
+      maxSizeMB: 0.1,
+      maxWidthOrHeight: 1920,
+      useWebWorker: true,
+    }
+    try {
+      const compressedImage = await imageCompression(file, options);
+      console.log('compressedImage instanceof Blob', compressedImage instanceof Blob); // true
+      console.log(`compressedImage size ${compressedImage.size / 1024 / 1024} MB`); // smaller than maxSizeMB
+  
+      setNewImage(compressedImage);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const addMonthTag = e => {
+    e.preventDefault();
+    setMonths(
+      [...months, newMonth]
+    )
+    setHistoryImages(
+      [...historyImages, {
+        month: newMonth,
+        images: []
+      }]
+    )
+    setNewMonth('');
+    setMonthTagInput(false);
+    setNewImageMonth(months.length);
+  }
+
+  const uploadNewImage = e => {
+    e.preventDefault();
+    console.log("Uploading new image");
+    const imageRef = ref(storage, `history/${months[newImageMonth]}_${new Date().getTime()}.jpg`);
+    // 'file' comes from the Blob or File API
+    uploadBytes(imageRef, newImage).then((snapshot) => {
+      console.log('Uploaded a blob or file!');
+      getDownloadURL(imageRef).then(url => {
+        console.log(`File url: ${url}`);
+        setNewImage(null);
+        setFileDataURL(null);
+        document.getElementById('add-image-modal').checked = false;
+        document.getElementById('image-input').value = "";
+        fetch('/api/history_image', {
+          method: "POST",
+          mode: "cors",
+          credentials: "same-origin",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            month: months[newImageMonth],
+            imageURL: url
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          if (data.success) {
+            console.log("Uploaded image successfully");
+            setSuccessMessage("Uploaded image successfully");
+            let monthFound = false;
+            let newHistoryImages = historyImages;
+            for (let i=0; i<newHistoryImages.length; i++) {
+              if (newHistoryImages[i].month === months[newImageMonth]) {
+                newHistoryImages[i].images.push(url);
+                monthFound = true;
+              }
+            }
+            if (!monthFound) {
+              newHistoryImages.push({
+                month: months[newImageMonth],
+                images: [url]
+              })
+              setMonths([...months, newImageMonth])
+            }
+            setHistoryImages(newHistoryImages);
+            console.log(historyImages)
+            setTimeout(() => {setSuccessMessage('')}, 5000);
+          } else {
+            console.log("Failed to upload image");
+            setErrorMessage("Failed to upload image");
+            setTimeout(() => {setErrorMessage('')}, 5000);
+          }
+        })
+      })
+    });
+  }
+
+  const toggleImageSelectionForDeletion = (month, url) => {
+    let imageSelected = false;
+    selectedImages.forEach(item => {
+      if (item[0] === month && item[1] === url) {
+        imageSelected = true;
+      }
+    });
+    if (imageSelected) {
+      setSelectedImages(selectedImages.filter(item => item[0] !== month || item[1] !== url))
+    } else {
+      setSelectedImages([...selectedImages, [month, url]])
+    }
+  }
+
+  const deleteSelectedImages = () => {
+    console.log(selectedImages);
+    let deletedImageObj = {};
+    selectedImages.forEach(item => {
+      if (item[0] in deletedImageObj) {
+        deletedImageObj[item[0]].push(item[1]);
+      } else {
+        deletedImageObj[item[0]] = [item[1]];
+      }
+    })
+    console.log(deletedImageObj);
+    fetch('/api/history_image', {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        deletedImages: deletedImageObj
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      if (data.success) {
+        console.log("Deleted images successfully");
+        for (const [month, url] of selectedImages) {
+          const imageRef = ref(storage, url);
+          deleteObject(imageRef).then(() => {
+            setSuccessMessage("Deleted images successfully");
+            setTimeout(() => {setSuccessMessage('')}, 5000);
+            setHistoryImages(data.historyImages);
+            setImageSelectMode(false);
+            setSelectedImages([]);
+            document.getElementById('delete-image-modal').checked = false;
+          }).catch((error) => {
+            console.log("Failed to delete image from Firebase storage");
+            console.log(error);
+            setErrorMessage("Failed to delete images");
+            setTimeout(() => {setErrorMessage('')}, 5000);
+          })
+        }
+        
+      } else {
+        console.log("Failed to delete images from MongoDB");
+        setErrorMessage("Failed to delete images");
+        setTimeout(() => {setErrorMessage('')}, 5000);
+      }
+    })
+  }
+
   return (
-    <Section style="border border-slate-300">
+    <Section style={`border border-slate-300 ${style}`}>
       <LightBox src={lighBoxSrc} opened={lighBoxOpened} closeFunc={() => {setLighBoxOpened(false)}}/>
       <h1 className="font-semibold text-4xl lg:text-6xl">History trades</h1>
       <p className="text-lg lg:text-2xl font-semilight mt-4">Click on the month to see trades for each month!</p>
+      {edit ? (
+      <div className="mt-4">
+        <label htmlFor="add-image-modal" className="btn">Add image</label>
+        <input type="checkbox" id="add-image-modal" className="modal-toggle" />
+        <div className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Add an image to history gallery</h3>
+            <form className="mt-4 text-md" onSubmit={uploadNewImage}>
+              <label>Month tag:</label>
+              <div className="mt-1">
+                {months.map((monthName, index) => (
+                  <TagButton key={monthName} text={monthName} active={newImageMonth===index} style="!text-sm mr-2 mt-1" onClick={() => {setNewImageMonth(index)}}/>
+                ))}
+                <TagButton text="Add tag +" active={monthTagInput} style="!text-sm mr-2 mt-1" onClick={() => {setMonthTagInput(!monthTagInput)}}/>
+              </div>
+              <div className={`form-control mt-3 ${monthTagInput ? '' : 'hidden'}`}>
+                <div className="input-group">
+                  <input type="text" placeholder="Input month name" className="input input-bordered" value={newMonth} onChange={updateNewMonth}/>
+                  <button className={`btn btn-square ${newMonth === '' ? 'btn-disabled' : ''}`} onClick={addMonthTag}>
+                    <AiOutlinePlus size={20}/>
+                  </button>
+                </div>
+              </div>
+              <div className="mt-3 italic">Select the month when this picture was taken</div>
+              <div className="mt-3">
+                <label>New image:</label>
+                <input id="image-input" type="file" accept=".png, .jpg, .jpeg" className="form-control mt-1 file-input file-input-bordered w-full max-w-xs" onChange={updateNewImage}/>
+              </div>
+              {fileDataURL ?
+              <div>
+                { 
+                <div className='relative w-60 h-[21rem] mt-3 mx-auto'>
+                  <Image src={fileDataURL} alt="preview" fill/>
+                </div>
+                }
+              </div> : null}
+              <div className="modal-action">
+                <label htmlFor="add-image-modal" className="btn btn-error text-white hover:bg-red-600">Cancel</label>
+                <input type="submit" className={`btn ${newImage === null ? "btn-disabled": ""}`} value="Submit"/>
+              </div>
+            </form>
+          </div>
+        </div>
+        
+        <div className={`btn btn-error hover:bg-red-600 text-white ml-2 ${!imageSelectMode ? "": "hidden"}`} onClick={() => {setImageSelectMode(true)}}>Delete images</div>
+        <div className={`btn btn-error hover:bg-red-600 text-white ml-2 ${imageSelectMode && selectedImages.length === 0 ? "": "hidden"}`} onClick={() => {setImageSelectMode(false)}}>Cancel deleting images</div>
+        <label htmlFor="delete-image-modal" className={`btn btn-error hover:bg-red-600 text-white ml-2 ${imageSelectMode && selectedImages.length > 0 ? "": "hidden"}`}>Delete selected images ({selectedImages.length})</label>
+        <p className={`text-lg italic mt-2 ${imageSelectMode ? "": "hidden"}`}>Click on an image to select that image for deletion</p>
+        <input type="checkbox" id="delete-image-modal" className="modal-toggle" />
+        <div className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-lg">Confirm deleting images</h3>
+            <p className="py-4">Are you sure you want to delete the {selectedImages.length} images that you selected?</p>
+            <div className="modal-action">
+              <label htmlFor="delete-image-modal" className="btn btn-error text-white">No</label>
+              <div className="btn" onClick={deleteSelectedImages}>Yes</div>
+            </div>
+          </div>
+        </div>
+
+        {successMessage !== '' ? <div className="toast z-40">
+          <div className="alert alert-success">
+            <div>
+              <span>{successMessage}</span>
+            </div>
+          </div>
+        </div> : null}
+        {errorMessage !== '' ? <div className="toast z-40">
+          <div className="alert alert-success">
+            <div>
+              <span>{errorMessage}</span>
+            </div>
+          </div>
+        </div> : null}
+      </div>) : (<div></div>)}
       <div className="mt-12">
-        {months.map((monthName, index) => (
+        {months.map((monthName, index) => historyImages.length > 0 ? (
           <TagButton key={monthName} text={monthName} active={month===index} style="mr-3" onClick={() => {setMonth(index); setShowAll(false);}}/>
-        ))}
-        <DisplayCase style={`mt-4 ${month === 0 ? '': 'hidden'}`}>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/nov-1.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-1.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/nov-2.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-2.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/nov-3.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-3.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/nov-4.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-4.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-5.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-5.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-6.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-6.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-7.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-7.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-8.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-8.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-9.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-9.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-10.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-10.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-11.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-11.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-12.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-12.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-13.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-13.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-14.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-14.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/nov-15.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/nov-15.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className="relative bg-slate-200 hover:bg-slate-300 mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setShowAll(!showAll);}}>
-            <p className="font-semibold text-xl absolute inset-0 m-auto w-fit h-fit">See {showAll ? 'less' : 'more'} ...</p>
-          </div>
-        </DisplayCase>
-        <DisplayCase style={`mt-4 ${month === 1 ? '': 'hidden'}`}>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/dec-1.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-1.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/dec-2.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-2.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/dec-3.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-3.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/dec-4.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-4.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-5.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-5.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-6.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-6.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-7.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-7.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-8.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-8.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-9.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-9.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-10.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-10.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-11.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-11.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-12.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-12.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-13.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-13.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-14.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-14.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className={`${showAll ? '' : 'hidden'} relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3`} onClick={() => {setLightBoxSrc("/img/history-trades/dec-15.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/dec-15.jpg" alt="Stock graph" fill/>
-          </div>
-          <div className="relative bg-slate-200 hover:bg-slate-300 mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setShowAll(!showAll);}}>
-            <p className="font-semibold text-xl absolute inset-0 m-auto w-fit h-fit">See {showAll ? 'less' : 'more'} ...</p>
-          </div>
-        </DisplayCase>
-        <DisplayCase style={`mt-4 ${month === 2 ? '': 'hidden'}`}>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/mar-1.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/mar-1.jpg" alt="Stock graph" fill/>
-          </div>
-        </DisplayCase>
-        <DisplayCase style={`mt-4 ${month === 3 ? '': 'hidden'}`}>
-          <div className="relative border hover:border-2 border-black mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setLightBoxSrc("/img/history-trades/apr-1.jpg"); setLighBoxOpened(true);}}>
-            <Image src="/img/history-trades/apr-1.jpg" alt="Stock graph" fill/>
-          </div>
-        </DisplayCase>
+        ) : null)}
+        {months.map((monthName, index) => historyImages.length > 0 ? (
+          <DisplayCase key={index} style={`mt-4 ${index === month ? '': 'hidden'}`}>
+            {historyImages.filter(rec => rec.month === monthName)[0].images.map((imageURL, imageIndex) => (
+              <div key={imageURL} className={`${!showAll && imageIndex > 3 ? 'hidden' : ''}`}>
+                <GalleryImage src={imageURL} style={`mt-8 w-72 h-128 mx-auto md:mx-3 ${!imageSelectMode ? "" : "hidden"}`} onClick={() => {setLightBoxSrc(imageURL); setLighBoxOpened(true);}}/>
+                <GalleryImage src={imageURL} selectedMode style={`mt-8 w-72 h-128 mx-auto md:mx-3 ${imageSelectMode ? "" : "hidden"}`} onClick={() => {toggleImageSelectionForDeletion(monthName, imageURL)}}/>
+              </div>
+            ))}
+            <div className="relative bg-slate-200 hover:bg-slate-300 mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setShowAll(!showAll);}}>
+              <p className="font-semibold text-xl absolute inset-0 m-auto w-fit h-fit">See {showAll ? 'less' : 'more'} ...</p>
+            </div>
+          </DisplayCase>
+        ) : null)}
       </div>
     </Section>
   )

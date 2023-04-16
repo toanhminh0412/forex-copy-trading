@@ -9,7 +9,6 @@ export default async function handler(req, res) {
     try {
         await mongoClient.connect();
         const db = mongoClient.db(mongoDb);
-
         const userCollection = db.collection("users");
         
         if (username && password) {

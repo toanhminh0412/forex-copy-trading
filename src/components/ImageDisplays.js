@@ -13,3 +13,23 @@ export function LightBox({src, opened=false, closeFunc}) {
     </div>
   )
 }
+
+export function GalleryImage({src, onClick = () => {}, style, selectedMode=false}) {
+  const [selected, setSelected] = useState(false);
+  
+  if (selectedMode) {
+    return (
+      <div className={`relative border hover:border-2 border-black ${style}`} onClick={() => {setSelected(!selected); onClick();}}>
+        <div className={`absolute z-30 bg-black w-full h-full top-0 left-0 opacity-50 ${selected ? "" : "hidden"}`}></div>
+        <p className={`absolute inset-0 m-auto h-fit text-white z-40 text-center text-xl font-semibold ${selected ? "" : "hidden"}`}>Selected</p>
+        <Image src={src} alt="Stock graph" fill/>
+      </div>
+    )
+  } else {
+    return (
+      <div className={`relative border hover:border-2 border-black ${style}`} onClick={onClick}>
+        <Image src={src} alt="Stock graph" fill/>
+      </div>
+    )
+  }
+}

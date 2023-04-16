@@ -16,7 +16,7 @@ export function OutlineButton({color, style="", text, link="", target=""}) {
 
 export function TagButton({text="", style="", active=false, onClick}) {
   return (
-    <span className={`${active ? 'bg-slate-300 hover:bg-slate-400' : 'bg-slate-200 hover:bg-slate-300'} duration-100 rounded-xl cursor-default text-md md:text-lg px-2 md:px-4 py-2 ${style}`} onClick={onClick}>{text}</span>
+    <span className={`${active ? 'bg-slate-300 hover:bg-slate-400 shadow-inner' : 'bg-slate-200 hover:bg-slate-300'} inline-block duration-100 rounded-xl cursor-default text-md md:text-lg px-2 md:px-4 py-2 whitespace-nowrap ${style}`} onClick={onClick}>{text}</span>
   )
 }
 

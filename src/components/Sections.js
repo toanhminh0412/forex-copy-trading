@@ -73,7 +73,7 @@ export function Service() {
       <DisplayCase style="mt-12 justify-center">
         <Card header="Month-to-month subscription" style="mx-auto">
           <div className="text-center">
-            <span className="text-6xl font-semibold">90</span>
+            <span className="text-6xl font-semibold">80</span>
             <span className="text-xl font-normal ml-1">CAD</span>
             <div className="text-xl font-light ml-1 text-slate-500">per month</div>
           </div>
@@ -85,13 +85,13 @@ export function Service() {
             <li className="flex flex-row my-2"><br></br></li>
           </ul>
           <div className="mt-8 mb-4 text-center">
-            <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/7sI2aZ43K1tqcGQdQS" target="_blank"/>
+            <OutlineButton color="violet-900" style="text-xl px-4" text="Subscribe now" link="https://buy.stripe.com/6oEbLzas80pm5eodQW" target="_blank"/>
           </div>
         </Card>
 
         <Card header="3 month subscription" style="mx-auto" highlighted>
           <div className="text-center">
-            <span className="text-6xl font-semibold">240</span>
+            <span className="text-6xl font-semibold">230</span>
             <span className="text-xl font-normal ml-1">CAD</span>
             <div className="text-xl font-light ml-1 text-slate-500">every 3 months</div>
           </div>

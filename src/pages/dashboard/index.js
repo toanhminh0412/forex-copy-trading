@@ -76,25 +76,7 @@ function DashboardMainContent() {
 
 function ServicesEditSection() {
     return (
-        <div>
-        <Service/>
-        <form className="my-2 mx-auto p-6 border border-slate-200 shadow-md rounded-md w-[98%]">
-            <h1 className="text-2xl lg:text-3xl">Edit <span className="font-bold">header</span></h1>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Heading</span>
-            </label>
-            <input type="text" placeholder="Header heading (e.g. company name)" className="input input-bordered w-full" />
-            </div>
-            <div className="mt-2">
-            <label className="label">
-                <span className="label-text">Short summary</span>
-            </label>
-            <textarea className="textarea textarea-bordered w-full" rows="3" placeholder="Short description of your service/website"></textarea>
-            </div>
-            <button className="btn btn-primary w-full text-md mt-2">Submit</button>
-        </form>
-        </div>
+      <Service edit/>
     )
 }
 

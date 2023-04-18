@@ -79,6 +79,8 @@ export function Service({edit=false}) {
   const [buttonLink, setButtonLink] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [deleteTitle, setDeleteTitle] = useState('');
+  const [deleteId, setDeleteId] = useState('');
 
   useEffect(() => {
     fetch('/api/service')
@@ -235,6 +237,27 @@ export function Service({edit=false}) {
     })
   }
 
+  const deleteService = () => {
+    fetch('/api/service?' + new URLSearchParams({
+      delete: true,
+      serviceId: deleteId,
+    }))
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      if (data.success) {
+        setServices(data.services);
+        setSuccessMessage(`Deleted service "${deleteTitle}" successfully`);
+        setTimeout(() => {setSuccessMessage('')}, 5000);
+        document.getElementById('delete-service-modal').checked = false;
+      } else {
+        setErrorMessage(`Failed to delete service "${deleteTitle}"`);
+        setTimeout(() => {setErrorMessage('')}, 5000);
+        document.getElementById('delete-service-modal').checked = false;
+      }
+    })
+  }
+
   if (services.length === 0) {
     return (
       <div>Loading...</div>
@@ -246,7 +269,7 @@ export function Service({edit=false}) {
         <p className="text-lg lg:text-2xl font-semilight mt-4">Our company provides the following services. Feel free to email us at <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a> if you have any question about any service!</p>
         {edit ?
         <div>
-          <label htmlFor="add-service-modal" className="btn mt-4">Add service</label>
+          <label htmlFor="add-service-modal" className="btn mt-4" onClick={resetStates}>Add service</label>
           <input type="checkbox" id="add-service-modal" className="modal-toggle" />
           <div className="modal">
             <div className="modal-box">
@@ -266,15 +289,15 @@ export function Service({edit=false}) {
                 <div className="mt-3">
                   <label>Payment frequency:</label>
                   <select className="select select-bordered w-fit" defaultValue={paymentFreq} onChange={updatePaymentFreq}>
-                    <option value="" disabled>How often clients have to pay the amount above</option>
-                    <option value="per occasion">per occasion</option>
-                    <option value="per day">per day</option>
-                    <option value="per week">per week</option>
-                    <option value="every 2 weeks">every 2 weeks</option>
-                    <option value="per month">per month</option>
-                    <option value="every 3 months">every 3 months</option>
-                    <option value="every 6 months">every 6 months</option>
-                    <option value="per year">per year</option>
+                    <option value="" disabled selected={paymentFreq === ""}>How often clients have to pay the amount above</option>
+                    <option value="per occasion" selected={paymentFreq === "per occasion"}>per occasion</option>
+                    <option value="per day" selected={paymentFreq === "per day"}>per day</option>
+                    <option value="per week" selected={paymentFreq === "per week"}>per week</option>
+                    <option value="every 2 weeks" selected={paymentFreq === "every 2 weeks"}>every 2 weeks</option>
+                    <option value="per month" selected={paymentFreq === "per month"}>per month</option>
+                    <option value="every 3 months" selected={paymentFreq === "every 3 months"}>every 3 months</option>
+                    <option value="every 6 months" selected={paymentFreq === "every 6 months"}>every 6 months</option>
+                    <option value="per year" selected={paymentFreq === "per year"}>per year</option>
                   </select>
                 </div>
                 <div className="mt-3">
@@ -376,13 +399,15 @@ export function Service({edit=false}) {
                       setButtonText(service.buttonText);
                       setButtonLink(service.buttonLink);
                     }} className="btn">Edit</label>
-                    <div className="btn btn-error text-white hover:bg-red-600">Delete</div>
+                    <label htmlFor="delete-service-modal" className="btn btn-error text-white hover:bg-red-600" onClick={() => {setDeleteTitle(service.title), setDeleteId(service._id)}}>Delete</label>
                   </div>
                 </div>
               ) : null}
+
+              {/* Service edit modal */}
               <input type="checkbox" id="edit-service-modal" className="modal-toggle" />
               <div className="modal">
-                <div className="modal-box">
+                <div className="modal-box max-h-[48rem]">
                   <h3 className="font-bold text-lg">Add a new service</h3>
                   <form className="mt-4 text-md" onSubmit={event => {editService(event, service._id)}}>
                     <div className="mt-3">
@@ -459,6 +484,19 @@ export function Service({edit=false}) {
                       <input type="submit" className={`btn ${title && paymentFreq && buttonText && buttonLink ? "": "btn-disabled"}`} value="Submit"/>
                     </div>
                   </form>
+                </div>
+              </div>
+              
+              {/* Service delete modal */}
+              <input type="checkbox" id="delete-service-modal" className="modal-toggle" />
+              <div className="modal">
+                <div className="modal-box">
+                  <h3 className="font-bold text-lg">Delete service 	&ldquo;{deleteTitle}&rdquo;</h3>
+                  <p className="py-4">Are you sure you want to delete service <span className="font-bold">{deleteTitle}</span>?</p>
+                  <div className="modal-action">
+                  <label htmlFor="delete-service-modal" className="btn btn-error text-white hover:bg-red-600">No</label>
+                  <div className="btn" onClick={deleteService}>Yes</div>
+                  </div>
                 </div>
               </div>
             </Card>

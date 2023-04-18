@@ -3,13 +3,22 @@ import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
+        const isDelete = req.query.delete;
+        const serviceId = req.query.serviceId;
         try {
             await mongoClient.connect();
             const db = mongoClient.db(mongoDb);
             const serviceCollection = db.collection('services');
-            const services = await serviceCollection.find().toArray();
-            console.log(services)
-            res.status(200).json({ success: "true", services: services });
+            if (isDelete && serviceId) {
+                await serviceCollection.findOneAndDelete({
+                    "_id": new ObjectId(serviceId)
+                })
+                const services = await serviceCollection.find().toArray();
+                res.status(200).json({ success: "true", services: services });
+            } else {
+                const services = await serviceCollection.find().toArray();
+                res.status(200).json({ success: "true", services: services });
+            }
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed GET request for service" });

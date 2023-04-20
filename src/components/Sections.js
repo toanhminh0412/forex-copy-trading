@@ -835,7 +835,7 @@ export function HistoryGallery({style="", edit=false}) {
       </div>) : (<div></div>)}
       <div className="mt-12">
         {months.map((monthName, index) => historyImages.length > 0 ? (
-          <TagButton key={monthName} text={monthName} active={month===index} style="mr-3" onClick={() => {setMonth(index); setShowAll(false);}}/>
+          <TagButton key={monthName} text={monthName} active={month===index} style="mr-3 mt-1" onClick={() => {setMonth(index); setShowAll(false);}}/>
         ) : null)}
         {months.map((monthName, index) => historyImages.length > 0 ? (
           <DisplayCase key={index} style={`mt-4 ${index === month ? '': 'hidden'}`}>

@@ -33,7 +33,7 @@ export function Header({style=""}) {
 
 export function About() {
   return (
-    <Section>
+    <Section style="border-b-2">
       <h1 className="font-semibold text-4xl text-center lg:text-6xl">About me</h1>
       {/*<p className="text-2xl lg:text-3xl text-center mt-4">This is a placeholder for a slogan. The slogan is approximately this long!</p>*/}
       <div className="lg:flex lg:flex-row lg:justify-center mt-6 lg:mt-12">
@@ -54,9 +54,9 @@ I decided to offer copy trade so folks can see some positive results in their ac
 
 export function Disclaimer() {
   return (
-    <Section style="bg-violet-700 text-white">
-      <h1 className="font-semibold text-4xl text-center lg:text-6xl">Risk disclosure</h1>
-      <p className="text-xl lg:text-2xl font-semilight text-center mt-8">
+    <Section style="bg-violet-700 text-white !py-16">
+      <h1 className="font-semibold text-2xl lg:text-4xl">Risk disclosure</h1>
+      <p className="text-lg lg:text-xl font-semilight mt-8">
         Trading financial products of the companies featured on this site carries a high level of risk, including the risk of losing substantially more than your initial investment.  You should never invest money that you cannot afford to lose.  You should be aware of all the risks associated with foreign exchange trading and seek advice from an independent financial advisor if you have any doubts.
       </p>
     </Section>

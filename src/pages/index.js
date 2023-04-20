@@ -14,13 +14,13 @@ export default function Home() {
     <div className='pt-12 lg:pt-16'>
       <Header/>
       <About/>
-      <Disclaimer/>
       <Service/>
       <EightcapProfile/>
       <HistoryGallery/>
       <SocialMedia/>
       <ContactUs/>
       <Testimonials/>
+      <Disclaimer/>
     </div>
     </>
   )

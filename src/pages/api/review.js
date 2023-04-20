@@ -1,4 +1,4 @@
-import { mongoClient, mongoDb } from "../../../lib/mongodb";
+import clientPromise, { mongoDb } from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
@@ -6,7 +6,7 @@ export default async function handler(req, res) {
     const show = req.query.show;
     console.log('Fetching reviews');
     try {
-      await mongoClient.connect();
+      const mongoClient = await clientPromise;
       const db = mongoClient.db(mongoDb);
       const reviewCollection = db.collection('reviews');
       if (show !== undefined) {
@@ -19,9 +19,10 @@ export default async function handler(req, res) {
     } catch (err) {
       console.log(err)
       res.status(400).json({ message: "Failed get all reviews" })
-    } finally {
-      await mongoClient.close();
-    }
+    } 
+    // finally {
+    //   await mongoClient.close();
+    // }
     return;
   } 
   if (req.method === 'POST') {
@@ -35,7 +36,7 @@ export default async function handler(req, res) {
     const toggleReview = req.body.toggleReview;
     console.log(toggleReview)
       try {
-        await mongoClient.connect();
+        const mongoClient = await clientPromise
         const db = mongoClient.db(mongoDb);
         const reviewCollection = db.collection('reviews');
         if (firstName && lastInitial && country && content) {
@@ -76,8 +77,9 @@ export default async function handler(req, res) {
       } catch (err) {
         console.log(err.stack);
         res.status(400).json({ message: "Failed POST request" });
-      } finally {
-        await mongoClient.close();
-      }
+      } 
+      // finally {
+      //   await mongoClient.close();
+      // }
   }
 }

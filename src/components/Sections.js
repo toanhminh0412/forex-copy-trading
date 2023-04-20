@@ -42,12 +42,10 @@ export function About() {
         </div>
         <div className="lg:w-1/2 lg:mx-6">
           <h2 className="text-2xl lg:text-4xl font-normal mt-8 lg:mt-0">Who am I?</h2>
-          <p className="mt-4">I am just a simple guy that was looking to add income through investing. I went the traditional way and decided that the banks did not have my best interest at heart. The same can be said for Forex brokers and the so-called &ldquo;guru&apos;s&rdquo;. All of them put on a great show telling me of fortunes to come. Pictures of high end sports cars, fancy mansions, beautiful people surrounding me. Well guess what. None of that was true. The fancy indicators were just a selling point and relieved me of my money. There&apos;s a reason 97% of traders fail. I was one of those 97%. However........ After well over 100k in loss and reliance on indicators. I took time to figure it out.
-Well I have a very tight grasp on it. I Don&apos;t have a 100% win rate, (if someone tells you they do, they&apos;re lying) but then again, nobody does. My win rate is very good alongside good money management. I learned some very valuable lessons. The biggest was accepting loss. Remove emotion. I trade what I see and not what I hope to come true. 
-You can make money in forex. It takes some time with small balances but it can be done. 
+          <p className="mt-4">I&apos;m just a simple guy that was looking to add income through investing.  I went the traditional route and learned that the banks didn&apos;t have my best interests at heart. The same can be said for Forex brokers and the so-called “guru&apos;s”. All of them put on a great show telling you of fortunes to come. Pictures of high-end sports cars, fancy mansions, beautiful people surrounding them.  Well guess what, none of that was true.  The fancy indicators were just a selling point and relieved me of my money.  There&apos;s a reason 97% of traders fail.  I was one of those 97%.  However, after well over 100k in loss and reliance on indicators, I took time to figure it out and I now have a very tight grasp on it.  I don&apos;t have a 100%-win rate, (if someone tells you they do, they&apos;re lying) but then again, nobody does have a 100% win rate.  <strong className='text-xl'>My win rate is very good alongside good money management</strong>.  I learned some very valuable lessons, firstly the biggest was accepting loss and secondly to remove emotion.  I trade what I see and not what I hope could come true.  You can make money in forex, it takes time with small balances but it can be done.  I decided to offer this copy trade service so folks can see some positive results in their account as they learn, something that wasn	&apos;t available when I was learning.  I encourage you to trade your own account alongside what I do.   
 I decided to offer copy trade so folks can see some positive results in their account as they learn. (This was not available when I was learning) I encourage you to trade your own account alongside what I do.</p>
           <h2 className="text-2xl lg:text-4xl font-normal mt-8">Mission statement</h2>
-          <p className="mt-4">We shoot for a gain of 1-10%daily. It is very possible to gain more but I prefer sticking to strict set of rules. It is still a better return than any bank will give you or any financial planner. Remember, losses are a factor. Be prepared and accept it. As long as we are going forward in the long run.</p>
+          <p className="mt-4">We shoot for a gain of 1-10% each day markets are open.  It’s very possible to gain more but I prefer sticking to a strict set of rules.  It’s still a better return than any bank or financial planner will give you. Remember, losses are a factor so be prepared and accept it. <strong className='text-xl'>As long as we are going forward in the long run.</strong></p>
         </div>
       </div>
     </Section>
@@ -59,7 +57,7 @@ export function Disclaimer() {
     <Section style="bg-violet-700 text-white">
       <h1 className="font-semibold text-4xl text-center lg:text-6xl">Risk disclosure</h1>
       <p className="text-xl lg:text-2xl font-semilight text-center mt-8">
-        Trading the financial products of the companies featured on this site carries a high level of risk, including the risk of losing substantially more than your initial investment. You should never invest money that you cannot afford to lose. You should be aware of all the risks associated with foreign exchange trading, and seek advice from an independent financial advisor if you have any doubts.
+        Trading financial products of the companies featured on this site carries a high level of risk, including the risk of losing substantially more than your initial investment.  You should never invest money that you cannot afford to lose.  You should be aware of all the risks associated with foreign exchange trading and seek advice from an independent financial advisor if you have any doubts.
       </p>
     </Section>
   )
@@ -267,6 +265,9 @@ export function Service({edit=false}) {
       <Section>
         <h1 className="font-semibold text-4xl lg:text-6xl">Our services</h1>
         <p className="text-lg lg:text-2xl font-semilight mt-4">Our company provides the following services. Feel free to email us at <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a> if you have any question about any service!</p>
+        <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
+        All subscriptions are cancellable but not refundable!
+        </h1>
         {edit ?
         <div>
           <label htmlFor="add-service-modal" className="btn mt-4" onClick={resetStates}>Add service</label>
@@ -367,7 +368,7 @@ export function Service({edit=false}) {
           </div> : null}
         </div>
         : null}
-        <DisplayCase style="mt-12 justify-center">
+        <DisplayCase style="mt-4 justify-center">
           {services.map((service, index) => (
             <Card key={index} header={service.title} style="mx-auto">
               <div className="text-center">
@@ -502,7 +503,9 @@ export function Service({edit=false}) {
             </Card>
           ))}
         </DisplayCase>
-        <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">All subscriptions are cancellable but not refundable!</h1>
+        <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
+          Stay tuned for our new upcoming pool account! Our pool account is a small 3 month term investment account with equal profit share. Stay tuned for developments.
+        </h1>
       </Section>
     )
   }

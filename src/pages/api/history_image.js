@@ -1,9 +1,9 @@
-import { mongoClient, mongoDb } from "../../../lib/mongodb";
+import clientPromise, { mongoDb } from "../../../lib/mongodb";
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
         try {
-            await mongoClient.connect();
+            const mongoClient = await clientPromise;
             const db = mongoClient.db(mongoDb);
             const imageCollection = db.collection("history_images");
             const images = await imageCollection.find().toArray();
@@ -14,16 +14,17 @@ export default async function handler(req, res) {
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed to get/post history images" })
-        } finally {
-            await mongoClient.close();
-        }
+        } 
+        // finally {
+        //     await mongoClient.close();
+        // }
     } else if (req.method === 'POST') {
         const month = req.body.month;
         const imageURL = req.body.imageURL;
         const deletedImages = req.body.deletedImages;
 
         try {
-            await mongoClient.connect();
+            const mongoClient = await clientPromise;
             const db = mongoClient.db(mongoDb);
             const imageCollection = db.collection("history_images");
 
@@ -66,8 +67,9 @@ export default async function handler(req, res) {
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed to get/post history images" })
-        } finally {
-            await mongoClient.close();
-        }
+        } 
+        // finally {
+        //     await mongoClient.close();
+        // }
     }   
 }

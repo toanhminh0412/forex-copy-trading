@@ -1,4 +1,4 @@
-import { mongoClient, mongoDb } from "../../../lib/mongodb";
+import clientPromise, { mongoDb } from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
@@ -6,7 +6,7 @@ export default async function handler(req, res) {
         const isDelete = req.query.delete;
         const serviceId = req.query.serviceId;
         try {
-            await mongoClient.connect();
+            const mongoClient = await clientPromise;
             const db = mongoClient.db(mongoDb);
             const serviceCollection = db.collection('services');
             if (isDelete && serviceId) {
@@ -22,16 +22,17 @@ export default async function handler(req, res) {
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed GET request for service" });
-        } finally {
-            await mongoClient.close();
-        }
+        } 
+        // finally {
+        //     await mongoClient.close();
+        // }
     }
     if (req.method === 'POST') {
         const newService = req.body.newService;
         const serviceId = req.body.serviceId;
         console.log(newService);
         try {
-            await mongoClient.connect();
+            const mongoClient = await clientPromise;
             const db = mongoClient.db(mongoDb);
             const serviceCollection = db.collection('services');
             if (newService && !serviceId) {
@@ -51,8 +52,9 @@ export default async function handler(req, res) {
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed POST request for service" });
-        } finally {
-        await mongoClient.close();
-        }
+        } 
+        // finally {
+        // await mongoClient.close();
+        // }
     }
 }

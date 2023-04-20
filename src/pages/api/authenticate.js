@@ -1,4 +1,4 @@
-import { mongoClient, mongoDb } from "../../../lib/mongodb";
+import clientPromise, { mongoDb } from "../../../lib/mongodb";
 import { ObjectId } from "mongodb";
 
 export default async function handler(req, res) {
@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     const userId = req.query.userId;
     const logOut = req.query.logOut;
     try {
-        await mongoClient.connect();
+        const mongoClient = await clientPromise;
         const db = mongoClient.db(mongoDb);
         const userCollection = db.collection("users");
         
@@ -51,7 +51,8 @@ export default async function handler(req, res) {
     } catch (err) {
         console.log(err.stack);
         res.status(400).json({ message: "Failed to authenticate user" })
-    } finally {
-        await mongoClient.close();
-    }
+    } 
+    // finally {
+    //     await mongoClient.close();
+    // }
 }

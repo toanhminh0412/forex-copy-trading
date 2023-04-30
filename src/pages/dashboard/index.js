@@ -7,6 +7,7 @@ import {BiMenu} from "react-icons/bi";
 
 export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
+  const [unauthorized, setUnauthorized] = useState(false);
 
   useEffect(() => {
     const userId = window.localStorage.getItem('forexUserId');
@@ -25,6 +26,9 @@ export default function DashboardPage() {
       if (!data.active) {
         window.localStorage.removeItem('forexUserId');
         window.location.href = '/';
+      } else if (!data.isAdmin) {
+        setLoading(false);
+        setUnauthorized(true);
       } else {
         setLoading(false);
       }
@@ -36,6 +40,16 @@ export default function DashboardPage() {
       <div>Loading...</div>
     )
   }
+
+  if (unauthorized) {
+    return (
+      <div>
+        <h1 className='font-semibold text-3xl'>403</h1>
+        <p>User is unauthorized to access this page</p>
+      </div>
+    )
+  }
+
   return(
     <>
       <UpperNav active="dashboard"/>

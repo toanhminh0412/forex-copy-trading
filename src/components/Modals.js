@@ -27,7 +27,13 @@ export function LoginModal() {
       console.log(data);
       if (data.userId) {
         window.localStorage.setItem("forexUserId", data.userId);
-        window.location.href = "/dashboard";
+        if (data.isAdmin === true) {
+          window.localStorage.setItem("forexAdmin", "true");
+          window.location.href = "/dashboard";
+        } else {
+          window.location.href = "/";
+        }
+        
       } else {
         setErrorMessage("Username or password is incorrect. Please try again.")
         setLoadLogin(false);

@@ -18,7 +18,7 @@ export default async function handler(req, res) {
                 {$set : {"session": new Date().getTime()}}
             );
             if (user) {
-                res.status(200).json({ userId: user.value._id })
+                res.status(200).json({ userId: user.value._id, isAdmin: user.value.isAdmin })
             } else {
                 res.status(404).json({ message: "Login info is incorrect" })
             }
@@ -51,7 +51,10 @@ export default async function handler(req, res) {
                     {"_id": new ObjectId(userId)},
                     {$set : {"session": new Date().getTime()}}
                 )
-                res.status(200).json({ active: "true", message: "User session is active" })
+                const user = await userCollection.findOne(
+                    {"_id": new ObjectId(userId)},
+                );
+                res.status(200).json({ active: "true", message: "User session is active", isAdmin: user.isAdmin })
             }
         
         // Missing required params

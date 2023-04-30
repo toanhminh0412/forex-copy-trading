@@ -4,11 +4,13 @@ import {BiMenu} from "react-icons/bi";
 
 export default function UpperNav({active="home"}) {
   const [smMenuOpened, setSmMenuOpened] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false)
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [loadLogout, setLoadLogout] = useState(false);
 
   useEffect(() => {
     setLoggedIn(window.localStorage.getItem('forexUserId') !== null);
+    setIsAdmin(window.localStorage.getItem('forexAdmin') === "true");
   }, [])
 
   const logout = () => {
@@ -24,6 +26,7 @@ export default function UpperNav({active="home"}) {
       console.log(data);
       if (data.success === "true") {
         window.localStorage.removeItem('forexUserId');
+        window.localStorage.removeItem('forexAdmin');
         window.location.href = "/";
       }
     })
@@ -34,7 +37,7 @@ export default function UpperNav({active="home"}) {
       <div className="px-2 py-3 lg:px-20 flex flex-row justify-between">
         <h1 className="text-white text-xl lg:text-3xl font-medium">ForexCopyTrade</h1>
         <div className="hidden lg:flex lg:flex-row">
-          {loggedIn === true ? <Link href="/dashboard" className={`text-white ${active === "dashboard" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-lg lg:text-xl my-auto mx-4`}>Dashboard</Link> : <div></div>}
+          {loggedIn === true && isAdmin === true ? <Link href="/dashboard" className={`text-white ${active === "dashboard" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-lg lg:text-xl my-auto mx-4`}>Dashboard</Link> : <div></div>}
           <Link href="/" className={`text-white ${active === "home" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-lg lg:text-xl my-auto mx-4`}>Home</Link>
           <Link href="/about" className={`text-white ${active === "about" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-lg lg:text-xl my-auto mx-4`}>About</Link>
           <Link href="/services" className={`text-white ${active === "services" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-lg lg:text-xl my-auto mx-4`}>Services</Link>

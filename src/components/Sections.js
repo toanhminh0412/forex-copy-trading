@@ -16,7 +16,7 @@ import {storage} from '../../lib/firebase';
 
 export function Header({style=""}) {
   return (
-    <div className={`w-full h-40vh lg:h-50vh relative ${style}`}>
+    <div className={`w-full h-50vh min-h-[50vh] relative ${style}`}>
       <Image src="/img/stock-graph.jpg" alt="Stock graph" fill/>
       <div className="w-full h-full bg-black z-10 opacity-70"></div>
       <div className="absolute top-24 md:top-32 lg:top-40 z-20 inset-x-0 mx-auto text-center px-2">
@@ -64,7 +64,7 @@ export function Disclaimer() {
 }
 
 export function Service({edit=false}) {
-  const [services, setServices] = useState([]);
+  const [services, setServices] = useState(undefined);
 
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(80);
@@ -134,8 +134,10 @@ export function Service({edit=false}) {
 
   const addPro = e => {
     e.preventDefault();
+    console.log(newPro)
     setPros([...pros, newPro]);
     setNewPro('');
+    console.log(pros);
   }
 
   const removePro = pro => {
@@ -195,6 +197,7 @@ export function Service({edit=false}) {
 
   const editService = (e, serviceId) => {
     e.preventDefault();
+    console.log(serviceId);
     const newService = {
       title: title,
       price: price,
@@ -226,11 +229,11 @@ export function Service({edit=false}) {
         resetStates();
         setSuccessMessage(`Edited service "${title}" successfully`);
         setTimeout(() => {setSuccessMessage('')}, 5000);
-        document.getElementById('edit-service-modal').checked = false;
+        document.getElementById(`edit-service-modal-${serviceId}`).checked = false;
       } else {
         setErrorMessage(`Failed to edit service "${title}"`);
         setTimeout(() => {setErrorMessage('')}, 5000);
-        document.getElementById('edit-service-modal').checked = false;
+        document.getElementById(`edit-service-modal-${serviceId}`).checked = false;
       }
     })
   }
@@ -247,16 +250,16 @@ export function Service({edit=false}) {
         setServices(data.services);
         setSuccessMessage(`Deleted service "${deleteTitle}" successfully`);
         setTimeout(() => {setSuccessMessage('')}, 5000);
-        document.getElementById('delete-service-modal').checked = false;
+        document.getElementById(`delete-service-modal-${deleteId}`).checked = false;
       } else {
         setErrorMessage(`Failed to delete service "${deleteTitle}"`);
         setTimeout(() => {setErrorMessage('')}, 5000);
-        document.getElementById('delete-service-modal').checked = false;
+        document.getElementById(`delete-service-modal-${deleteId}`).checked = false;
       }
     })
   }
 
-  if (services.length === 0) {
+  if (services === undefined) {
     return (
       <div>Loading...</div>
     )
@@ -273,7 +276,7 @@ export function Service({edit=false}) {
           <label htmlFor="add-service-modal" className="btn mt-4" onClick={resetStates}>Add service</label>
           <input type="checkbox" id="add-service-modal" className="modal-toggle" />
           <div className="modal">
-            <div className="modal-box">
+            <div className="modal-box max-h-[75vh]">
               <h3 className="font-bold text-lg">Add a new service</h3>
               <form className="mt-4 text-md" onSubmit={addService}>
                 <div className="mt-3">
@@ -391,7 +394,7 @@ export function Service({edit=false}) {
               {edit ? (
                 <div className='text-center'>
                   <div className="btn-group btn-group-vertical lg:btn-group-horizontal my-3 w-fit">
-                    <label htmlFor="edit-service-modal" onClick={() => {
+                    <label htmlFor={`edit-service-modal-${service._id}`} onClick={() => {
                       setTitle(service.title);
                       setPrice(service.price);
                       setPaymentFreq(service.paymentFreq);
@@ -400,16 +403,16 @@ export function Service({edit=false}) {
                       setButtonText(service.buttonText);
                       setButtonLink(service.buttonLink);
                     }} className="btn">Edit</label>
-                    <label htmlFor="delete-service-modal" className="btn btn-error text-white hover:bg-red-600" onClick={() => {setDeleteTitle(service.title), setDeleteId(service._id)}}>Delete</label>
+                    <label htmlFor={`delete-service-modal-${service._id}`} className="btn btn-error text-white hover:bg-red-600" onClick={() => {setDeleteTitle(service.title), setDeleteId(service._id)}}>Delete</label>
                   </div>
                 </div>
               ) : null}
 
               {/* Service edit modal */}
-              <input type="checkbox" id="edit-service-modal" className="modal-toggle" />
+              <input type="checkbox" id={`edit-service-modal-${service._id}`} className="modal-toggle" />
               <div className="modal">
-                <div className="modal-box max-h-[48rem]">
-                  <h3 className="font-bold text-lg">Add a new service</h3>
+                <div className="modal-box max-h-[75vh]">
+                  <h3 className="font-bold text-lg">Edit service</h3>
                   <form className="mt-4 text-md" onSubmit={event => {editService(event, service._id)}}>
                     <div className="mt-3">
                       <label>Title:</label>
@@ -481,7 +484,7 @@ export function Service({edit=false}) {
                       <input type="url" className="form-control input input-bordered w-full max-w-xs" placeholder="Action button link" value={buttonLink} onChange={updateButtonLink}/>
                     </div>
                     <div className="modal-action">
-                      <label htmlFor="edit-service-modal" className="btn btn-error text-white hover:bg-red-600">Cancel</label>
+                      <label htmlFor={`edit-service-modal-${service._id}`} className="btn btn-error text-white hover:bg-red-600">Cancel</label>
                       <input type="submit" className={`btn ${title && paymentFreq && buttonText && buttonLink ? "": "btn-disabled"}`} value="Submit"/>
                     </div>
                   </form>
@@ -489,13 +492,13 @@ export function Service({edit=false}) {
               </div>
               
               {/* Service delete modal */}
-              <input type="checkbox" id="delete-service-modal" className="modal-toggle" />
+              <input type="checkbox" id={`delete-service-modal-${service._id}`} className="modal-toggle" />
               <div className="modal">
                 <div className="modal-box">
                   <h3 className="font-bold text-lg">Delete service 	&ldquo;{deleteTitle}&rdquo;</h3>
                   <p className="py-4">Are you sure you want to delete service <span className="font-bold">{deleteTitle}</span>?</p>
                   <div className="modal-action">
-                  <label htmlFor="delete-service-modal" className="btn btn-error text-white hover:bg-red-600">No</label>
+                  <label htmlFor={`delete-service-modal-${service._id}`} className="btn btn-error text-white hover:bg-red-600">No</label>
                   <div className="btn" onClick={deleteService}>Yes</div>
                   </div>
                 </div>

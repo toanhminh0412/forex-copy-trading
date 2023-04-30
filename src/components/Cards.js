@@ -10,7 +10,7 @@ export function DisplayCase({children, style=""}) {
 
 export function Card({header="", children, style="", highlighted=false}) {
   return (
-    <div className={`bg-white w-full md:w-45% xl:w-30% mt-8 rounded-md ${highlighted ? 'shadow-xl border border-black' : 'shadow-md border border-slate-200'} ${style}`}>
+    <div className={`bg-white w-full md:w-45% xl:w-30% min-w-[20rem] mt-8 rounded-md ${highlighted ? 'shadow-xl border border-black' : 'shadow-md border border-slate-200'} ${style}`}>
       {header !== "" ?
       <div className="text-center font-semibold text-2xl border-b border-slate-200 py-2">
         {header}

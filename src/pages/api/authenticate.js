@@ -11,6 +11,7 @@ export default async function handler(req, res) {
         const db = mongoClient.db(mongoDb);
         const userCollection = db.collection("users");
         
+        // Login
         if (username && password) {
             const user = await userCollection.findOneAndUpdate(
                 {username: username, password: password},
@@ -21,6 +22,8 @@ export default async function handler(req, res) {
             } else {
                 res.status(404).json({ message: "Login info is incorrect" })
             }
+        
+        // Logout
         } else if (userId && logOut){
             const user = await userCollection.findOneAndUpdate(
                 {"_id": new ObjectId(userId)},
@@ -31,20 +34,27 @@ export default async function handler(req, res) {
             } else {
                 res.status(404).json({ success: "false", message: "User not found to be logged out" })
             }
+
+        // Check if user session expires (> 8 hour)
         } else if (userId) {
             const user = await userCollection.findOne(
                 {"_id": new ObjectId(userId)},
             );
             const session = user.session;
-        if (session === 0 || new Date().getTime() - session > 28800000) {
-            res.status(200).json({ message: "User session expired" })
-        } else {
-            await userCollection.updateOne(
-                {"_id": new ObjectId(userId)},
-                {$set : {"session": new Date().getTime()}}
-            )
-            res.status(200).json({ active: "true", message: "User session is active" })
-        }
+
+            // User session expires
+            if (session === 0 || new Date().getTime() - session > 28800000) {
+                res.status(200).json({ message: "User session expired" })
+            // User session doesn't expire, update session to the current time
+            } else {
+                await userCollection.updateOne(
+                    {"_id": new ObjectId(userId)},
+                    {$set : {"session": new Date().getTime()}}
+                )
+                res.status(200).json({ active: "true", message: "User session is active" })
+            }
+        
+        // Missing required params
         } else {
             res.status(400).json({ message: "Request doesn't include necessary parameters" })
         }

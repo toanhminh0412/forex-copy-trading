@@ -269,7 +269,7 @@ export function Service({edit=false}) {
         <h1 className="font-semibold text-4xl lg:text-6xl">Our services</h1>
         <p className="text-lg lg:text-2xl font-semilight mt-4">Our company provides the following services. Feel free to email us at <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a> if you have any question about any service!</p>
         <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
-        All subscriptions are cancellable but not refundable!
+        All these services are pre-launched and the prices can go up later. Subscribe early to get the most out of your money. Note, all subscriptions are cancellable but not refundable!
         </h1>
         {edit ?
         <div>

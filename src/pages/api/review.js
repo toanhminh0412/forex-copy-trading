@@ -20,9 +20,6 @@ export default async function handler(req, res) {
       console.log(err)
       res.status(400).json({ message: "Failed get all reviews" })
     } 
-    // finally {
-    //   await mongoClient.close();
-    // }
     return;
   } 
   if (req.method === 'POST') {

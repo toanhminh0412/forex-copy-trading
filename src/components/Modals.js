@@ -35,7 +35,7 @@ export function LoginModal() {
         }
         
       } else {
-        setErrorMessage("Username or password is incorrect. Please try again.")
+        setErrorMessage(data.message);
         setLoadLogin(false);
       }
     })

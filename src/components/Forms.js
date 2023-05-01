@@ -63,7 +63,6 @@ export function TestimonialForm({style=""}) {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       if (data.success) {
         setSuccessMessage("We have received your review and will view it soon. Thank you!")
       } else {
@@ -91,4 +90,178 @@ export function TestimonialForm({style=""}) {
       <button className={`btn ${disableSubmit === true ? 'btn-disabled' : ''} bg-violet-700 border-violet-700 hover:bg-violet-900 hover:border-violet-900 w-full text-lg`}>Submit</button>
     </form>
   )
+}
+
+export function AccountForm({modalId=null, submitFun=()=>{}, accountId=undefined, accountUsername=undefined, accountAdmin=undefined, accountStatus=undefined}) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [admin, setAdmin] = useState(accountAdmin ? true : false);
+  const [status, setStatus] = useState(accountStatus ? accountStatus : 'Active');
+
+  const [successMessage, setSuccessMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const updateUsername = e => {
+    setUsername(e.target.value);
+  }
+
+  const updatePassword = e => {
+    setPassword(e.target.value);
+  }
+
+  const updateConfirmPassword = e => {
+    setConfirmPassword(e.target.value);
+  }
+
+  const updateStatus = e => {
+    setStatus(e.target.value);
+  }
+
+  const resetStates = () => {
+    setUsername('');
+    setPassword('');
+    setConfirmPassword('');
+    setAdmin(false);
+    setStatus('Active');
+  }
+
+  const createAccount = e => {
+    e.preventDefault();
+    const newAccount = {
+      username: username,
+      password: password,
+      isAdmin: admin,
+      status: status
+    }
+    fetch('/api/authenticate', {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        newAccount: newAccount
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        submitFun(data.accounts);
+        resetStates();
+        setSuccessMessage(data.message);
+        setTimeout(() => {setSuccessMessage('')}, 5000);
+      } else {
+        setErrorMessage(data.message);
+        setTimeout(() => {setErrorMessage('')}, 5000);
+      }
+    })
+  }
+
+  const editAccount = e => {
+    e.preventDefault();
+    console.log(admin);
+    console.log(status);
+    fetch('/api/authenticate', {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        accountId: accountId,
+        isAdmin: admin,
+        status: status
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        submitFun(data.accounts);
+        setSuccessMessage(data.message);
+        setTimeout(() => {setSuccessMessage('')}, 5000);
+      } else {
+        setErrorMessage(data.message);
+        setTimeout(() => {setErrorMessage('')}, 5000);
+      }
+    })
+  }
+
+  if (accountId) {
+    return(
+      <form onSubmit={editAccount} className="max-h-[70vh]">
+        <h3 className="font-bold text-lg">Edit account</h3>
+        {successMessage !== "" ? <div className="alert alert-success my-2">{successMessage}</div> : <div></div>}
+        {errorMessage !== "" ? <div className="alert alert-error my-2">{errorMessage}</div> : <div></div>}
+        <div className='form-control mt-3'>
+          <label>Username:</label>
+          <input type="text" className="input input-bordered w-full max-w-md" value={accountUsername} readOnly/>
+          <div className='font-light mt-1'>Read-only username</div>
+        </div>
+        <div className="form-control mt-3">
+          <div className="flex flex-row">
+            <input type="checkbox" className="checkbox" checked={admin} onChange={() => {setAdmin(!admin)}}/>
+            <span className="ml-2">Admin</span>
+          </div>
+          <div className='font-light mt-1'>Check this box to make this account an admin account</div>
+        </div>
+        <div className='form-control mt-3'>
+          <label>Status:</label>
+          <select className="select select-bordered w-full max-w-md" onChange={updateStatus} defaultValue={status}>
+            <option value="Active">Active</option>
+            <option value="Dormant">Dormant</option>
+          </select>
+          <div className='font-light mt-1'>Activate/deactivate account</div>
+        </div>
+        <div className="mt-3 w-fit ml-auto pb-4">
+          {modalId !== null ? <label htmlFor={modalId} className="btn btn-error text-white">Close</label> : <div></div>}
+          <input type="submit" className={`btn ml-1`} value="Submit"></input>
+        </div>
+      </form>
+    )
+  } else {
+    return (
+      <form onSubmit={createAccount} className="max-h-[70vh]">
+        <h3 className="font-bold text-lg">Create an account</h3>
+        {successMessage !== "" ? <div className="alert alert-success my-2">{successMessage}</div> : <div></div>}
+        {errorMessage !== "" ? <div className="alert alert-error my-2">{errorMessage}</div> : <div></div>}
+        <div className='form-control mt-3'>
+          <label>Username:</label>
+          <input type="text" className="input input-bordered w-full max-w-md" placeholder='Username' value={username} onChange={updateUsername}/>
+          <div className='font-light mt-1'>User can't change this later</div>
+        </div>
+        <div className='form-control mt-3'>
+          <label>Password:</label>
+          <input type="password" className="input input-bordered w-full max-w-md" minLength="8" placeholder='Password' value={password} onChange={updatePassword}/>
+          <div className='font-light mt-1'>User can change this later</div>
+        </div>
+        <div className='form-control mt-3'>
+          <label>Confirm password:</label>
+          <input type="password" className="input input-bordered w-full max-w-md" minLength="8" placeholder='Confirm password' value={confirmPassword} onChange={updateConfirmPassword}/>
+          {password === confirmPassword ? <div className="font-light text-green-500 mt-1">Password match!</div> : <div></div>}
+        </div>
+        <div className="form-control mt-3">
+          <div className="flex flex-row">
+            <input type="checkbox" className="checkbox" checked={admin} onChange={() => {setAdmin(!admin)}}/>
+            <span className="ml-2">Admin</span>
+          </div>
+          <div className='font-light mt-1'>Check this box to make this account an admin account</div>
+        </div>
+        <div className='form-control mt-3'>
+          <label>Status:</label>
+          <select className="select select-bordered w-full max-w-md" onChange={updateStatus} defaultValue={status}>
+            <option value="Active">Active</option>
+            <option value="Dormant">Dormant</option>
+          </select>
+          <div className='font-light mt-1'>Activate/deactivate account</div>
+        </div>
+        <div className="mt-3 w-fit ml-auto pb-4">
+          {modalId !== null ? <label htmlFor={modalId} className="btn btn-error text-white">Close</label> : <div></div>}
+          <input type="submit" className={`btn ${username !== '' && password !== '' && password === confirmPassword ? '' : 'btn-disabled'} ml-1`} value="Submit"></input>
+        </div>
+      </form>
+    )
+  }
 }

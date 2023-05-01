@@ -222,9 +222,7 @@ export function Service({edit=false}) {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       if (data.success) {
-        console.log(`Edited service ${title} successfully`);
         setServices(data.services);
         resetStates();
         setSuccessMessage(`Edited service "${title}" successfully`);
@@ -245,7 +243,6 @@ export function Service({edit=false}) {
     }))
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       if (data.success) {
         setServices(data.services);
         setSuccessMessage(`Deleted service "${deleteTitle}" successfully`);
@@ -555,7 +552,6 @@ export function HistoryGallery({style="", edit=false}) {
     fetch('api/history_image')
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       if (data.historyImages) {
         setHistoryImages(data.historyImages);
         let historyMonths = []
@@ -606,9 +602,6 @@ export function HistoryGallery({style="", edit=false}) {
     }
     try {
       const compressedImage = await imageCompression(file, options);
-      console.log('compressedImage instanceof Blob', compressedImage instanceof Blob); // true
-      console.log(`compressedImage size ${compressedImage.size / 1024 / 1024} MB`); // smaller than maxSizeMB
-  
       setNewImage(compressedImage);
     } catch (error) {
       console.log(error);
@@ -633,13 +626,10 @@ export function HistoryGallery({style="", edit=false}) {
 
   const uploadNewImage = e => {
     e.preventDefault();
-    console.log("Uploading new image");
     const imageRef = ref(storage, `history/${months[newImageMonth]}_${new Date().getTime()}.jpg`);
     // 'file' comes from the Blob or File API
     uploadBytes(imageRef, newImage).then((snapshot) => {
-      console.log('Uploaded a blob or file!');
       getDownloadURL(imageRef).then(url => {
-        console.log(`File url: ${url}`);
         setNewImage(null);
         setFileDataURL(null);
         document.getElementById('add-image-modal').checked = false;
@@ -658,9 +648,7 @@ export function HistoryGallery({style="", edit=false}) {
         })
         .then(res => res.json())
         .then(data => {
-          console.log(data);
           if (data.success) {
-            console.log("Uploaded image successfully");
             setSuccessMessage("Uploaded image successfully");
             let monthFound = false;
             let newHistoryImages = historyImages;
@@ -678,10 +666,8 @@ export function HistoryGallery({style="", edit=false}) {
               setMonths([...months, newImageMonth])
             }
             setHistoryImages(newHistoryImages);
-            console.log(historyImages)
             setTimeout(() => {setSuccessMessage('')}, 5000);
           } else {
-            console.log("Failed to upload image");
             setErrorMessage("Failed to upload image");
             setTimeout(() => {setErrorMessage('')}, 5000);
           }
@@ -705,7 +691,6 @@ export function HistoryGallery({style="", edit=false}) {
   }
 
   const deleteSelectedImages = () => {
-    console.log(selectedImages);
     let deletedImageObj = {};
     selectedImages.forEach(item => {
       if (item[0] in deletedImageObj) {
@@ -714,7 +699,6 @@ export function HistoryGallery({style="", edit=false}) {
         deletedImageObj[item[0]] = [item[1]];
       }
     })
-    console.log(deletedImageObj);
     fetch('/api/history_image', {
       method: "POST",
       mode: "cors",

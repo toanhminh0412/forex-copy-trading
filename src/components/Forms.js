@@ -230,7 +230,7 @@ export function AccountForm({modalId=null, submitFun=()=>{}, accountId=undefined
         <div className='form-control mt-3'>
           <label>Username:</label>
           <input type="text" className="input input-bordered w-full max-w-md" placeholder='Username' value={username} onChange={updateUsername}/>
-          <div className='font-light mt-1'>User can't change this later</div>
+          <div className='font-light mt-1'>User can&apos;t change this later</div>
         </div>
         <div className='form-control mt-3'>
           <label>Password:</label>

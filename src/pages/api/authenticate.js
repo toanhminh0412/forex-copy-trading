@@ -7,7 +7,7 @@ export default async function handler(req, res) {
         const password = req.query.password;
         const userId = req.query.userId;
         const logOut = req.query.logOut;
-        // const deleteAccount = req.query.deleteAccount;
+        const deleteAccount = req.query.deleteAccount;
         try {
             const mongoClient = await clientPromise;
             const db = mongoClient.db(mongoDb);
@@ -43,6 +43,14 @@ export default async function handler(req, res) {
                 } else {
                     res.status(404).json({ success: "false", message: "User not found to be logged out" })
                 }
+            
+            // Delete an user account
+            } else if (userId && deleteAccount) {
+                await userCollection.deleteOne(
+                    {"_id": new ObjectId(userId)}
+                )
+                const accounts = await userCollection.find().toArray();
+                res.status(200).json({ success: true, message: "Delete account successfully!", accounts:accounts })
 
             // Check if user session expires (> 8 hour)
             } else if (userId) {

@@ -104,12 +104,7 @@ function HistoryGalleryEditSection() {
 
   return (
     <div>
-      {/* <div className="tabs mt-4 w-fit">
-        <a className={`tab tab-lg tab-lifted ${openedTab === 0 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(0)}}>Edit</a> 
-        <a className={`tab tab-lg tab-lifted ${openedTab === 1 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(1)}}>Preview</a> 
-      </div> */}
       <HistoryGallery edit/>
-      {/* <HistoryGallery style={`${openedTab !== 1 ? 'hidden': ''}`}/> */}
     </div>
   )
 }
@@ -160,18 +155,9 @@ function TestimonialsEditSection() {
     } else {
       return (
         <div>
-        {/* <div className="tabs mt-4">
-          <a className={`tab tab-lg tab-lifted ${openedTab === 0 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(0)}}>Reviews</a> 
-          <a className={`tab tab-lg tab-lifted ${openedTab === 1 ? 'tab-active': ''}`} onClick={() => {setOpenedTab(1)}}>Preview</a> 
-        </div> */}
-
-        <div className="flex flex-row flex-wrap p-4">
-          {reviews.map(review => <ReviewCard key={review._id} id={review._id} firstName={review.firstName} lastInitial={review.lastInitial} country={review.country} content={review.content} comment={review.comment} show={review.show} updateReviewComment={(id, comment) => updateReviewComment(id, comment)} toggleReview={id => toggleReview(id)}/>)}
-        </div>
-
-        {/* <div className={`${openedTab === 1 ? '' : 'hidden'}`}>
-        <Testimonials paramReviews={reviews}/>
-        </div> */}
+          <div className="flex flex-row flex-wrap p-4">
+            {reviews.map(review => <ReviewCard key={review._id} id={review._id} firstName={review.firstName} lastInitial={review.lastInitial} country={review.country} content={review.content} comment={review.comment} show={review.show} updateReviewComment={(id, comment) => updateReviewComment(id, comment)} toggleReview={id => toggleReview(id)}/>)}
+          </div>
         </div>
       )
     }
@@ -203,6 +189,22 @@ function AccountsManagementSection() {
 
   const deleteAccount = accountId => {
     console.log(accountId);
+    fetch('api/authenticate?' + new URLSearchParams({
+      userId: accountId,
+      deleteAccount: true
+    }))
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        updateAccounts(data.accounts);
+        setSuccessMessage(data.message);
+        setTimeout(() => {setSuccessMessage('')}, 5000);
+        document.getElementById(`delete-account-${accountId}`).checked = false;
+      } else {
+        setErrorMessage(data.message);
+        setTimeout(() => {setErrorMessage('')}, 5000);
+      }
+    })
   }
 
   return (
@@ -266,7 +268,7 @@ function AccountsManagementSection() {
           <div className="modal">
             <div className="modal-box w-fit min-w-[30rem] lg:min-w-[24rem] xl:min-w-[30rem]">
               <h3 className="font-bold text-lg">Delete an account</h3>
-              <p>Are you sure you want to delete account with username <span className='font-semibold'>{account.username}</span></p>?
+              <p>Are you sure you want to delete account with username <span className='font-semibold'>{account.username}</span>?</p>
               <div className='modal-action'>
                 <label htmlFor={`delete-account-${account._id}`} className="btn btn-error text-white">No</label>
                 <div className='btn' onClick={() => {deleteAccount(account._id)}}>Yes</div>

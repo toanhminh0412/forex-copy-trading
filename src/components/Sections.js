@@ -84,7 +84,6 @@ export function Service({edit=false}) {
     fetch('/api/service')
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       if (data.success) {
         setServices(data.services);
       } else {
@@ -134,10 +133,8 @@ export function Service({edit=false}) {
 
   const addPro = e => {
     e.preventDefault();
-    console.log(newPro)
     setPros([...pros, newPro]);
     setNewPro('');
-    console.log(pros);
   }
 
   const removePro = pro => {
@@ -165,7 +162,6 @@ export function Service({edit=false}) {
       buttonText: buttonText,
       buttonLink: buttonLink
     }
-    console.log(newService);
     fetch('/api/service', {
       method: "POST",
       mode: "cors",
@@ -179,9 +175,7 @@ export function Service({edit=false}) {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       if (data.success) {
-        console.log("Added service successfully");
         setServices(data.services);
         resetStates();
         setSuccessMessage("Added service successfully");
@@ -197,7 +191,6 @@ export function Service({edit=false}) {
 
   const editService = (e, serviceId) => {
     e.preventDefault();
-    console.log(serviceId);
     const newService = {
       title: title,
       price: price,
@@ -207,7 +200,6 @@ export function Service({edit=false}) {
       buttonText: buttonText,
       buttonLink: buttonLink
     }
-    console.log(newService);
     fetch('/api/service', {
       method: "POST",
       mode: "cors",
@@ -524,10 +516,7 @@ export function EightcapProfile() {
 }
 
 export function HistoryGallery({style="", edit=false}) {
-  // const months = ["Nov 2022", "Dec 2022", "Jan 2023", "Feb 2023", "Mar 2023", "Apr 2023"]
-  // const months = ["Nov 2022", "Dec 2022", "Mar 2023", "Apr 2023"]
   const [historyImages, setHistoryImages] = useState([]);
-  // const [months, setMonths] = useState(["Nov 2022", "Dec 2022", "Mar 2023", "Apr 2023"])
   const [months, setMonths] = useState([]);
   const [month, setMonth] = useState(0);
   const [showAll, setShowAll] = useState(false)
@@ -712,9 +701,7 @@ export function HistoryGallery({style="", edit=false}) {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       if (data.success) {
-        console.log("Deleted images successfully");
         for (const [month, url] of selectedImages) {
           const imageRef = ref(storage, url);
           deleteObject(imageRef).then(() => {

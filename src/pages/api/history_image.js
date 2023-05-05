@@ -14,10 +14,7 @@ export default async function handler(req, res) {
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed to get/post history images" })
-        } 
-        // finally {
-        //     await mongoClient.close();
-        // }
+        }
     } else if (req.method === 'POST') {
         const month = req.body.month;
         const imageURL = req.body.imageURL;
@@ -67,9 +64,6 @@ export default async function handler(req, res) {
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed to get/post history images" })
-        } 
-        // finally {
-        //     await mongoClient.close();
-        // }
+        }
     }   
 }

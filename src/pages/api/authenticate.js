@@ -27,7 +27,7 @@ export default async function handler(req, res) {
                         {username: username, password: password},
                         {$set : {"session": new Date().getTime()}}
                     );
-                    res.status(200).json({ userId: user.value._id, isAdmin: user.value.isAdmin })
+                    res.status(200).json({ userId: user.value._id, isAdmin: user.value.isAdmin, username: user.value.username })
                 } else {
                     res.status(404).json({ message: "Login info is incorrect" })
                 }
@@ -91,6 +91,9 @@ export default async function handler(req, res) {
         const accountId = req.body.accountId;
         const isAdmin = req.body.isAdmin;
         const status = req.body.status;
+        const username = req.body.username;
+        const currentPassword = req.body.currentPassword;
+        const newPassword = req.body.newPassword;
         try {
             const mongoClient = await clientPromise;
             const db = mongoClient.db(mongoDb);
@@ -115,6 +118,22 @@ export default async function handler(req, res) {
                 )
                 const accounts = await userCollection.find().toArray();
                 res.status(200).json({ success: true, accounts: accounts, message: "Edit account successfully" })
+            // Change an account's password
+            } else if (username && currentPassword && newPassword) {
+                const user = await userCollection.findOne({
+                    "username": username,
+                    "password": currentPassword
+                })
+                if (user === null) {
+                    res.status(404).json({ message: "Password is incorrect! Please try again." })
+                    return;
+                }
+                await userCollection.updateOne(
+                    {"username": username, "password": currentPassword},
+                    {$set: {"password": newPassword}}    
+                )
+                res.status(200).json({ success: true, message: "Change password successfully!" })
+            // Missing required params for a POST request
             } else {
                 res.status(400).json({ message: "Missing required parameters for POST request to /api/authenticate" })
             }

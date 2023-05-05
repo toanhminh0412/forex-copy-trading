@@ -92,12 +92,13 @@ export function TestimonialForm({style=""}) {
   )
 }
 
-export function AccountForm({modalId=null, submitFun=()=>{}, accountId=undefined, accountUsername=undefined, accountAdmin=undefined, accountStatus=undefined}) {
+export function AccountForm({modalId=null, submitFun=()=>{}, accountId=undefined, accountUsername=undefined, accountAdmin=undefined, accountStatus=undefined, changePassword=false}) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [admin, setAdmin] = useState(accountAdmin ? true : false);
   const [status, setStatus] = useState(accountStatus ? accountStatus : 'Active');
+  const [currentPassword, setCurrentPassword] = useState("");
 
   const [successMessage, setSuccessMessage] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -118,12 +119,17 @@ export function AccountForm({modalId=null, submitFun=()=>{}, accountId=undefined
     setStatus(e.target.value);
   }
 
+  const updateCurrentPassword = e => {
+    setCurrentPassword(e.target.value);
+  }
+
   const resetStates = () => {
     setUsername('');
     setPassword('');
     setConfirmPassword('');
     setAdmin(false);
     setStatus('Active');
+    setCurrentPassword('');
   }
 
   const createAccount = e => {
@@ -189,7 +195,65 @@ export function AccountForm({modalId=null, submitFun=()=>{}, accountId=undefined
     })
   }
 
-  if (accountId) {
+  const changeAccountPassword = e => {
+    e.preventDefault();
+    const username = window.localStorage.getItem('forexUsername');
+    if (username === undefined) {
+      setErrorMessage("User isn't logged in. Therefore, can't change password");
+      return;
+    }
+    fetch('/api/authenticate', {
+      method: "POST",
+      mode: "cors",
+      credentials: "same-origin",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: username,
+        currentPassword: currentPassword,
+        newPassword: password
+      })
+    })
+    .then(res => res.json())
+    .then(data => {
+      resetStates();
+      if (data.success) {
+        setSuccessMessage(data.message);
+        setTimeout(() => {setSuccessMessage('')}, 5000);
+      } else {
+        setErrorMessage(data.message);
+        setTimeout(() => {setErrorMessage('')}, 5000);
+      }
+    })
+  }
+
+  if (changePassword) {
+    return(
+      <form onSubmit={changeAccountPassword} className="max-h-[70vh]">
+        <h3 className="font-bold text-lg">Change password</h3>
+        {successMessage !== "" ? <div className="alert alert-success my-2">{successMessage}</div> : <div></div>}
+        {errorMessage !== "" ? <div className="alert alert-error my-2">{errorMessage}</div> : <div></div>}
+        <div className='form-control mt-3'>
+          <label>Current password:</label>
+          <input type="password" className="input input-bordered w-full max-w-md" minLength="8" placeholder='Your current password' value={currentPassword} onChange={updateCurrentPassword}/>
+        </div>
+        <div className='form-control mt-3'>
+          <label>Password:</label>
+          <input type="password" className="input input-bordered w-full max-w-md" minLength="8" placeholder='New password' value={password} onChange={updatePassword}/>
+        </div>
+        <div className='form-control mt-3'>
+          <label>Confirm password:</label>
+          <input type="password" className="input input-bordered w-full max-w-md" minLength="8" placeholder='Confirm new password' value={confirmPassword} onChange={updateConfirmPassword}/>
+          {password !== '' && password === confirmPassword ? <div className="font-light text-green-500 mt-1">Password match!</div> : <div></div>}
+        </div>
+        <div className="mt-3 w-fit ml-auto pb-4">
+          {modalId !== null ? <label htmlFor={modalId} className="btn btn-error text-white">Close</label> : <div></div>}
+          <input type="submit" className={`btn ${currentPassword !== '' && password !== '' && password !== '' && password === confirmPassword ? '' : 'btn-disabled'} ml-1`} value="Submit"></input>
+        </div>
+      </form>
+    )
+  } else if (accountId) {
     return(
       <form onSubmit={editAccount} className="max-h-[70vh]">
         <h3 className="font-bold text-lg">Edit account</h3>
@@ -240,7 +304,7 @@ export function AccountForm({modalId=null, submitFun=()=>{}, accountId=undefined
         <div className='form-control mt-3'>
           <label>Confirm password:</label>
           <input type="password" className="input input-bordered w-full max-w-md" minLength="8" placeholder='Confirm password' value={confirmPassword} onChange={updateConfirmPassword}/>
-          {password === confirmPassword ? <div className="font-light text-green-500 mt-1">Password match!</div> : <div></div>}
+          {password !== '' && password === confirmPassword ? <div className="font-light text-green-500 mt-1">Password match!</div> : <div></div>}
         </div>
         <div className="form-control mt-3">
           <div className="flex flex-row">
@@ -259,7 +323,7 @@ export function AccountForm({modalId=null, submitFun=()=>{}, accountId=undefined
         </div>
         <div className="mt-3 w-fit ml-auto pb-4">
           {modalId !== null ? <label htmlFor={modalId} className="btn btn-error text-white">Close</label> : <div></div>}
-          <input type="submit" className={`btn ${username !== '' && password !== '' && password === confirmPassword ? '' : 'btn-disabled'} ml-1`} value="Submit"></input>
+          <input type="submit" className={`btn ${username !== '' && password !== '' && password !== '' && password === confirmPassword ? '' : 'btn-disabled'} ml-1`} value="Submit"></input>
         </div>
       </form>
     )

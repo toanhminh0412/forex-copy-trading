@@ -22,10 +22,7 @@ export default async function handler(req, res) {
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed GET request for service" });
-        } 
-        // finally {
-        //     await mongoClient.close();
-        // }
+        }
     }
     if (req.method === 'POST') {
         const newService = req.body.newService;
@@ -52,9 +49,6 @@ export default async function handler(req, res) {
         } catch (err) {
             console.log(err.stack);
             res.status(400).json({ message: "Failed POST request for service" });
-        } 
-        // finally {
-        // await mongoClient.close();
-        // }
+        }
     }
 }

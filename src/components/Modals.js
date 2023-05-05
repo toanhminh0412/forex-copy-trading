@@ -27,6 +27,7 @@ export function LoginModal() {
       console.log(data);
       if (data.userId) {
         window.localStorage.setItem("forexUserId", data.userId);
+        window.localStorage.setItem("forexUsername", data.username);
         if (data.isAdmin === true) {
           window.localStorage.setItem("forexAdmin", "true");
           window.location.href = "/dashboard";

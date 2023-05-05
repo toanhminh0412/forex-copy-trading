@@ -4,7 +4,6 @@ import { ObjectId } from "mongodb";
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     const show = req.query.show;
-    console.log('Fetching reviews');
     try {
       const mongoClient = await clientPromise;
       const db = mongoClient.db(mongoDb);
@@ -23,7 +22,6 @@ export default async function handler(req, res) {
     return;
   } 
   if (req.method === 'POST') {
-    console.log("Handle POST request")
     const firstName = req.body.firstName;
     const lastInitial = req.body.lastInitial;
     const country = req.body.country;
@@ -31,7 +29,6 @@ export default async function handler(req, res) {
     const reviewId = req.body.reviewId;
     const comment = req.body.comment;
     const toggleReview = req.body.toggleReview;
-    console.log(toggleReview)
       try {
         const mongoClient = await clientPromise
         const db = mongoClient.db(mongoDb);
@@ -74,9 +71,6 @@ export default async function handler(req, res) {
       } catch (err) {
         console.log(err.stack);
         res.status(400).json({ message: "Failed POST request" });
-      } 
-      // finally {
-      //   await mongoClient.close();
-      // }
+      }
   }
 }

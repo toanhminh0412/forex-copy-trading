@@ -14,8 +14,9 @@ export default function DashboardPage() {
 
   useEffect(() => {
     const userId = window.localStorage.getItem('forexUserId');
+    const username = window.localStorage.getItem('forexUsername');
 
-    if (userId === null) {
+    if (userId === null || username === null) {
       window.location.href ='/';
       return;
     }
@@ -27,6 +28,7 @@ export default function DashboardPage() {
     .then(data => {
       if (!data.active) {
         window.localStorage.removeItem('forexUserId');
+        window.localStorage.removeItem('forexUsername');
         window.location.href = '/';
       } else if (!data.isAdmin) {
         setLoading(false);

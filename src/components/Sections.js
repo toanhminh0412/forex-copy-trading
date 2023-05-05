@@ -1018,3 +1018,19 @@ export function Testimonials({paramReviews=undefined}) {
   }
   
 }
+
+export function Members() {
+  return (
+    <Section>
+      <h1 className="font-semibold text-3xl text-center xl:text-4xl">Avaiable ONLY to subscribers</h1>
+      <p className="text-xl lg:text-2xl text-center mt-4">See live trading in action, ask and receive real-time answers, join a community of like-minded people!</p>
+      <div className="flex flex-row flex-wrap mt-10">
+        <div className="relative w-8 h-8">
+          <Image src="/img/social-medias/telegram.png" alt="Telegram" fill/>
+        </div>
+        <a href="https://t.me/+5yP9BXNmFtY0ZWEx" target="_blank" className="ml-3 my-auto text-2xl">https://t.me/+5yP9BXNmFtY0ZWEx</a>
+      </div>
+      {/* <p className="mt-4 text-lg">Join the community, chat with me and other members to get real time update on daily trades.</p> */}
+    </Section>
+  )
+}

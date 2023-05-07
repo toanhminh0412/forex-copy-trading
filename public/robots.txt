@@ -1,0 +1,9 @@
+//robots.txt
+
+# Block all crawlers for pages
+User-agent: *
+Disallow: /dashboard, /members
+
+# Allow all crawlers for pages
+User-agent: *
+Allow: /, /about, /services, /contact-us

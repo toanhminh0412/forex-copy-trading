@@ -19,8 +19,8 @@ import {storage} from '../../lib/firebase';
 export function Header({style=""}) {
   return (
     <section className={`w-full h-25vh relative ${style}`}>
-      <video autoPlay muted loop id="myVideo">
-        <source src="/vid/bg_vid1.mov" type="video/mp4"/>
+      <video autoPlay muted loop id="myVideo" className='w-full'>
+        <source src="/vid/bg_vid0.mp4" type="video/mp4"/>
         Your browser does not support the video
       </video>
       <div className="w-full h-full bg-black z-10 opacity-70"></div>

@@ -14,6 +14,28 @@ import { Input, Textarea, TestimonialForm } from '@/components/Forms';
 import { SuccessAlert, DangerAlert } from '@/components/Alerts';
 import {storage} from '../../lib/firebase';
 
+export function UpgradedHeader({style=""}) {
+  return (
+    <section className="bg-gradient-to-r from-slate-700 to-slate-900 shadow-inner !px-0 !py-0 h-[26rem]">
+      <div className='flex flex-row flex-wrap justify-between h-full '>
+        <div className='w-fit max-w-sm mt-12 ml-12'>
+          <h1 className="font-normal text-5xl text-white">ForexCopyTrade</h1>
+          <p className='text-lg lg:text-xl mt-3 text-white'>A copy trade service for those who cannot sit at a screen for hours on end</p>
+          <div className='flex flex-row mt-3'>
+            <div className='p-2 shadow-lg bg-white w-fit rounded-md mr-3'>Join Eightcap now!</div>
+            <div className='p-2 shadow-lg bg-white w-fit rounded-md'>Contact us</div>
+          </div>
+        </div>
+        {/* <div className='bg-white p-4 rounded-lg ml-16 shadow-lg'> */}
+          <div className={`w-1/2 h-full relative`}>
+            <Image src="/img/stock-graph.jpg" alt="Stock graph" fill/>
+          </div>
+        {/* </div> */}
+      </div>
+    </section>
+  )
+}
+
 export function Header({style=""}) {
   return (
     <div className={`w-full h-50vh min-h-[50vh] relative ${style}`}>

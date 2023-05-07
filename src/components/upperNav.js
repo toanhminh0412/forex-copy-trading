@@ -38,10 +38,10 @@ export default function UpperNav({active="home"}) {
   }
   
   return (
-    <div className="bg-gradient-to-r from-violet-500 to-violet-900 shadow-lg fixed z-30 w-screen">
-      <div className="px-2 py-3 lg:px-20 flex flex-row justify-between">
-        <h1 className="text-white text-xl lg:text-3xl font-medium">ForexCopyTrade</h1>
-        <div className="hidden lg:flex lg:flex-row">
+    <div className="bg-violet-500 shadow-lg fixed z-30 w-screen">
+      <div className="px-2 h-16 flex flex-row justify-between">
+        <h1 className="text-white text-xl lg:text-3xl font-medium my-auto">ForexCopyTrade</h1>
+        <div className="hidden lg:flex lg:flex-row my-auto">
           {loggedIn === true && isAdmin === true ? <Link href="/dashboard" className={`text-white ${active === "dashboard" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-4`}>Dashboard</Link> : <div></div>}
           <Link href="/" className={`text-white ${active === "home" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-2 xl:mx-4 text-center`}>Home</Link>
           {/* <Link href="/about" className={`text-white ${active === "about" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-2 xl:mx-4 text-center`}>About</Link> */}

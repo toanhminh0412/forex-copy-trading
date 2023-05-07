@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+
 import emailjs from '@emailjs/browser';
 import imageCompression from 'browser-image-compression';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
@@ -14,42 +16,25 @@ import { Input, Textarea, TestimonialForm } from '@/components/Forms';
 import { SuccessAlert, DangerAlert } from '@/components/Alerts';
 import {storage} from '../../lib/firebase';
 
-export function UpgradedHeader({style=""}) {
-  return (
-    <section className="bg-gradient-to-r from-slate-700 to-slate-900 shadow-inner !px-0 !py-0 h-[26rem]">
-      <div className='flex flex-row flex-wrap justify-between h-full '>
-        <div className='w-fit max-w-sm mt-12 ml-12'>
-          <h1 className="font-normal text-5xl text-white">ForexCopyTrade</h1>
-          <p className='text-lg lg:text-xl mt-3 text-white'>A copy trade service for those who cannot sit at a screen for hours on end</p>
-          <div className='flex flex-row mt-3'>
-            <div className='p-2 shadow-lg bg-white w-fit rounded-md mr-3'>Join Eightcap now!</div>
-            <div className='p-2 shadow-lg bg-white w-fit rounded-md'>Contact us</div>
-          </div>
-        </div>
-        {/* <div className='bg-white p-4 rounded-lg ml-16 shadow-lg'> */}
-          <div className={`w-1/2 h-full relative`}>
-            <Image src="/img/stock-graph.jpg" alt="Stock graph" fill/>
-          </div>
-        {/* </div> */}
-      </div>
-    </section>
-  )
-}
-
 export function Header({style=""}) {
   return (
-    <div className={`w-full h-50vh min-h-[50vh] relative ${style}`}>
-      <Image src="/img/stock-graph.jpg" alt="Stock graph" fill/>
+    <section className={`w-full h-25vh relative ${style}`}>
+      <video autoPlay muted loop id="myVideo">
+        <source src="/vid/bg_vid1.mov" type="video/mp4"/>
+        Your browser does not support the video
+      </video>
       <div className="w-full h-full bg-black z-10 opacity-70"></div>
-      <div className="absolute top-24 md:top-32 lg:top-40 z-20 inset-x-0 mx-auto text-center px-2">
-        <h1 className="text-white font-semibold text-4xl">ForexCopyTrade</h1>
-        <p className='text-white text-lg lg:text-2xl mt-2'>A copy trade service for those who cannot sit at a screen for hours on end</p>
-        <div className='w-fit mx-auto mt-10'>
-          <OutlineButton color="white" style="mx-2" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
-          <OutlineButton color="white" style="mx-2" text="Contact us" link="/contact-us"/>
+      <div className="absolute z-20 h-fit inset-0 my-auto mx-auto text-center px-2">
+        <h1 className="text-white font-semibold text-4xl lg:text-6xl">Forex copy trading</h1>
+        <p className='text-white text-lg lg:text-2xl mt-2'>What we professional traders gain, you gain the same!</p>
+        <div className='w-fit mx-auto mt-6'>
+          {/* <OutlineButton color="white" style="mx-2" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/> */}
+          {/* <OutlineButton color="white" style="mx-2" text="Contact us" link="/contact-us"/> */}
+          <Link target="_blank" href="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" className="btn glass">Join Eightcap now!</Link>
+          <Link target="_blank" href="/contact-us" className="btn glass ml-4">Contact us</Link>
         </div>
       </div>
-    </div>
+    </section>
   )
 }
 

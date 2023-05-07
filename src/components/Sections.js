@@ -853,9 +853,9 @@ export function SocialMedia() {
           <p className="mt-4 text-lg">Feel free to send me emails to ask about anything. This is my main contact for business.</p>
           <div className="flex flex-row flex-wrap mt-6">
             <div className="relative w-8 h-8">
-              <Image src="/img/social-medias/facebook.png" alt="Facebook" fill/>
+              <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Ffacebook.png?alt=media&token=8a22bd05-7c7a-4218-b6d3-cd21c43ab22c" alt="Facebook" fill/>
             </div>
-            <a href="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Ffacebook.png?alt=media&token=8a22bd05-7c7a-4218-b6d3-cd21c43ab22c" target="_blank" className="ml-3 my-auto text-2xl">https://www.facebook.com/profile.php?id=100086521276292</a>
+            <a href="https://www.facebook.com/profile.php?id=100086521276292" target="_blank" className="ml-3 my-auto text-2xl">https://www.facebook.com/profile.php?id=100086521276292</a>
           </div>
           <p className="mt-4 text-lg">I posted my trades once in a while on Facebook. I also will be posting some educational contents on Facebook some time in the future.</p>
           <div className="flex flex-row flex-wrap mt-6">

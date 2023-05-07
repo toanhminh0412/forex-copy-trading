@@ -28,8 +28,6 @@ export function Header({style=""}) {
         <h1 className="text-white font-semibold text-4xl lg:text-6xl">Forex copy trading</h1>
         <p className='text-white text-lg lg:text-2xl mt-2'>What we professional traders gain, you gain the same!</p>
         <div className='w-fit mx-auto mt-6'>
-          {/* <OutlineButton color="white" style="mx-2" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/> */}
-          {/* <OutlineButton color="white" style="mx-2" text="Contact us" link="/contact-us"/> */}
           <Link target="_blank" href="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" className="btn glass">Join Eightcap now!</Link>
           <Link target="_blank" href="/contact-us" className="btn glass ml-4">Contact us</Link>
         </div>

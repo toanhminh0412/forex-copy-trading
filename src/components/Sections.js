@@ -43,7 +43,7 @@ export function About() {
       {/*<p className="text-2xl lg:text-3xl text-center mt-4">This is a placeholder for a slogan. The slogan is approximately this long!</p>*/}
       <div className="lg:flex lg:flex-row lg:justify-center mt-6 lg:mt-12">
         <div className="relative h-40vh lg:h-50vh w-80vw lg:w-45% max-w-xl mx-auto lg:mx-6">
-          <Image src="/img/stock-laptop.jpg" alt="Stock graph" fill/>
+          <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fstock-laptop.jpg?alt=media&token=010f294b-611b-4fe2-83ff-dc49330f4b9a" alt="Stock graph" fill/>
         </div>
         <div className="lg:w-1/2 lg:mx-6">
           <h2 className="text-2xl lg:text-4xl font-normal mt-8 lg:mt-0">Who am I?</h2>
@@ -841,12 +841,12 @@ export function SocialMedia() {
       <p className="text-2xl lg:text-3xl text-center mt-4">Ask questions, get the most recent news and trading tips. Join a community with like-minded people!</p>
       <div className="lg:flex lg:flex-row lg:justify-center mt-6 lg:mt-12">
         <div className="relative h-40vh lg:h-50vh w-80vw lg:w-30% max-w-lg mx-auto lg:mx-0 lg:mr-12">
-          <Image src="/img/social-media.jpg" alt="Social medias" fill/>
+          <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fsocial-media.jpg?alt=media&token=9fe03154-ef44-4cd0-b70e-2c1941f9f440" alt="Social medias" fill/>
         </div>
         <div className="mt-8 lg:mt-0 lg:w-1/2">
           <div className="flex flex-row">
             <div className="relative w-8 h-8">
-              <Image src="/img/social-medias/gmail.png" alt="Gmail" fill/>
+              <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fgmail.png?alt=media&token=fda120db-128c-45ac-ac52-7acaa83d0513" alt="Gmail" fill/>
             </div>
             <a href="mailto:realfxcopier@gmail.com" className="ml-3 my-auto text-2xl">realfxcopier@gmail.com</a>
           </div>
@@ -855,12 +855,12 @@ export function SocialMedia() {
             <div className="relative w-8 h-8">
               <Image src="/img/social-medias/facebook.png" alt="Facebook" fill/>
             </div>
-            <a href="https://www.facebook.com/profile.php?id=100086521276292" target="_blank" className="ml-3 my-auto text-2xl">https://www.facebook.com/profile.php?id=100086521276292</a>
+            <a href="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Ffacebook.png?alt=media&token=8a22bd05-7c7a-4218-b6d3-cd21c43ab22c" target="_blank" className="ml-3 my-auto text-2xl">https://www.facebook.com/profile.php?id=100086521276292</a>
           </div>
           <p className="mt-4 text-lg">I posted my trades once in a while on Facebook. I also will be posting some educational contents on Facebook some time in the future.</p>
           <div className="flex flex-row flex-wrap mt-6">
             <div className="relative w-8 h-8">
-              <Image src="/img/social-medias/telegram.png" alt="Telegram" fill/>
+              <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Ftelegram.png?alt=media&token=cd0a4770-a770-4006-af5d-287a49f3ced2" alt="Telegram" fill/>
             </div>
             <a href="https://t.me/+5yP9BXNmFtY0ZWEx" target="_blank" className="ml-3 my-auto text-2xl">https://t.me/+5yP9BXNmFtY0ZWEx</a>
           </div>
@@ -1031,7 +1031,7 @@ export function Members() {
       <p className="text-xl lg:text-2xl text-center mt-4">See live trading in action, ask and receive real-time answers, join a community of like-minded people!</p>
       <div className="flex flex-row flex-wrap mt-10">
         <div className="relative w-8 h-8">
-          <Image src="/img/social-medias/telegram.png" alt="Telegram" fill/>
+          <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Ftelegram.png?alt=media&token=cd0a4770-a770-4006-af5d-287a49f3ced2" alt="Telegram" fill/>
         </div>
         <a href="https://t.me/+5yP9BXNmFtY0ZWEx" target="_blank" className="ml-3 my-auto text-2xl">https://t.me/+5yP9BXNmFtY0ZWEx</a>
       </div>

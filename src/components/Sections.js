@@ -20,7 +20,7 @@ export function Header({style=""}) {
   return (
     <section className={`w-full h-25vh relative ${style}`}>
       <video autoPlay muted loop id="myVideo" className='w-full'>
-        <source src="/vid/bg_vid0.mp4" type="video/mp4"/>
+        <source src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/vid%2Fbg_vid0.mp4?alt=media&token=d7925834-07ef-4be2-901c-5cef11ad2759" type="video/mp4"/>
         Your browser does not support the video
       </video>
       <div className="w-full h-full bg-black z-10 opacity-70"></div>

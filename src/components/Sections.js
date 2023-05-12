@@ -68,8 +68,8 @@ export function Disclaimer() {
   )
 }
 
-export function Service({edit=false}) {
-  const [services, setServices] = useState(undefined);
+export function Service({edit=false, initialServices}) {
+  const [services, setServices] = useState(initialServices ? initialServices : undefined);
 
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState(80);
@@ -85,18 +85,18 @@ export function Service({edit=false}) {
   const [deleteTitle, setDeleteTitle] = useState('');
   const [deleteId, setDeleteId] = useState('');
 
-  useEffect(() => {
-    fetch('/api/service')
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        setServices(data.services);
-      } else {
-        setErrorMessage("Failed to fetch services");
-        setTimeout(() => {setErrorMessage('')}, 5000);
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   fetch('/api/service')
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     if (data.success) {
+  //       setServices(data.services);
+  //     } else {
+  //       setErrorMessage("Failed to fetch services");
+  //       setTimeout(() => {setErrorMessage('')}, 5000);
+  //     }
+  //   })
+  // }, [])
 
   const resetStates = () => {
     setTitle('');
@@ -287,15 +287,15 @@ export function Service({edit=false}) {
                 <div className="mt-3">
                   <label>Payment frequency:</label>
                   <select className="select select-bordered w-fit" defaultValue={paymentFreq} onChange={updatePaymentFreq}>
-                    <option value="" disabled selected={paymentFreq === ""}>How often clients have to pay the amount above</option>
-                    <option value="per occasion" selected={paymentFreq === "per occasion"}>per occasion</option>
-                    <option value="per day" selected={paymentFreq === "per day"}>per day</option>
-                    <option value="per week" selected={paymentFreq === "per week"}>per week</option>
-                    <option value="every 2 weeks" selected={paymentFreq === "every 2 weeks"}>every 2 weeks</option>
-                    <option value="per month" selected={paymentFreq === "per month"}>per month</option>
-                    <option value="every 3 months" selected={paymentFreq === "every 3 months"}>every 3 months</option>
-                    <option value="every 6 months" selected={paymentFreq === "every 6 months"}>every 6 months</option>
-                    <option value="per year" selected={paymentFreq === "per year"}>per year</option>
+                    <option value="" disabled>How often clients have to pay the amount above</option>
+                    <option value="per occasion">per occasion</option>
+                    <option value="per day">per day</option>
+                    <option value="per week">per week</option>
+                    <option value="every 2 weeks">every 2 weeks</option>
+                    <option value="per month">per month</option>
+                    <option value="every 3 months">every 3 months</option>
+                    <option value="every 6 months">every 6 months</option>
+                    <option value="per year">per year</option>
                   </select>
                 </div>
                 <div className="mt-3">
@@ -525,7 +525,7 @@ export function HistoryGallery({style="", edit=false}) {
   const [months, setMonths] = useState([]);
   const [month, setMonth] = useState(0);
   const [showAll, setShowAll] = useState(false)
-  const [lighBoxSrc, setLightBoxSrc] = useState('/img/stock-graph.jpg');
+  const [lighBoxSrc, setLightBoxSrc] = useState('');
   const [lighBoxOpened, setLighBoxOpened] = useState(false);
 
   // For editing

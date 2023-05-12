@@ -1,3 +1,5 @@
+import Head from 'next/head';
+
 import { useState, useEffect } from 'react';
 import {BiMenu} from "react-icons/bi";
 import {BsPenFill, BsTrashFill} from "react-icons/bs";
@@ -8,7 +10,7 @@ import { LoginModal } from '@/components/Modals';
 import { ReviewCard } from '@/components/Cards';
 import { AccountForm } from '@/components/Forms';
 
-export default function DashboardPage() {
+export default function DashboardPage({services}) {
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
 
@@ -56,16 +58,19 @@ export default function DashboardPage() {
 
   return(
     <>
+      <Head>
+        <title>Dashboard</title>
+      </Head>
       <UpperNav active="dashboard"/>
       <LoginModal/>
       <div className='pt-14 lg:pt-16'>
-        <DashboardMainContent/>
+        <DashboardMainContent services={services}/>
       </div>
     </>
   )
 }
 
-function DashboardMainContent() {
+function DashboardMainContent({services}) {
   const [activeItem, setActiveItem] = useState('testimonials');
 
   return (
@@ -74,7 +79,7 @@ function DashboardMainContent() {
         <input id="side-menu" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content relative lg:ml-80">
           <label htmlFor="side-menu" className="btn btn-primary rounded-full w-16 h-16 drawer-button lg:hidden fixed bottom-4 left-4 z-40"><BiMenu className='text-3xl'/></label>
-          {activeItem === 'services' ? <ServicesEditSection/> : <div></div>}
+          {activeItem === 'services' ? <ServicesEditSection services={services}/> : <div></div>}
           {activeItem === 'history-gallery' ? <HistoryGalleryEditSection/> : <div></div>}
           {activeItem === 'testimonials' ? <TestimonialsEditSection/> : <div></div>}
           {activeItem === 'accounts' ? <AccountsManagementSection/> : <div></div>}
@@ -95,9 +100,9 @@ function DashboardMainContent() {
   )
 }
 
-function ServicesEditSection() {
+function ServicesEditSection({services}) {
     return (
-      <Service edit/>
+      <Service edit initialServices={services}/>
     )
 }
 
@@ -296,4 +301,16 @@ function AccountsManagementSection() {
       </div> : null}
     </div>
   )
+}
+
+export async function getStaticProps() {
+  const res = await fetch("http://localhost:3000/api/service");
+  const data = await res.json();
+  const services = data.services;
+
+  return {
+    props: {
+      services,
+    },
+  };
 }

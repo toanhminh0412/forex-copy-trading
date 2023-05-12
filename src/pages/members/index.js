@@ -1,3 +1,5 @@
+import Head from 'next/head';
+
 import { useState, useEffect } from 'react';
 import UpperNav from '@/components/upperNav'
 import { Header, Members } from '@/components/Sections';
@@ -38,12 +40,15 @@ export default function MembersPage() {
 
     return(
         <>
-        <UpperNav active="about"/>
-        <LoginModal/>
-        <div className='pt-12 lg:pt-16'>
-            <Header/>
-            <Members/>
-        </div>
+          <Head>
+            <title>Members</title>
+          </Head>
+          <UpperNav active="about"/>
+          <LoginModal/>
+          <div className='pt-12 lg:pt-16'>
+              <Header/>
+              <Members/>
+          </div>
         </>
     )
 }

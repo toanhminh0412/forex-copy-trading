@@ -520,9 +520,9 @@ export function EightcapProfile() {
   )
 }
 
-export function HistoryGallery({style="", edit=false}) {
-  const [historyImages, setHistoryImages] = useState([]);
-  const [months, setMonths] = useState([]);
+export function HistoryGallery({style="", edit=false, initialImages=[], initialMonths=[]}) {
+  const [historyImages, setHistoryImages] = useState(initialImages);
+  const [months, setMonths] = useState(initialMonths);
   const [month, setMonth] = useState(0);
   const [showAll, setShowAll] = useState(false)
   const [lighBoxSrc, setLightBoxSrc] = useState('');
@@ -542,20 +542,20 @@ export function HistoryGallery({style="", edit=false}) {
   const [imageSelectMode, setImageSelectMode] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
 
-  useEffect(() => {
-    fetch('api/history_image')
-    .then(res => res.json())
-    .then(data => {
-      if (data.historyImages) {
-        setHistoryImages(data.historyImages);
-        let historyMonths = []
-        data.historyImages.forEach(rec => {
-          historyMonths.push(rec.month);
-        })
-        setMonths(historyMonths);
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   fetch('api/history_image')
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     if (data.historyImages) {
+  //       setHistoryImages(data.historyImages);
+  //       let historyMonths = []
+  //       data.historyImages.forEach(rec => {
+  //         historyMonths.push(rec.month);
+  //       })
+  //       setMonths(historyMonths);
+  //     }
+  //   })
+  // }, [])
 
   useEffect(() => {
     if (edit) {
@@ -940,19 +940,19 @@ export function Testimonials({paramReviews=undefined}) {
   const [reviewShown, setReviewShown] = useState(0);
   const [reviewFormOpened, setReviewFormOpened] = useState(false);
 
-  useEffect(() => {
-    if (paramReviews === undefined)  {
-      fetch('api/review?' + new URLSearchParams({
-        show: true
-      }))
-      .then(res => res.json())
-      .then(data => {
-        setReviews(data.reviews);
-      })
-    } else {
-      setReviews(paramReviews.filter(review => review.show === true))
-    }
-  }, [paramReviews])
+  // useEffect(() => {
+  //   if (paramReviews === undefined)  {
+  //     fetch('api/review?' + new URLSearchParams({
+  //       show: true
+  //     }))
+  //     .then(res => res.json())
+  //     .then(data => {
+  //       setReviews(data.reviews);
+  //     })
+  //   } else {
+  //     setReviews(paramReviews.filter(review => review.show === true))
+  //   }
+  // }, [paramReviews])
 
   if (reviews === undefined) {
     return (

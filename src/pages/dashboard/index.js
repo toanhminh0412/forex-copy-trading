@@ -10,7 +10,7 @@ import { LoginModal } from '@/components/Modals';
 import { ReviewCard } from '@/components/Cards';
 import { AccountForm } from '@/components/Forms';
 
-export default function DashboardPage({services}) {
+export default function DashboardPage({services, historyImages, historyMonths}) {
   const [loading, setLoading] = useState(true);
   const [unauthorized, setUnauthorized] = useState(false);
 
@@ -64,13 +64,13 @@ export default function DashboardPage({services}) {
       <UpperNav active="dashboard"/>
       <LoginModal/>
       <div className='pt-14 lg:pt-16'>
-        <DashboardMainContent services={services}/>
+        <DashboardMainContent services={services} historyImages={historyImages} historyMonths={historyMonths}/>
       </div>
     </>
   )
 }
 
-function DashboardMainContent({services}) {
+function DashboardMainContent({services, historyImages, historyMonths}) {
   const [activeItem, setActiveItem] = useState('testimonials');
 
   return (
@@ -80,7 +80,7 @@ function DashboardMainContent({services}) {
         <div className="drawer-content relative lg:ml-80">
           <label htmlFor="side-menu" className="btn btn-primary rounded-full w-16 h-16 drawer-button lg:hidden fixed bottom-4 left-4 z-40"><BiMenu className='text-3xl'/></label>
           {activeItem === 'services' ? <ServicesEditSection services={services}/> : <div></div>}
-          {activeItem === 'history-gallery' ? <HistoryGalleryEditSection/> : <div></div>}
+          {activeItem === 'history-gallery' ? <HistoryGalleryEditSection historyImages={historyImages} historyMonths={historyMonths}/> : <div></div>}
           {activeItem === 'testimonials' ? <TestimonialsEditSection/> : <div></div>}
           {activeItem === 'accounts' ? <AccountsManagementSection/> : <div></div>}
         </div>
@@ -106,12 +106,12 @@ function ServicesEditSection({services}) {
     )
 }
 
-function HistoryGalleryEditSection() {
+function HistoryGalleryEditSection({historyImages, historyMonths}) {
   const [openedTab, setOpenedTab] = useState(0);
 
   return (
     <div>
-      <HistoryGallery edit/>
+      <HistoryGallery edit initialImages={historyImages} initialMonths={historyMonths}/>
     </div>
   )
 }
@@ -304,13 +304,23 @@ function AccountsManagementSection() {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/service");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/service`);
   const data = await res.json();
   const services = data.services;
+
+  const historyImagesRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/history_image`);
+  const historyImagesData = await historyImagesRes.json();
+  const historyImages = historyImagesData.historyImages;
+  let historyMonths = [];
+  historyImages.forEach(rec => {
+    historyMonths.push(rec.month);
+  })
 
   return {
     props: {
       services,
+      historyImages,
+      historyMonths,
     },
   };
 }

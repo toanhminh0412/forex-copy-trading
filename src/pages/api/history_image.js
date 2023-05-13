@@ -2,6 +2,7 @@ import clientPromise, { mongoDb } from "../../../lib/mongodb";
 
 export default async function handler(req, res) {
     if (req.method === 'GET') {
+        console.log("Fetching history images");
         try {
             const mongoClient = await clientPromise;
             const db = mongoClient.db(mongoDb);

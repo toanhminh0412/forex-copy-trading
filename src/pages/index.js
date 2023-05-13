@@ -9,7 +9,7 @@ import { LoginModal } from '@/components/Modals';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({services}) {
+export default function Home({services, historyImages, historyMonths, reviews}) {
   return (
     <>
       <Head>
@@ -26,10 +26,10 @@ export default function Home({services}) {
         <About/>
         <Service initialServices={services}/>
         <EightcapProfile/>
-        <HistoryGallery/>
+        <HistoryGallery initialImages={historyImages} initialMonths={historyMonths}/>
         <SocialMedia/>
         <ContactUs/>
-        <Testimonials/>
+        <Testimonials paramReviews={reviews}/>
         <Disclaimer/>
       </div>
     </>
@@ -37,13 +37,28 @@ export default function Home({services}) {
 }
 
 export async function getStaticProps() {
-  const res = await fetch("http://localhost:3000/api/service");
-  const data = await res.json();
-  const services = data.services;
+  const servicesRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/service`);
+  const servicesData = await servicesRes.json();
+  const services = servicesData.services;
+
+  const historyImagesRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/history_image`);
+  const historyImagesData = await historyImagesRes.json();
+  const historyImages = historyImagesData.historyImages;
+  let historyMonths = [];
+  historyImages.forEach(rec => {
+    historyMonths.push(rec.month);
+  })
+
+  const reviewsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/review`);
+  const reviewsData = await reviewsRes.json();
+  const reviews = reviewsData.reviews;
 
   return {
     props: {
       services,
+      historyImages,
+      historyMonths,
+      reviews
     },
   };
 }

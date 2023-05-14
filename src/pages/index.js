@@ -31,7 +31,7 @@ export default function Home({services, historyImages=[], historyMonths=[], revi
         />
         <meta
           property="og:image"
-          content="/img/stock-graph.jpg"
+          content="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fstock-graph.jpg?alt=media&token=aa5ea75f-639a-4f29-9f4b-1b3825acfb8d"
           key="home-og-image"
         />
       </Head>

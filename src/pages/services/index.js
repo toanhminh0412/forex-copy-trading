@@ -8,7 +8,7 @@ export default function ServicePage({services}) {
   return(
     <>
       <Head>
-        <title>Services</title>
+        <title>Services - Forex copy trading service</title>
         <link rel="canonical" href="https://forexcopytrade.ca/services" key="services-canonical"/>
       </Head>
       <UpperNav active="services"/>

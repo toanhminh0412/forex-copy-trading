@@ -13,7 +13,7 @@ export default function Home({services, historyImages=[], historyMonths=[], revi
   return (
     <>
       <Head>
-        <title>Home</title>
+        <title>ForexCopyTrade - Forex copy trading service</title>
         <meta name="robots" content="all" key="robots-all"></meta>
         <meta name="google" content="all" key="google-all"/>
         <meta name="google" content="notranslate" key="notranslate"/>

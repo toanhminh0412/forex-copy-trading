@@ -7,7 +7,7 @@ export default function ContactUsPage() {
   return(
     <>
       <Head>
-        <title>Contact</title>
+        <title>Contact - Forex copy trading service</title>
       </Head>
       <UpperNav active="contact-us"/>
       <LoginModal/>

@@ -13,11 +13,27 @@ export default function Home({services, historyImages=[], historyMonths=[], revi
   return (
     <>
       <Head>
-        <title>ForexCopyTrade - Forex copy trading service</title>
+        <title>ForexCopyTrade - Copy trades made by professionals</title>
         <meta name="robots" content="all" key="robots-all"></meta>
         <meta name="google" content="all" key="google-all"/>
         <meta name="google" content="notranslate" key="notranslate"/>
         <link rel="canonical" href="https://forexcopytrade.ca" key="home-canonical"/>
+        <meta
+          name="description"
+          content="We provide Forex copy trading services. We professionals will do day trades 24/7 with great potential returns. Whatever we gain, you'll gain the same. This is an easy to make extra money on the side without having years of experience."
+          key="home-description"
+        />
+        <meta property="og:title" content="ForexCopyTrade - Copy trades made by professionals" key="home-og-title"/>
+        <meta
+          property="og:description"
+          content="We provide Forex copy trading services. We professionals will do day trades 24/7 with great potential returns. Whatever we gain, you'll gain the same. This is an easy to make extra money on the side without having years of experience."
+          key="home-og-description"
+        />
+        <meta
+          property="og:image"
+          content="/img/stock-graph.jpg"
+          key="home-og-image"
+        />
       </Head>
       <UpperNav/>
       <LoginModal/>

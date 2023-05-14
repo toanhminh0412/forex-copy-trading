@@ -26,11 +26,11 @@ export default function ServicePage({services}) {
           content="We provide Forex copy trading services. We professionals will do day trades 24/7 with great potential returns. Whatever we gain, you'll gain the same. This is an easy to make extra money on the side without having years of experience."
           key="services-og-description"
         />
-        {/* <meta
+        <meta
           property="og:image"
           content="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fstock-graph.jpg?alt=media&token=aa5ea75f-639a-4f29-9f4b-1b3825acfb8d"
           key="services-og-image"
-        /> */}
+        />
       </Head>
       <UpperNav active="services"/>
       <LoginModal/>

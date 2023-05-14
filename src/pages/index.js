@@ -9,7 +9,7 @@ import { LoginModal } from '@/components/Modals';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({services, historyImages, historyMonths, reviews}) {
+export default function Home({services, historyImages=[], historyMonths=[], reviews=undefined}) {
   return (
     <>
       <Head>
@@ -36,7 +36,7 @@ export default function Home({services, historyImages, historyMonths, reviews}) 
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const servicesRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/service`);
   const servicesData = await servicesRes.json();
   const services = servicesData.services;
@@ -49,7 +49,9 @@ export async function getStaticProps() {
     historyMonths.push(rec.month);
   })
 
-  const reviewsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/review`);
+  const reviewsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/review?` + new URLSearchParams({
+                                    show: true
+                                  }));
   const reviewsData = await reviewsRes.json();
   const reviews = reviewsData.reviews;
 

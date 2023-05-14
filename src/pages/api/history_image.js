@@ -28,7 +28,6 @@ export default async function handler(req, res) {
 
             // Upload a new history image
             if (month && imageURL) {
-                console.log("Upload a new history image")
                 const imageRecord = await imageCollection.findOne({"month": month});
                 if (imageRecord) {
                     await imageCollection.updateOne(
@@ -44,8 +43,9 @@ export default async function handler(req, res) {
                     )
                 }
                 res.status(201).json({ success: "true", message: "Posted a new image" });
+            
+            // Delete images
             } else if (deletedImages) {
-              console.log(deletedImages);
               for (const [month, images] of Object.entries(deletedImages)) {
                 const imageRecord = await imageCollection.findOne({"month": month});
                 const currentImages = imageRecord.images;
@@ -54,6 +54,12 @@ export default async function handler(req, res) {
                   {$set : {"images": currentImages.filter(image => !images.includes(image))}}
                 );
               }
+              
+              // Delete records with no images
+              await imageCollection.deleteMany(
+                {"images": []}
+              )
+
               const images = await imageCollection.find().toArray();
               res.status(200).json({
                 success: 'true',

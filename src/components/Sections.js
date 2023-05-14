@@ -707,12 +707,20 @@ export function HistoryGallery({style="", edit=false, initialImages=[], initialM
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        for (const [month, url] of selectedImages) {
+        for (const [_, url] of selectedImages) {
           const imageRef = ref(storage, url);
           deleteObject(imageRef).then(() => {
             setSuccessMessage("Deleted images successfully");
             setTimeout(() => {setSuccessMessage('')}, 5000);
             setHistoryImages(data.historyImages);
+            let historyMonths = [];
+            data.historyImages.forEach(rec => {
+              historyMonths.push(rec.month);
+            })
+            setMonths(historyMonths);
+            if (historyMonths.length <= month) {
+              setMonth(0);
+            }
             setImageSelectMode(false);
             setSelectedImages([]);
             document.getElementById('delete-image-modal').checked = false;

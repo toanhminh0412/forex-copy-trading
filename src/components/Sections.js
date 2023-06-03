@@ -261,7 +261,7 @@ export function Service({edit=false, initialServices}) {
     return (
       <Section>
         <h1 className="font-semibold text-4xl lg:text-6xl">Our services</h1>
-        <p className="text-lg lg:text-2xl font-semilight mt-4">Our company provides the following services. Feel free to email us at <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a> if you have any question about any service!</p>
+        {/* <p className="text-lg lg:text-2xl font-semilight mt-4">Our company provides the following services. Feel free to email us at <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a> if you have any question about any service!</p> */}
         <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
         All these services are pre-launched and the prices can go up later. Subscribe early to get the most out of your money. Note, all subscriptions are cancellable but not refundable!
         </h1>
@@ -500,6 +500,11 @@ export function Service({edit=false, initialServices}) {
             </Card>
           ))}
         </DisplayCase>
+        <p className="text-lg font-semilight mt-12">To get started,
+        pay the subscription and send us an email with a screenshot of payment as confirmation.
+        From there, we will gather your MT4 information, input it into the system, and away you go.
+        We don&apos;t recommend lot sizes or account balances. We do recommend a higher leverage for smaller balance accounts. Any question can be sent to <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a>!
+        </p>
         <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
           Stay tuned for our new upcoming pool account! Our pool account is a small 3 month term investment account with equal profit share. Stay tuned for developments.
         </h1>

@@ -101,7 +101,7 @@ function SmMenu({opened=false, active="home", loggedIn=false, logOutFunc, loadLo
           <Link href="/contact-us" className={`text-white ${active === "contact-us" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg mx-4`}>Contact us</Link>
         </div>
         {loggedIn ? <div className="py-2 border-b border-violet-700">
-          <Link href="/members" className={`text-white ${active === "members" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg mx-4`}>Contact us</Link>
+          <Link href="/members" className={`text-white ${active === "members" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg mx-4`}>Members</Link>
         </div> : null}
         {username !== '' && username !== undefined && username !== null ? 
           <div className="py-2 border-b border-violet-700">

@@ -68,7 +68,7 @@ export function Disclaimer() {
   )
 }
 
-export function Service({edit=false, initialServices}) {
+export function OldService({edit=false, initialServices}) {
   const [services, setServices] = useState(initialServices ? initialServices : undefined);
 
   const [title, setTitle] = useState('');
@@ -513,6 +513,93 @@ export function Service({edit=false, initialServices}) {
   }
 }
 
+export function Service() {
+  const services = [
+    {
+      'title': '1 session everyday',
+      'price': "80",
+      'paymentFreq': 'per month',
+      'pros': [
+        'Real time trade mirrorings',
+        'Access to a VIP Telegram community',
+        '1 trader trades 1 session every day (8 hour)'
+      ],
+      'cons': [
+        'No refund'
+      ],
+      'buttonText': 'Subscribe now',
+      'buttonLink': 'https://checkout.stripe.com/c/pay/cs_live_a1SWw0v2NZATJsiO61liZ2e84YcurY8vgYJmLfF4wAWzFBBdy2KYiXyOcy#fidkdWxOYHwnPyd1blppbHNgWjA0SEZwVFJATFU2VjBSQm9nSUZRcldWTzNVb1dgTjZmcUdJT01mQ09VQWBLTmZzbUxCN3QybVF0d3d9c08zQ3B1QlR%2FcnA2a09VYVU9QG00fHVcfEBrZmhHNTU9a0ZcQzFvQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAZ0l%2FZHY9NXVoMGBqYVRSJyknd2BjYHd3YHdKd2xibGsnPydtcXF1PyoqaWpmZGltanZxPzY1NTUqJ3gl'
+    },
+    {
+      "title": "1 hour coaching session",
+      "price": "100",
+      "paymentFreq": "per occasion",
+      "pros": [
+        "One on one training or trade session",
+        "Real time coaching via Skype",
+        "One time payment"
+      ],
+      "cons": [
+        "No refund"
+      ],
+      "buttonText": "Buy now",
+      "buttonLink": "https://buy.stripe.com/7sI4j743Kb40fT2dQX"
+    },
+    {
+      "title": "Sneaky Pete indicator",
+      "price": "200",
+      "paymentFreq": "per occasion",
+      "pros": [
+        "Here's one indicator we use primarily in our trading. It identifies short and long term trades. We like to use it for quick scalps. Buy yours today before the price goes up. Trade like we do."
+      ],
+      "cons": [],
+      "buttonText": "Buy now",
+      "buttonLink": "https://buy.stripe.com/14kcPDgQw3BygX6eV2"
+    }
+  ]
+
+  return (
+    <Section>
+      <h1 className="font-semibold text-4xl lg:text-6xl">Our services</h1>
+      {/* <p className="text-lg lg:text-2xl font-semilight mt-4">Our company provides the following services. Feel free to email us at <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a> if you have any question about any service!</p> */}
+      <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
+        All these services are pre-launched and the prices can go up later. Subscribe early to get the most out of your money. Note, all subscriptions are cancellable but not refundable!
+      </h1>
+      <DisplayCase style="mt-4 justify-center">
+        {services.map((service, index) => (
+          <Card key={index} header={service.title} style="mx-auto">
+            <div className="text-center">
+              <span className="text-6xl font-semibold">{service.price}</span>
+              <span className="text-xl font-normal ml-1">CAD</span>
+              <div className="text-xl font-light ml-1 text-slate-500">{service.paymentFreq}</div>
+            </div>
+            <ul className="mt-8 px-2 text-lg font-semilight">
+              {service.pros.map((pro, proIndex) => (
+                <li key={proIndex} className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>{pro}</li>
+              ))}
+              {service.cons.map((con, conIndex) => (
+                <li key={conIndex} className="flex flex-row my-2"><RxCross1 className="text-red-800 font-semibold mt-2 mr-2"/>{con}</li>
+              ))}
+              <li className="flex flex-row my-2"><br></br></li>
+            </ul>
+            <div className="mt-8 mb-4 text-center">
+              <OutlineButton color="violet-900" style="text-xl px-4" text={service.buttonText} link={service.buttonLink} target="_blank"/>
+            </div>
+          </Card>
+        ))}
+      </DisplayCase>
+      <p className="text-lg font-semilight mt-12">To get started,
+        pay the subscription and send us an email with a screenshot of payment as confirmation.
+        From there, we will gather your MT4 information, input it into the system, and away you go.
+        We don&apos;t recommend lot sizes or account balances. We do recommend a higher leverage for smaller balance accounts. Any question can be sent to <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a>!
+      </p>
+      <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
+        Stay tuned for our new upcoming pool account! Our pool account is a small 3 month term investment account with equal profit share. Stay tuned for developments.
+      </h1>
+    </Section>
+  );
+}
+
 export function EightcapProfile() {
   return (
     <Section style="bg-violet-700 text-white">
@@ -547,20 +634,20 @@ export function HistoryGallery({style="", edit=false, initialImages=[], initialM
   const [imageSelectMode, setImageSelectMode] = useState(false);
   const [selectedImages, setSelectedImages] = useState([]);
 
-  // useEffect(() => {
-  //   fetch('api/history_image')
-  //   .then(res => res.json())
-  //   .then(data => {
-  //     if (data.historyImages) {
-  //       setHistoryImages(data.historyImages);
-  //       let historyMonths = []
-  //       data.historyImages.forEach(rec => {
-  //         historyMonths.push(rec.month);
-  //       })
-  //       setMonths(historyMonths);
-  //     }
-  //   })
-  // }, [])
+  useEffect(() => {
+    fetch('api/history_image')
+    .then(res => res.json())
+    .then(data => {
+      if (data.historyImages) {
+        setHistoryImages(data.historyImages);
+        let historyMonths = []
+        data.historyImages.forEach(rec => {
+          historyMonths.push(rec.month);
+        })
+        setMonths(historyMonths);
+      }
+    })
+  }, [])
 
   useEffect(() => {
     if (edit) {
@@ -948,24 +1035,20 @@ export function ContactUs() {
   )
 }
 
-export function Testimonials({paramReviews=undefined}) {
-  const [reviews, setReviews] = useState(paramReviews);
+export function Testimonials() {
+  const [reviews, setReviews] = useState(undefined);
   const [reviewShown, setReviewShown] = useState(0);
   const [reviewFormOpened, setReviewFormOpened] = useState(false);
 
-  // useEffect(() => {
-  //   if (paramReviews === undefined)  {
-  //     fetch('api/review?' + new URLSearchParams({
-  //       show: true
-  //     }))
-  //     .then(res => res.json())
-  //     .then(data => {
-  //       setReviews(data.reviews);
-  //     })
-  //   } else {
-  //     setReviews(paramReviews.filter(review => review.show === true))
-  //   }
-  // }, [paramReviews])
+  useEffect(() => {
+    fetch('api/review?' + new URLSearchParams({
+      show: true
+    }))
+    .then(res => res.json())
+    .then(data => {
+      setReviews(data.reviews);
+    })
+  }, [])
 
   if (reviews === undefined) {
     return (

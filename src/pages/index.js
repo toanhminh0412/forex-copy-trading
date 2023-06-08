@@ -9,7 +9,7 @@ import { LoginModal } from '@/components/Modals';
 
 const inter = Inter({ subsets: ['latin'] })
 
-export default function Home({services, historyImages=[], historyMonths=[], reviews=undefined}) {
+export default function Home() {
   return (
     <>
       <Head>
@@ -40,43 +40,38 @@ export default function Home({services, historyImages=[], historyMonths=[], revi
       <div className='pt-16'>
         <Header/>
         <About/>
-        <Service initialServices={services}/>
+        <Service/>
         <EightcapProfile/>
-        <HistoryGallery initialImages={historyImages} initialMonths={historyMonths}/>
+        <HistoryGallery/>
         <SocialMedia/>
         <ContactUs/>
-        <Testimonials paramReviews={reviews}/>
+        <Testimonials/>
         <Disclaimer/>
       </div>
     </>
   )
 }
 
-export async function getServerSideProps() {
-  const servicesRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/service`);
-  const servicesData = await servicesRes.json();
-  const services = servicesData.services;
+// export async function getServerSideProps() {
+//   const historyImagesRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/history_image`);
+//   const historyImagesData = await historyImagesRes.json();
+//   const historyImages = historyImagesData.historyImages;
+//   let historyMonths = [];
+//   historyImages.forEach(rec => {
+//     historyMonths.push(rec.month);
+//   })
 
-  const historyImagesRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/history_image`);
-  const historyImagesData = await historyImagesRes.json();
-  const historyImages = historyImagesData.historyImages;
-  let historyMonths = [];
-  historyImages.forEach(rec => {
-    historyMonths.push(rec.month);
-  })
+//   const reviewsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/review?` + new URLSearchParams({
+//                                     show: true
+//                                   }));
+//   const reviewsData = await reviewsRes.json();
+//   const reviews = reviewsData.reviews;
 
-  const reviewsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/review?` + new URLSearchParams({
-                                    show: true
-                                  }));
-  const reviewsData = await reviewsRes.json();
-  const reviews = reviewsData.reviews;
-
-  return {
-    props: {
-      services,
-      historyImages,
-      historyMonths,
-      reviews
-    },
-  };
-}
+//   return {
+//     props: {
+//       historyImages,
+//       historyMonths,
+//       reviews
+//     },
+//   };
+// }

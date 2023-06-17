@@ -5,6 +5,7 @@ import Link from 'next/link';
 import emailjs from '@emailjs/browser';
 import imageCompression from 'browser-image-compression';
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import YouTube from "react-youtube";
 
 import { OutlineButton, TagButton, CarouselButton } from '@/components/Buttons';
 import { Section } from '@/components/PageLayouts';
@@ -754,6 +755,26 @@ export function Products() {
         Indicators and EA&apos;s are tools to assist in trading ventures and should not be considered a guarantee of success. No guarantees are implied or given. 
         <strong> All sales are final and no refunds!</strong>
       </p>
+    </Section>
+  )
+}
+
+export function TradesInAction() {
+  const onPlayerReady = (event) => {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  }
+  
+  const opts = {
+    playerVars: {
+      autoplay: 1,
+    },
+  };
+
+  return (
+    <Section>
+      <h1 className="font-semibold text-center text-4xl lg:text-6xl">See real trades in action</h1>
+      <YouTube videoId="-gsEozarhbc" opts={opts} iframeClassName='w-11/12 h-[300px] md:h-[500px] max-w-[900px] mx-auto mt-12' onReady={onPlayerReady} loading='lazy'/>
     </Section>
   )
 }

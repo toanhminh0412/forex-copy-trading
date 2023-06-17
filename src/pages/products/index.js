@@ -1,4 +1,4 @@
-import { Header, Products } from '@/components/Sections';
+import { Header, Products, TradesInAction } from '@/components/Sections';
 import Head from 'next/head';
 import UpperNav from '@/components/upperNav';
 import { LoginModal } from '@/components/Modals';
@@ -15,6 +15,7 @@ export default function ProductsPage() {
           <div className='pt-12 lg:pt-16'>
               <Header/>
               <Products/>
+              <TradesInAction/>
           </div>
         </>
     )

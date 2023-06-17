@@ -10,16 +10,6 @@ export default function ServicePage() {
       <Head>
         <title>Services - Copy trades made by professionals</title>
         <link rel="canonical" href="https://forexcopytrade.ca/services" key="services-canonical"/>
-        <meta
-          name="description"
-          content="We provide Forex copy trading services. We professionals will do day trades 24/7 with great potential returns. Whatever we gain, you'll gain the same. This is an easy to make extra money on the side without having years of experience."
-          key="services-description"
-        />
-        <meta
-          name="description"
-          content="We provide Forex copy trading services. We professionals will do day trades 24/7 with great potential returns. Whatever we gain, you'll gain the same. This is an easy to make extra money on the side without having years of experience."
-          key="services-description"
-        />
         <meta property="og:title" content="ForexCopyTrade - Copy trades made by professionals" key="services-og-title"/>
         <meta
           property="og:description"

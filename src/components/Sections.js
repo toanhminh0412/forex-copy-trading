@@ -72,7 +72,7 @@ export function Disclaimer() {
 export function Service() {
   const services = [
     {
-      'title': '1 session everyday',
+      'title': 'Base copier',
       'price': "80",
       'paymentFreq': 'per month',
       'pros': [
@@ -102,15 +102,26 @@ export function Service() {
       "buttonLink": "https://buy.stripe.com/7sI4j743Kb40fT2dQX"
     },
     {
-      "title": "Sneaky Pete indicator",
-      "price": "200",
-      "paymentFreq": "per occasion",
+      "title": "VIP copier",
+      "price": "Coming soon",
+      "paymentFreq": "",
       "pros": [
-        "Here's one indicator we use primarily in our trading. It identifies short and long term trades. We like to use it for quick scalps. Buy yours today before the price goes up. Trade like we do."
+        "Coming soon! Stay tuned!"
       ],
       "cons": [],
-      "buttonText": "Buy now",
-      "buttonLink": "https://buy.stripe.com/14kcPDgQw3BygX6eV2"
+      "buttonText": "",
+      "buttonLink": ""
+    },
+    {
+      "title": "Premium copier",
+      "price": "Coming soon",
+      "paymentFreq": "",
+      "pros": [
+        "Coming soon! Stay tuned!"
+      ],
+      "cons": [],
+      "buttonText": "",
+      "buttonLink": ""
     }
   ]
 
@@ -123,10 +134,10 @@ export function Service() {
       </h1>
       <DisplayCase style="mt-4 justify-center">
         {services.map((service, index) => (
-          <Card key={index} header={service.title} style="mx-auto">
+          <Card key={index} header={service.title} style="mx-auto min-h-[500px]">
             <div className="text-center">
               <span className="text-6xl font-semibold">{service.price}</span>
-              <span className="text-xl font-normal ml-1">CAD</span>
+              {!isNaN(service.price) ? (<span className="text-xl font-normal ml-1">CAD</span>) : null}
               <div className="text-xl font-light ml-1 text-slate-500">{service.paymentFreq}</div>
             </div>
             <ul className="mt-8 px-2 text-lg font-semilight">
@@ -138,9 +149,9 @@ export function Service() {
               ))}
               <li className="flex flex-row my-2"><br></br></li>
             </ul>
-            <div className="mt-8 mb-4 text-center">
+            {service.buttonText ? (<div className="mt-8 mb-4 text-center">
               <OutlineButton color="violet-900" style="text-xl px-4" text={service.buttonText} link={service.buttonLink} target="_blank"/>
-            </div>
+            </div>) : null}
           </Card>
         ))}
       </DisplayCase>
@@ -693,56 +704,105 @@ export function Members() {
 }
 
 export function Products() {
+  const [types, setTypes] = useState([
+    {
+      'id': 1,
+      'title': 'Spike',
+    },
+    {
+      'id': 2,
+      'title': 'Sneaky Pete',
+    },
+    {
+      'id': 3,
+      'title': 'Quickening',
+    },
+  ])
   const [products, setProducts] = useState([
+    {
+      'name': 'Spike indicator',
+      'price': 200,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/3cs8zn7fW8VS4ak3cl',
+      'type': 1
+    },
     {
       'name': 'Spike EA (robot)',
       'price': 275,
       'buttonText': 'Buy now',
-      'buttonLink': 'https://buy.stripe.com/eVa7vj1VCegcdKU6oy'
+      'buttonLink': 'https://buy.stripe.com/eVa7vj1VCegcdKU6oy',
+      'type': 1
     },
     {
       'name': 'Spike indicator and ea package',
       'price': 450,
       'buttonText': 'Buy now',
-      'buttonLink': 'https://buy.stripe.com/aEUdTHdEkdc84ak4gr'
+      'buttonLink': 'https://buy.stripe.com/aEUdTHdEkdc84ak4gr',
+      'type': 1
+    },
+    {
+      'name': 'Sneaky Pete indicator',
+      'price': 200,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/14kcPDgQw3BygX6eV2',
+      'type': 2
     },
     {
       'name': 'Sneaky Pete EA',
       'price': 275,
       'buttonText': 'Buy now',
-      'buttonLink': 'https://buy.stripe.com/3csaHv0Ryegc5eobIU'
+      'buttonLink': 'https://buy.stripe.com/3csaHv0Ryegc5eobIU',
+      'type': 2
     },
     {
       'name': 'Sneaky Pete indicator and EA package',
       'price': 450,
       'buttonText': 'Buy now',
-      'buttonLink': 'https://buy.stripe.com/9AQ16V9o4gokbCMdR3'
+      'buttonLink': 'https://buy.stripe.com/9AQ16V9o4gokbCMdR3',
+      'type': 2
     },
     {
       'name': 'Quickening Indicator',
       'price': 150,
       'buttonText': 'Buy now',
-      'buttonLink': 'https://buy.stripe.com/5kAbLzgQwdc8fT2fZc'
+      'buttonLink': 'https://buy.stripe.com/5kAbLzgQwdc8fT2fZc',
+      'type': 3
     },
     {
       'name': 'Quickening EA',
       'price': 200,
       'buttonText': 'Buy now',
-      'buttonLink': 'https://buy.stripe.com/00g9Dr8k0dc84ak3cr'
+      'buttonLink': 'https://buy.stripe.com/00g9Dr8k0dc84ak3cr',
+      'type': 3
     },
     {
       'name': 'Indicator and ea package',
       'price': 325,
       'buttonText': 'Buy now',
-      'buttonLink': 'https://buy.stripe.com/14kbLz0Rydc8gX628o'
+      'buttonLink': 'https://buy.stripe.com/14kbLz0Rydc8gX628o',
+      'type': 3
     },
   ])
 
   return (
     <Section style='!px-8 lg:!px-24 bg-slate-50'>
-      <h1 className="font-semibold text-center text-4xl lg:text-6xl">Products</h1>
+      <h1 className="font-semibold text-center text-3xl lg:text-5xl">EA&apos;s and indicators</h1>
       <p className="text-2xl lg:text-3xl text-center mt-4">EA pricing is introductory and will go up</p>
-      <div className="flex flex-row flex-wrap mt-8">
+      {types.map((type, typeIndex) => (
+        <div key={typeIndex}>
+          <h1 className='mt-8 font-semibold text-2xl lg:text-4xl ml-[4%] lg:ml-0'>{type.title}</h1>
+          <div className="flex flex-row flex-wrap">
+          {products.map((product, index) => product.type === type.id ? (
+            <div key={index} className='p-8 shadow-lg w-[90%] mx-auto lg:w-[47%] lg:ml-0 min-w-[200px] min-h-[150px] border border-slate-100 my-4 bg-white'>
+              <h3 className='text-2xl font-semibold'>{product.name}</h3>
+              <h1 className='text-4xl font-bold mt-2'>{product.price}</h1>
+              <Link href={product.buttonLink} target='_blank' className="btn btn-outline btn-primary mt-4">{product.buttonText}</Link>
+            </div>
+          ) : null)}
+          </div>
+        </div>
+      ))}
+      {/* <div className="flex flex-row flex-wrap mt-8">
         {products.map((product, index) => (
           <div key={index} className='p-8 shadow-lg w-[90%] mx-auto lg:w-[47%] lg:ml-0 min-w-[200px] min-h-[150px] border border-slate-100 mt-8 bg-white'>
             <h3 className='text-2xl font-semibold'>{product.name}</h3>
@@ -750,7 +810,7 @@ export function Products() {
             <Link href={product.buttonLink} target='_blank' className="btn btn-outline btn-primary mt-4">{product.buttonText}</Link>
           </div>
         ))}
-      </div>
+      </div> */}
       <p className="text-lg lg:text-xl font-semilight mt-12 text-center mx-8">
         Indicators and EA&apos;s are tools to assist in trading ventures and should not be considered a guarantee of success. No guarantees are implied or given. 
         <strong> All sales are final and no refunds!</strong>
@@ -773,7 +833,7 @@ export function TradesInAction() {
 
   return (
     <Section>
-      <h1 className="font-semibold text-center text-4xl lg:text-6xl">See real trades in action</h1>
+      <h1 className="font-semibold text-center text-3xl lg:text-5xl">Spike in action vs live trades in action</h1>
       <YouTube videoId="-gsEozarhbc" opts={opts} iframeClassName='w-11/12 h-[300px] md:h-[500px] max-w-[900px] mx-auto mt-12' onReady={onPlayerReady} loading='lazy'/>
     </Section>
   )

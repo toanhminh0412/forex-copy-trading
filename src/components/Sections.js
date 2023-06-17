@@ -751,7 +751,7 @@ export function Products() {
         ))}
       </div>
       <p className="text-lg lg:text-xl font-semilight mt-12 text-center mx-8">
-        Indicators and EA's are tools to assist in trading ventures and should not be considered a guarantee of success. No guarantees are implied or given. 
+        Indicators and EA&apos;s are tools to assist in trading ventures and should not be considered a guarantee of success. No guarantees are implied or given. 
         <strong> All sales are final and no refunds!</strong>
       </p>
     </Section>

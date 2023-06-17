@@ -4,7 +4,7 @@ import styles from '@/styles/Home.module.css';
 
 
 import UpperNav from '@/components/upperNav'
-import { Header, About, Disclaimer, Service, EightcapProfile, HistoryGallery, SocialMedia, ContactUs, Testimonials } from '@/components/Sections'
+import { Header, About, Disclaimer, Service, EightcapProfile, HistoryGallery, SocialMedia, ContactUs, Testimonials, Products } from '@/components/Sections'
 import { LoginModal } from '@/components/Modals';
 
 const inter = Inter({ subsets: ['latin'] })
@@ -42,6 +42,7 @@ export default function Home() {
         <About/>
         <Service/>
         <EightcapProfile/>
+        <Products/>
         <HistoryGallery/>
         <SocialMedia/>
         <ContactUs/>

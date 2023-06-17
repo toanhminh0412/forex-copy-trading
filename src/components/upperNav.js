@@ -46,6 +46,7 @@ export default function UpperNav({active="home"}) {
           <Link href="/" className={`text-white ${active === "home" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-2 xl:mx-4 text-center`}>Home</Link>
           {/* <Link href="/about" className={`text-white ${active === "about" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-2 xl:mx-4 text-center`}>About</Link> */}
           <Link href="/services" className={`text-white ${active === "services" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-2 xl:mx-4 text-center`}>Services</Link>
+          <Link href="/products" className={`text-white ${active === "products" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-2 xl:mx-4 text-center`}>Products</Link>
           <Link href="/contact-us" className={`text-white ${active === "contact-us" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-2 xl:mx-4 text-center`}>Contact us</Link>
           {loggedIn ? <Link href="/members" className={`text-white ${active === "members" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg my-auto mx-2 xl:mx-4 text-center`}>Members</Link> : null}
           {username !== '' && username !== undefined && username !== null ? 
@@ -96,6 +97,9 @@ function SmMenu({opened=false, active="home", loggedIn=false, logOutFunc, loadLo
         </div> */}
         <div className="py-2 border-b border-violet-700">
           <Link href="/services" className={`text-white ${active === "services" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg mx-4`}>Services</Link>
+        </div>
+        <div className="py-2 border-b border-violet-700">
+          <Link href="/products" className={`text-white ${active === "products" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg mx-4`}>Products</Link>
         </div>
         <div className="py-2 border-b border-violet-700">
           <Link href="/contact-us" className={`text-white ${active === "contact-us" ? 'font-normal hover:font-semibold' : 'font-light hover:font-normal'} text-md xl:text-lg mx-4`}>Contact us</Link>

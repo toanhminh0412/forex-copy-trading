@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
 import { useState, useEffect } from 'react';
-import UpperNav from '@/components/upperNav'
+import UpperNav from '@/components/upperNav';
 import { Header, Members } from '@/components/Sections';
 import { LoginModal } from '@/components/Modals';
 

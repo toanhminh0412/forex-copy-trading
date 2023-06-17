@@ -690,3 +690,70 @@ export function Members() {
     </Section>
   )
 }
+
+export function Products() {
+  const [products, setProducts] = useState([
+    {
+      'name': 'Spike EA (robot)',
+      'price': 275,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/eVa7vj1VCegcdKU6oy'
+    },
+    {
+      'name': 'Spike indicator and ea package',
+      'price': 450,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/aEUdTHdEkdc84ak4gr'
+    },
+    {
+      'name': 'Sneaky Pete EA',
+      'price': 275,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/3csaHv0Ryegc5eobIU'
+    },
+    {
+      'name': 'Sneaky Pete indicator and EA package',
+      'price': 450,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/9AQ16V9o4gokbCMdR3'
+    },
+    {
+      'name': 'Quickening Indicator',
+      'price': 150,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/5kAbLzgQwdc8fT2fZc'
+    },
+    {
+      'name': 'Quickening EA',
+      'price': 200,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/00g9Dr8k0dc84ak3cr'
+    },
+    {
+      'name': 'Indicator and ea package',
+      'price': 325,
+      'buttonText': 'Buy now',
+      'buttonLink': 'https://buy.stripe.com/14kbLz0Rydc8gX628o'
+    },
+  ])
+
+  return (
+    <Section style='!px-8 lg:!px-24 bg-slate-50'>
+      <h1 className="font-semibold text-center text-4xl lg:text-6xl">Products</h1>
+      <p className="text-2xl lg:text-3xl text-center mt-4">EA pricing is introductory and will go up</p>
+      <div className="flex flex-row flex-wrap mt-8">
+        {products.map((product, index) => (
+          <div key={index} className='p-8 shadow-lg w-[90%] mx-auto lg:w-[47%] lg:ml-0 min-w-[200px] min-h-[150px] border border-slate-100 mt-8 bg-white'>
+            <h3 className='text-2xl font-semibold'>{product.name}</h3>
+            <h1 className='text-4xl font-bold mt-2'>{product.price}</h1>
+            <Link href={product.buttonLink} target='_blank' className="btn btn-outline btn-primary mt-4">{product.buttonText}</Link>
+          </div>
+        ))}
+      </div>
+      <p className="text-lg lg:text-xl font-semilight mt-12 text-center mx-8">
+        Indicators and EA's are tools to assist in trading ventures and should not be considered a guarantee of success. No guarantees are implied or given. 
+        <strong> All sales are final and no refunds!</strong>
+      </p>
+    </Section>
+  )
+}

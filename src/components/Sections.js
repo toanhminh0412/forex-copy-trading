@@ -833,7 +833,7 @@ export function TradesInAction() {
 
   return (
     <Section>
-      <h1 className="font-semibold text-center text-3xl lg:text-5xl">Spike in action vs live trades in action</h1>
+      <h1 className="font-semibold text-center text-3xl lg:text-5xl">Spike in action</h1>
       <YouTube videoId="-gsEozarhbc" opts={opts} iframeClassName='w-11/12 h-[300px] md:h-[500px] max-w-[900px] mx-auto mt-12' onReady={onPlayerReady} loading='lazy'/>
     </Section>
   )

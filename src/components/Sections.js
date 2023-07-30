@@ -511,9 +511,9 @@ export function SocialMedia() {
   return (
     <Section>
       <h1 className="font-semibold text-4xl text-center lg:text-6xl">Follow us on social media</h1>
-      <p className="text-2xl lg:text-3xl text-center mt-4">Ask questions, get the most recent news and trading tips. Join a community with like-minded people!</p>
+      <p className="text-xl lg:text-2xl text-center mt-4">Ask questions, get the most recent news and trading tips. Join a community with like-minded people!</p>
       <div className="lg:flex lg:flex-row lg:justify-center mt-6 lg:mt-12">
-        <div className="relative h-40vh lg:h-50vh w-80vw lg:w-30% max-w-lg mx-auto lg:mx-0 lg:mr-12">
+        <div className="relative h-40vh lg:h-50vh w-80vw lg:w-30% max-w-sm mx-auto lg:mx-0 lg:mr-12">
           <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fsocial-media.jpg?alt=media&token=9fe03154-ef44-4cd0-b70e-2c1941f9f440" alt="Social medias" fill/>
         </div>
         <div className="mt-8 lg:mt-0 lg:w-1/2">
@@ -521,23 +521,23 @@ export function SocialMedia() {
             <div className="relative w-8 h-8">
               <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fgmail.png?alt=media&token=fda120db-128c-45ac-ac52-7acaa83d0513" alt="Gmail" fill/>
             </div>
-            <a href="mailto:realfxcopier@gmail.com" className="ml-3 my-auto text-2xl">realfxcopier@gmail.com</a>
+            <a href="mailto:realfxcopier@gmail.com" className="ml-3 my-auto text-lg xl:text-2xl link">realfxcopier@gmail.com</a>
           </div>
-          <p className="mt-4 text-lg">Feel free to send me emails to ask about anything. This is my main contact for business.</p>
+          <p className="mt-4 text-md lg:text-lg">Feel free to send me emails to ask about anything. This is my main contact for business.</p>
           <div className="flex flex-row flex-wrap mt-6">
             <div className="relative w-8 h-8">
               <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Ffacebook.png?alt=media&token=8a22bd05-7c7a-4218-b6d3-cd21c43ab22c" alt="Facebook" fill/>
             </div>
-            <a href="https://www.facebook.com/profile.php?id=100086521276292" target="_blank" className="ml-3 my-auto text-2xl">https://www.facebook.com/profile.php?id=100086521276292</a>
+            <a href="https://www.facebook.com/profile.php?id=100086521276292" target="_blank" className="ml-3 my-auto text-lg xl:text-2xl link">Forex Copy Trade</a>
           </div>
-          <p className="mt-4 text-lg">I posted my trades once in a while on Facebook. I also will be posting some educational contents on Facebook some time in the future.</p>
+          <p className="mt-4 text-md lg:text-lg">I posted my trades once in a while on Facebook. I also will be posting some educational contents on Facebook some time in the future.</p>
           <div className="flex flex-row flex-wrap mt-6">
             <div className="relative w-8 h-8">
               <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Ftelegram.png?alt=media&token=cd0a4770-a770-4006-af5d-287a49f3ced2" alt="Telegram" fill/>
             </div>
-            <a href="https://t.me/+5yP9BXNmFtY0ZWEx" target="_blank" className="ml-3 my-auto text-2xl">https://t.me/+5yP9BXNmFtY0ZWEx</a>
+            <a href="https://t.me/+5yP9BXNmFtY0ZWEx" target="_blank" className="ml-3 my-auto text-lg xl:text-2xl link">Telegram group chat</a>
           </div>
-          <p className="mt-4 text-lg">Join the community, chat with me and other members to get real time update on daily trades.</p>
+          <p className="mt-4 text-md lg:text-lg">Join the community, chat with me and other members to get real time update on daily trades.</p>
         </div>
       </div>
     </Section>
@@ -650,8 +650,8 @@ export function Testimonials() {
                 <p>ForexCopyTrade</p>
               </div>
               <figure className="mt-10 border-b border-slate-200 pb-5">
-                <blockquote className="text-center text-xl font-semibold leading-8 text-gray-900 sm:text-2xl sm:leading-9">
-                  <p>
+                <blockquote className="px-2 text-center text-md lg:text-xl italic text-gray-900">
+                  <p className='leading-loose'>
                     {review.content}
                   </p>
                 </blockquote>
@@ -702,7 +702,7 @@ export function Members() {
         <div className="relative w-8 h-8">
           <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Ftelegram.png?alt=media&token=cd0a4770-a770-4006-af5d-287a49f3ced2" alt="Telegram" fill/>
         </div>
-        <a href="https://t.me/+5yP9BXNmFtY0ZWEx" target="_blank" className="ml-3 my-auto text-2xl">https://t.me/+5yP9BXNmFtY0ZWEx</a>
+        <a href="https://t.me/+5yP9BXNmFtY0ZWEx" target="_blank" className="ml-3 my-auto text-lg xl:text-2xl link">Telegram group chat</a>
       </div>
       {/* <p className="mt-4 text-lg">Join the community, chat with me and other members to get real time update on daily trades.</p> */}
     </Section>

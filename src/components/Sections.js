@@ -19,18 +19,18 @@ import {storage} from '../../lib/firebase';
 
 export function Header({style=""}) {
   return (
-    <section className={`w-full h-25vh relative ${style}`}>
-      <video autoPlay muted loop id="myVideo" poster='https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fstock-graph.jpg?alt=media&token=aa5ea75f-639a-4f29-9f4b-1b3825acfb8d' className='w-full'>
+    <section className={`w-full h-screen relative ${style}`}>
+      <video autoPlay muted loop id="myVideo" poster='https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fstock-graph.jpg?alt=media&token=aa5ea75f-639a-4f29-9f4b-1b3825acfb8d' className='w-full h-full object-cover'>
         <source src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/vid%2Fbg_vid0.mp4?alt=media&token=d7925834-07ef-4be2-901c-5cef11ad2759" type="video/mp4"/>
         Your browser does not support the video
       </video>
-      <div className="w-full h-full bg-black z-10 opacity-70"></div>
+      {/* <div className="w-full h-full bg-black z-10 opacity-70 absolute top-0 left-0"></div> */}
       <div className="absolute z-20 h-fit inset-0 my-auto mx-auto text-center px-2">
-        <h1 className="text-white font-semibold text-4xl lg:text-6xl">Forex copy trading</h1>
+        <h1 className="text-white font-semibold text-2xl sm:text-3xl md:text-4xl xl:text-6xl">Forex copy trading</h1>
         <p className='text-white text-lg lg:text-2xl mt-2'>What we professional traders gain, you gain the same!</p>
-        <div className='w-fit mx-auto mt-6'>
+        <div className='w-fit mx-auto mt-10'>
           <Link target="_blank" href="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" className="btn glass">Join Eightcap now!</Link>
-          <Link target="_blank" href="/contact-us" className="btn glass ml-4">Contact us</Link>
+          <Link target="_blank" href="/contact-us" className="btn glass mt-2 ml-2 sm:ml-4">Contact us</Link>
         </div>
       </div>
     </section>
@@ -39,14 +39,14 @@ export function Header({style=""}) {
 
 export function About() {
   return (
-    <Section style="border-b-2">
+    <Section style="border-b-2 prose max-w-none">
       <h1 className="font-semibold text-4xl text-center lg:text-6xl">About me</h1>
       {/*<p className="text-2xl lg:text-3xl text-center mt-4">This is a placeholder for a slogan. The slogan is approximately this long!</p>*/}
       <div className="lg:flex lg:flex-row lg:justify-center mt-6 lg:mt-12">
-        <div className="relative h-40vh lg:h-50vh w-80vw lg:w-45% max-w-xl mx-auto lg:mx-6">
+        <div className="relative max-h-[50vh] w-80vw lg:w-45% max-w-md aspect-video mx-auto lg:mx-6">
           <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fstock-laptop.jpg?alt=media&token=010f294b-611b-4fe2-83ff-dc49330f4b9a" alt="Stock graph" fill/>
         </div>
-        <div className="lg:w-1/2 lg:mx-6">
+        <article className="mt-20 lg:mt-0 lg:w-1/2 lg:mx-6">
           <h2 className="text-2xl lg:text-4xl font-normal mt-8 lg:mt-0">Who am I?</h2>
           <p className="mt-4">I&apos;m just a simple guy that was looking to add income through investing. I went the traditional route and learned that the banks didn&apos;t have my best interests at heart. The same can be said for Forex brokers and the so-called “guru&apos;s”. All of them put on a great show telling you of fortunes to come. Pictures of high-end sports cars, fancy mansions, beautiful people surrounding them. Well guess what, none of that was true, the fancy indicators were just a selling point and relieved me of my money.  There&apos;s a reason 97% of traders fail.  I was one of those 97%.  However, after well over 100k in loss and reliance on indicators, I took time to figure it out and I now have a very tight grasp on it.  I don&apos;t have a 100%-win rate, (if someone tells you they do, they&apos;re lying) but then again, nobody does have a 100% win rate.  <strong className='text-xl'>My win rate is very good alongside good money management</strong>.  I learned some very valuable lessons, firstly the biggest was accepting loss and secondly to remove emotion.  I trade what I see and not what I hope could come true.  You can make money in forex, it takes time with small balances but it can be done.  I decided to offer this copy trade service so folks can see some positive results in their account as they learn, something that wasn&apos;t available when I was learning.  I encourage you to trade your own account alongside what I do.   
 I decided to offer copy trade so folks can see some positive results in their account as they learn. (This was not available when I was learning) I encourage you to trade your own account alongside what I do.</p>
@@ -58,7 +58,7 @@ I decided to offer copy trade so folks can see some positive results in their ac
           <p className='mt-4'>
             I would like to welcome 2 new additions to the trading team. They both come with a proven track record of producing consistently profitable gains. One of them comes with a very good background of using fundamentals and institutional trading concepts. We are all different as each one of us trades using completely different strategies. But we are all here to help you learn as you go on your trading journey. We will be producing a course in the future, but in the mean time, you can benefit from one to one training sessions where all concepts will be explained in detail. We would ask if you would submit the topics that you wish to discuss by email at the time of booking. This allows us to work out who the best teacher is to meet your requirements.
           </p>
-        </div>
+        </article>
       </div>
     </Section>
   )
@@ -179,7 +179,7 @@ export function EightcapProfile() {
       <h1 className="font-semibold text-2xl text-center lg:text-3xl">Sign up today and begin your journey!</h1>
       <p className="text-white text-lg lg:text-xl font-semilight text-center my-10">Eightcap is our <strong>preferred</strong> broker. We recommend using this broker as it is the master account brokerage. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
       <div className='w-fit mx-auto mt-10'>
-          <OutlineButton color="white" style="mx-2 text-2xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
+          <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
         </div>
     </Section>
   )
@@ -493,11 +493,11 @@ export function HistoryGallery({style="", edit=false, initialImages=[], initialM
           <DisplayCase key={index} style={`mt-4 ${index === month ? '': 'hidden'}`}>
             {historyImages.filter(rec => rec.month === monthName)[0].images.map((imageURL, imageIndex) => (
               <div key={imageURL} className={`${!showAll && imageIndex > 3 ? 'hidden' : ''}`}>
-                <GalleryImage src={imageURL} style={`mt-8 w-72 h-128 mx-auto md:mx-3 ${!imageSelectMode ? "" : "hidden"}`} onClick={() => {setLightBoxSrc(imageURL); setLighBoxOpened(true);}}/>
+                <GalleryImage src={imageURL} style={`mt-8 w-60 h-96 sm:w-72 sm:h-128 mx-auto md:mx-3 ${!imageSelectMode ? "" : "hidden"}`} onClick={() => {setLightBoxSrc(imageURL); setLighBoxOpened(true);}}/>
                 <GalleryImage src={imageURL} selectedMode style={`mt-8 w-72 h-128 mx-auto md:mx-3 ${imageSelectMode ? "" : "hidden"}`} onClick={() => {toggleImageSelectionForDeletion(monthName, imageURL)}}/>
               </div>
             ))}
-            {historyImages.filter(rec => rec.month === monthName)[0].images.length > 4 ? (<div className="relative bg-slate-200 hover:bg-slate-300 mt-8 w-72 h-128 mx-auto md:mx-3" onClick={() => {setShowAll(!showAll);}}>
+            {historyImages.filter(rec => rec.month === monthName)[0].images.length > 4 ? (<div className="relative bg-slate-200 hover:bg-slate-300 mt-8 w-60 h-96 sm:w-72 sm:h-128 mx-auto md:mx-3" onClick={() => {setShowAll(!showAll);}}>
               <p className="font-semibold text-xl absolute inset-0 m-auto w-fit h-fit">See {showAll ? 'less' : 'more'} ...</p>
             </div>) : null}
           </DisplayCase>
@@ -792,16 +792,16 @@ export function Products() {
 
   return (
     <Section style='!px-8 lg:!px-24 bg-slate-50'>
-      <h1 className="font-semibold text-center text-3xl lg:text-5xl">EA&apos;s and indicators</h1>
-      <p className="text-2xl lg:text-3xl text-center mt-4">EA pricing is introductory and will go up</p>
+      <h1 className="font-semibold text-center text-2xl sm:text-3xl lg:text-5xl">EA&apos;s and indicators</h1>
+      <p className="text-lg sm:text-xl lg:text-2xl text-center mt-2">EA pricing is introductory and will go up</p>
       {types.map((type, typeIndex) => (
         <div key={typeIndex}>
           <h1 className='mt-8 font-semibold text-2xl lg:text-4xl ml-[4%] lg:ml-0'>{type.title}</h1>
           <div className="flex flex-row flex-wrap">
           {products.map((product, index) => product.type === type.id ? (
             <div key={index} className='p-8 shadow-lg w-[90%] mx-auto lg:w-[47%] lg:ml-0 min-w-[200px] min-h-[150px] border border-slate-100 my-4 bg-white'>
-              <h3 className='text-2xl font-semibold'>{product.name}</h3>
-              <h1 className='text-4xl font-bold mt-2'>{product.price}</h1>
+              <h3 className='text-xl sm:text-2xl font-semibold'>{product.name}</h3>
+              <h1 className='text-2xl sm:text-4xl font-bold mt-2'>{product.price}</h1>
               <Link href={product.buttonLink} target='_blank' className="btn btn-outline btn-primary mt-4">{product.buttonText}</Link>
             </div>
           ) : null)}

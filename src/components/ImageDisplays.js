@@ -9,7 +9,7 @@ export function LightBox({src, opened=false, closeFunc}) {
       <div className="fixed inset-0 w-72 h-128 lg:w-96 lg:h-[44rem] m-auto z-50">
         <Image src={src} alt="Stock graph" fill/>
       </div>
-      <RxCross1 size={35} className="text-white hover:text-slate-200 fixed top-20 right-10 md:right-32 z-50" onClick={closeFunc}/>
+      <RxCross1 size={35} className="text-white hover:text-slate-200 fixed top-5 right-5 sm:top-10 sm:right-10 md:right-32 z-50" onClick={closeFunc}/>
     </div>
   )
 }
@@ -17,6 +17,13 @@ export function LightBox({src, opened=false, closeFunc}) {
 export function GalleryImage({src, onClick = () => {}, style, selectedMode=false}) {
   const [selected, setSelected] = useState(false);
   
+  if (!src) {
+    return (
+      <div>Image not found...</div>
+    )
+  }
+
+
   if (selectedMode) {
     return (
       <div className={`relative border hover:border-2 border-black ${style}`} onClick={() => {setSelected(!selected); onClick();}}>

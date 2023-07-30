@@ -26,7 +26,7 @@ export function Header({style=""}) {
       </video>
       {/* <div className="w-full h-full bg-black z-10 opacity-70 absolute top-0 left-0"></div> */}
       <div className="absolute z-20 h-fit inset-0 my-auto mx-auto text-center px-2">
-        <h1 className="text-white font-semibold text-2xl sm:text-3xl md:text-4xl xl:text-6xl">Forex copy trading</h1>
+        <h1 className="text-white font-semibold text-3xl md:text-4xl xl:text-6xl">Forex copy trading</h1>
         <p className='text-white text-lg lg:text-2xl mt-2'>What we professional traders gain, you gain the same!</p>
         <div className='w-fit mx-auto mt-10'>
           <Link target="_blank" href="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" className="btn glass">Join Eightcap now!</Link>

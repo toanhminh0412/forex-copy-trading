@@ -42,8 +42,8 @@ export function About() {
     <Section style="border-b-2 prose max-w-none">
       <h1 className="font-semibold text-4xl text-center lg:text-6xl">About me</h1>
       {/*<p className="text-2xl lg:text-3xl text-center mt-4">This is a placeholder for a slogan. The slogan is approximately this long!</p>*/}
-      <div className="lg:flex lg:flex-row lg:justify-center mt-6 lg:mt-12">
-        <div className="relative max-h-[50vh] w-80vw lg:w-45% max-w-md aspect-video mx-auto lg:mx-6">
+      <div className="mt-6 lg:mt-12 mx-auto">
+        <div className="relative w-60 md:w-80 mx-auto max-w-xl text-center md:float-right aspect-square md:ml-8 md:mb-8 not-prose">
           <Image src="https://firebasestorage.googleapis.com/v0/b/forex-copier-trade.appspot.com/o/app_img%2Fstock-laptop.jpg?alt=media&token=010f294b-611b-4fe2-83ff-dc49330f4b9a" alt="Stock graph" fill/>
         </div>
         <article className="mt-20 lg:mt-0 lg:w-1/2 lg:mx-6">
@@ -54,10 +54,11 @@ I decided to offer copy trade so folks can see some positive results in their ac
           <p className="mt-4">
             We shoot for a gain of 1-10% each day markets are open. It&apos;s very possible to gain more but I prefer sticking to a strict set of rules. There are no guarantees given, this is meant to be a guide only. There will be days when the markets are flat and no trades take place, but we will be offering a better return on your money than any bank or financial adviser could give. Please remember, losses are a part of trading. You learn more from losses than you do wins. You have to be able to accept losses and not get emotional. If you bring emotions into trading, you&apos;re doomed to failure. If this is you, check out our VIP service, which is a great source of passive income as we trade for you. <strong className='text-xl'>The important thing is that we all move forward together, no matter where you are in your trading journey.</strong>
           </p>
-          <h2 className="text-2xl lg:text-4xl font-normal mt-8">Exciting update</h2>
+          {/* <h2 className="text-2xl lg:text-4xl font-normal mt-8">Exciting update</h2>
           <p className='mt-4'>
             I would like to welcome 2 new additions to the trading team. They both come with a proven track record of producing consistently profitable gains. One of them comes with a very good background of using fundamentals and institutional trading concepts. We are all different as each one of us trades using completely different strategies. But we are all here to help you learn as you go on your trading journey. We will be producing a course in the future, but in the mean time, you can benefit from one to one training sessions where all concepts will be explained in detail. We would ask if you would submit the topics that you wish to discuss by email at the time of booking. This allows us to work out who the best teacher is to meet your requirements.
           </p>
+        */}
         </article>
       </div>
     </Section>
@@ -83,8 +84,7 @@ export function Service() {
       'paymentFreq': 'per month',
       'pros': [
         'Real time trade mirrorings',
-        'Access to a VIP Telegram community',
-        '1 trader trades 1 session every day (8 hour)'
+        'Access to a VIP Telegram community'
       ],
       'cons': [
         'No refund'

@@ -84,13 +84,14 @@ export function Service() {
       'paymentFreq': 'per month',
       'pros': [
         'Real time trade mirrorings',
-        'Access to a VIP Telegram community'
+        'Access to a VIP Telegram community',
+        ""
       ],
       'cons': [
-        'No refund'
+        
       ],
       'buttonText': 'Subscribe now',
-      'buttonLink': 'https://checkout.stripe.com/c/pay/cs_live_a1SWw0v2NZATJsiO61liZ2e84YcurY8vgYJmLfF4wAWzFBBdy2KYiXyOcy#fidkdWxOYHwnPyd1blppbHNgWjA0SEZwVFJATFU2VjBSQm9nSUZRcldWTzNVb1dgTjZmcUdJT01mQ09VQWBLTmZzbUxCN3QybVF0d3d9c08zQ3B1QlR%2FcnA2a09VYVU9QG00fHVcfEBrZmhHNTU9a0ZcQzFvQScpJ3VpbGtuQH11anZgYUxhJz8nM2pAZ0l%2FZHY9NXVoMGBqYVRSJyknd2BjYHd3YHdKd2xibGsnPydtcXF1PyoqaWpmZGltanZxPzY1NTUqJ3gl'
+      'buttonLink': 'https://buy.stripe.com/8wM6rfcAg5JG5eo6oJ'
     },
     {
       "title": "1 hour coaching session",
@@ -102,32 +103,40 @@ export function Service() {
         "One time payment"
       ],
       "cons": [
-        "No refund"
+        
       ],
       "buttonText": "Buy now",
       "buttonLink": "https://buy.stripe.com/7sI4j743Kb40fT2dQX"
     },
     {
-      "title": "VIP copier",
-      "price": "Coming soon",
-      "paymentFreq": "",
+      "title": "Gold copier",
+      "price": "150",
+      "paymentFreq": "per month",
       "pros": [
-        "The new and exciting VIP package allows people who have no trading experience to dip their toe into investing whilst knowing that their money is in safe hands. Also it is suited to traders who do not have time to be looking at charts due to work or family commitments but are keen to still be involved in trading, let us do it for you. You will require a minimum balance of $1440 Canadian dollars or 1000 Euro. You will not be able to trade this account until you have a balance of 4K, the reason for this is that our traders have a good win percentage, we do not want this altered my people trading, messing it up and then leaving bad reviews. This is great passive income, deposit the money and watch your balance grow. VIP costs more because we are giving you access to the traders in our team with the highest win percentage."
+        "4 pairs EA",
+        "Need to have a min balance of $1000",
+        ""
       ],
-      "cons": [],
-      "buttonText": "",
-      "buttonLink": ""
+      "cons": [
+        
+      ],
+      "buttonText": "Subscribe now",
+      "buttonLink": "https://buy.stripe.com/7sI4j743Kb40fT2dQX"
     },
     {
-      "title": "Premium copier",
-      "price": "Coming soon",
-      "paymentFreq": "",
+      "title": "Platinum copier",
+      "price": "210",
+      "paymentFreq": "per month",
       "pros": [
-        "Coming soon! Stay tuned!"
+        "6 pairs EA",
+        "Need to have a min balance of $1000",
+        ""
       ],
-      "cons": [],
-      "buttonText": "",
-      "buttonLink": ""
+      "cons": [
+        
+      ],
+      "buttonText": "Subscribe now",
+      "buttonLink": "https://buy.stripe.com/7sI4j743Kb40fT2dQX"
     }
   ]
 
@@ -138,9 +147,9 @@ export function Service() {
       <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
         All these services are pre-launched and the prices can go up later. Subscribe early to get the most out of your money. Note, all subscriptions are cancellable but not refundable!
       </h1>
-      <DisplayCase style="mt-4 justify-center">
+      <DisplayCase style="mt-4 justify-center gap-6">
         {services.map((service, index) => (
-          <Card key={index} header={service.title} style="mx-auto min-h-[500px]">
+          <Card key={index} header={service.title} style="min-h-[500px]">
             <div className="text-center">
               <span className="text-6xl font-semibold">{service.price}</span>
               {!isNaN(service.price) ? (<span className="text-xl font-normal ml-1">CAD</span>) : null}
@@ -148,7 +157,7 @@ export function Service() {
             </div>
             <ul className="mt-8 px-2 text-lg font-semilight">
               {service.pros.map((pro, proIndex) => (
-                <li key={proIndex} className="flex flex-row my-2"><AiOutlineCheck className="text-green-800 font-semibold mt-1 mr-2"/>{pro}</li>
+                <li key={proIndex} className={`flex flex-row my-2 ${!pro ? "opacity-0" : ""}`}><AiOutlineCheck className={`text-green-800 font-semibold mt-1 mr-2 ${!pro ? "opacity-100" : ""}`}/>{pro}</li>
               ))}
               {service.cons.map((con, conIndex) => (
                 <li key={conIndex} className="flex flex-row my-2"><RxCross1 className="text-red-800 font-semibold mt-2 mr-2"/>{con}</li>
@@ -156,7 +165,8 @@ export function Service() {
               <li className="flex flex-row my-2"><br></br></li>
             </ul>
             {service.buttonText ? (<div className="mt-8 mb-4 text-center">
-              <OutlineButton color="violet-900" style="text-xl px-4" text={service.buttonText} link={service.buttonLink} target="_blank"/>
+              {/* <OutlineButton color="violet-900" style="text-xl px-4" text={service.buttonText} link={service.buttonLink} target="_blank"/> */}
+                <Link href={service.buttonLink} target='_blank' className='btn btn-primary'>{service.buttonText}</Link>
             </div>) : null}
           </Card>
         ))}
@@ -164,7 +174,7 @@ export function Service() {
       <p className="text-lg font-semilight mt-12">To get started,
         pay the subscription and send us an email with a screenshot of payment as confirmation.
         From there, we will gather your MT4 information, input it into the system, and away you go.
-        We don&apos;t recommend lot sizes or account balances. We do recommend a higher leverage for smaller balance accounts. Any question can be sent to <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a>!
+        We don&apos;t recommend lot sizes or account balances. We do recommend a higher leverage for smaller balance accounts. Any question can be sent to <a href="mailto:realfxcopier@gmail.com" className="underline text-blue-700">realfxcopier@gmail.com</a>! Note that <strong>we do not receive refunds.</strong>
       </p>
       <h1 className="text-2xl lg:text-3xl text-center font-semibold mt-16 text-violet-700">
         Stay tuned for our new upcoming pool account! Our pool account is a small 3 month term investment account with equal profit share. Stay tuned for developments.
@@ -177,9 +187,11 @@ export function EightcapProfile() {
   return (
     <Section style="bg-violet-700 text-white">
       <h1 className="font-semibold text-2xl text-center lg:text-3xl">Sign up today and begin your journey!</h1>
-      <p className="text-white text-lg lg:text-xl font-semilight text-center my-10">Eightcap is our <strong>preferred</strong> broker. We recommend using this broker as it is the master account brokerage. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
+      <p className="text-white text-lg lg:text-xl font-semilight text-center my-10"><strong>Eightcap</strong>, <strong>GoMarkets</strong> and <strong>Fusion Markets</strong> are our <strong>preferred</strong> brokers. We recommend using this broker as it is the master account brokerage. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
       <div className='w-fit mx-auto mt-10'>
           <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
+          <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join GoMarkets now!" link="https://apply.gomarkets.com/en/" target='_blank'/>
+          {/* <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/> */}
         </div>
     </Section>
   )
@@ -409,7 +421,7 @@ export function HistoryGallery({style="", edit=false, initialImages=[], initialM
     <Section style={`border border-slate-300 ${style}`}>
       <LightBox src={lighBoxSrc} opened={lighBoxOpened} closeFunc={() => {setLighBoxOpened(false)}}/>
       <h1 className="font-semibold text-4xl lg:text-6xl">History trades</h1>
-      <p className="text-lg lg:text-2xl font-semilight mt-4">Click on the month to see trades for each month!</p>
+      {/* <p className="text-lg lg:text-2xl font-semilight mt-4">Click on the month to see trades for each month!</p>
       {edit ? (
       <div className="mt-4">
         <label htmlFor="add-image-modal" className="btn">Add image</label>
@@ -502,7 +514,7 @@ export function HistoryGallery({style="", edit=false, initialImages=[], initialM
             </div>) : null}
           </DisplayCase>
         ) : null)}
-      </div>
+      </div> */}
     </Section>
   )
 }

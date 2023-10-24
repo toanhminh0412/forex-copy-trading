@@ -189,8 +189,10 @@ export function EightcapProfile() {
       <h1 className="font-semibold text-2xl text-center lg:text-3xl">Sign up today and begin your journey!</h1>
       <p className="text-white text-lg lg:text-xl font-semilight text-center my-10"><strong>Eightcap</strong>, <strong>GoMarkets</strong> and <strong>Fusion Markets</strong> are our <strong>preferred</strong> brokers. We recommend using this broker as it is the master account brokerage. It&apos;s best to use the same broker as the master account. Different brokers have different spreads, leverages and commissions. By using the same broker, results are more consistent. This is recommended but not required. MT4 and MT5 accounts only. C-Trader is not supported.</p>
       <div className='w-fit mx-auto mt-10'>
-          <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/>
-          <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join GoMarkets now!" link="https://apply.gomarkets.com/en/" target='_blank'/>
+          {/* <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/> */}
+          {/* <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join GoMarkets now!" link="https://apply.gomarkets.com/en/" target='_blank'/> */}
+          <Link href="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank' className='btn btn-outline mx-2 my-1 text-white border-white'>Join Eightcap now!</Link>
+          <Link href="https://apply.gomarkets.com/en/" target='_blank' className='btn btn-outline mx-2 my-1 text-white border-white'>Join GoMarkets now!</Link>
           {/* <OutlineButton color="white" style="mx-2 text-lg sm:text-xl border-2 hover:border-3 px-4" text="Join Eightcap now!" link="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" target='_blank'/> */}
         </div>
     </Section>

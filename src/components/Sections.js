@@ -199,327 +199,337 @@ export function EightcapProfile() {
   )
 }
 
-export function HistoryGallery({style="", edit=false, initialImages=[], initialMonths=[]}) {
-  const [historyImages, setHistoryImages] = useState(initialImages);
-  const [months, setMonths] = useState(initialMonths);
-  const [month, setMonth] = useState(0);
-  const [showAll, setShowAll] = useState(false)
-  const [lighBoxSrc, setLightBoxSrc] = useState('');
-  const [lighBoxOpened, setLighBoxOpened] = useState(false);
-
-  // For editing
-  const [newImageMonth, setNewImageMonth] = useState(0);
-  const [monthTagInput, setMonthTagInput] = useState(false);
-  const [newMonth, setNewMonth] = useState('');
-  const [newImage, setNewImage] = useState(null);
-  const [fileDataURL, setFileDataURL] = useState(null);
-  const imageMimeType = /image\/(png|jpg|jpeg)/i;
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // For image deletion
-  const [imageSelectMode, setImageSelectMode] = useState(false);
-  const [selectedImages, setSelectedImages] = useState([]);
-
-  useEffect(() => {
-    fetch('api/history_image')
-    .then(res => res.json())
-    .then(data => {
-      if (data.historyImages) {
-        setHistoryImages(data.historyImages);
-        let historyMonths = []
-        data.historyImages.forEach(rec => {
-          historyMonths.push(rec.month);
-        })
-        setMonths(historyMonths);
-      }
-    })
-  }, [])
-
-  useEffect(() => {
-    if (edit) {
-      let fileReader, isCancel = false;
-      if (newImage) {
-        fileReader = new FileReader();
-        fileReader.onload = (e) => {
-          const { result } = e.target;
-          if (result && !isCancel) {
-            setFileDataURL(result)
-          }
-        }
-        fileReader.readAsDataURL(newImage);
-      }
-      return () => {
-        isCancel = true;
-        if (fileReader && fileReader.readyState === 1) {
-          fileReader.abort();
-        }
-      }
-    }
-  }, [newImage]);
-  
-  const updateNewMonth = e => {
-    setNewMonth(e.target.value);
-  }
-
-  const updateNewImage = async (e) => {
-    const file = e.target.files[0];
-    if (!file.type.match(imageMimeType)) {
-      alert("Image mime type is not valid");
-      return;
-    }
-    const options = {
-      maxSizeMB: 0.1,
-      maxWidthOrHeight: 1920,
-      useWebWorker: true,
-    }
-    try {
-      const compressedImage = await imageCompression(file, options);
-      setNewImage(compressedImage);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  const addMonthTag = e => {
-    e.preventDefault();
-    setMonths(
-      [...months, newMonth]
-    )
-    setHistoryImages(
-      [...historyImages, {
-        month: newMonth,
-        images: []
-      }]
-    )
-    setNewMonth('');
-    setMonthTagInput(false);
-    setNewImageMonth(months.length);
-  }
-
-  const uploadNewImage = e => {
-    e.preventDefault();
-    const imageRef = ref(storage, `history/${months[newImageMonth]}_${new Date().getTime()}.jpg`);
-    // 'file' comes from the Blob or File API
-    uploadBytes(imageRef, newImage).then((snapshot) => {
-      getDownloadURL(imageRef).then(url => {
-        setNewImage(null);
-        setFileDataURL(null);
-        document.getElementById('add-image-modal').checked = false;
-        document.getElementById('image-input').value = "";
-        fetch('/api/history_image', {
-          method: "POST",
-          mode: "cors",
-          credentials: "same-origin",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            month: months[newImageMonth],
-            imageURL: url
-          })
-        })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            setSuccessMessage("Uploaded image successfully");
-            let monthFound = false;
-            let newHistoryImages = historyImages;
-            for (let i=0; i<newHistoryImages.length; i++) {
-              if (newHistoryImages[i].month === months[newImageMonth]) {
-                newHistoryImages[i].images.push(url);
-                monthFound = true;
-              }
-            }
-            if (!monthFound) {
-              newHistoryImages.push({
-                month: months[newImageMonth],
-                images: [url]
-              })
-              setMonths([...months, newImageMonth])
-            }
-            setHistoryImages(newHistoryImages);
-            setTimeout(() => {setSuccessMessage('')}, 5000);
-          } else {
-            setErrorMessage("Failed to upload image");
-            setTimeout(() => {setErrorMessage('')}, 5000);
-          }
-        })
-      })
-    });
-  }
-
-  const toggleImageSelectionForDeletion = (month, url) => {
-    let imageSelected = false;
-    selectedImages.forEach(item => {
-      if (item[0] === month && item[1] === url) {
-        imageSelected = true;
-      }
-    });
-    if (imageSelected) {
-      setSelectedImages(selectedImages.filter(item => item[0] !== month || item[1] !== url))
-    } else {
-      setSelectedImages([...selectedImages, [month, url]])
-    }
-  }
-
-  const deleteSelectedImages = () => {
-    let deletedImageObj = {};
-    selectedImages.forEach(item => {
-      if (item[0] in deletedImageObj) {
-        deletedImageObj[item[0]].push(item[1]);
-      } else {
-        deletedImageObj[item[0]] = [item[1]];
-      }
-    })
-    fetch('/api/history_image', {
-      method: "POST",
-      mode: "cors",
-      credentials: "same-origin",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        deletedImages: deletedImageObj
-      })
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        for (const [_, url] of selectedImages) {
-          const imageRef = ref(storage, url);
-          deleteObject(imageRef).then(() => {
-            setSuccessMessage("Deleted images successfully");
-            setTimeout(() => {setSuccessMessage('')}, 5000);
-            setHistoryImages(data.historyImages);
-            let historyMonths = [];
-            data.historyImages.forEach(rec => {
-              historyMonths.push(rec.month);
-            })
-            setMonths(historyMonths);
-            if (historyMonths.length <= month) {
-              setMonth(0);
-            }
-            setImageSelectMode(false);
-            setSelectedImages([]);
-            document.getElementById('delete-image-modal').checked = false;
-          }).catch((error) => {
-            console.log("Failed to delete image from Firebase storage");
-            console.log(error);
-            setErrorMessage("Failed to delete images");
-            setTimeout(() => {setErrorMessage('')}, 5000);
-          })
-        }
-        
-      } else {
-        console.log("Failed to delete images from MongoDB");
-        setErrorMessage("Failed to delete images");
-        setTimeout(() => {setErrorMessage('')}, 5000);
-      }
-    })
-  }
-
+export function HistoryGallery() {
   return (
-    <Section style={`border border-slate-300 ${style}`}>
-      <LightBox src={lighBoxSrc} opened={lighBoxOpened} closeFunc={() => {setLighBoxOpened(false)}}/>
+    <Section style="border border-slate-300">
       <h1 className="font-semibold text-4xl lg:text-6xl">History trades</h1>
-      <p className="text-lg lg:text-2xl font-semilight mt-4">Click on the month to see trades for each month!</p>
-      {edit ? (
-      <div className="mt-4">
-        <label htmlFor="add-image-modal" className="btn">Add image</label>
-        <input type="checkbox" id="add-image-modal" className="modal-toggle" />
-        <div className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Add an image to history gallery</h3>
-            <form className="mt-4 text-md" onSubmit={uploadNewImage}>
-              <label>Month tag:</label>
-              <div className="mt-1">
-                {months.map((monthName, index) => (
-                  <TagButton key={monthName} text={monthName} active={newImageMonth===index} style="!text-sm mr-2 mt-1" onClick={() => {setNewImageMonth(index)}}/>
-                ))}
-                <TagButton text="Add tag +" active={monthTagInput} style="!text-sm mr-2 mt-1" onClick={() => {setMonthTagInput(!monthTagInput)}}/>
-              </div>
-              <div className={`form-control mt-3 ${monthTagInput ? '' : 'hidden'}`}>
-                <div className="input-group">
-                  <input type="text" placeholder="Input month name" className="input input-bordered" value={newMonth} onChange={updateNewMonth}/>
-                  <button className={`btn btn-square ${newMonth === '' ? 'btn-disabled' : ''}`} onClick={addMonthTag}>
-                    <AiOutlinePlus size={20}/>
-                  </button>
-                </div>
-              </div>
-              <div className="mt-3 italic">Select the month when this picture was taken</div>
-              <div className="mt-3">
-                <label>New image:</label>
-                <input id="image-input" type="file" accept=".png, .jpg, .jpeg" className="form-control mt-1 file-input file-input-bordered w-full max-w-xs" onChange={updateNewImage}/>
-              </div>
-              {fileDataURL ?
-              <div>
-                { 
-                <div className='relative w-60 h-[21rem] mt-3 mx-auto'>
-                  <Image src={fileDataURL} alt="preview" fill/>
-                </div>
-                }
-              </div> : null}
-              <div className="modal-action">
-                <label htmlFor="add-image-modal" className="btn btn-error text-white hover:bg-red-600">Cancel</label>
-                <input type="submit" className={`btn ${newImage === null ? "btn-disabled": ""}`} value="Submit"/>
-              </div>
-            </form>
-          </div>
-        </div>
-        
-        <div className={`btn btn-error hover:bg-red-600 text-white ml-2 ${!imageSelectMode ? "": "hidden"}`} onClick={() => {setImageSelectMode(true)}}>Delete images</div>
-        <div className={`btn btn-error hover:bg-red-600 text-white ml-2 ${imageSelectMode && selectedImages.length === 0 ? "": "hidden"}`} onClick={() => {setImageSelectMode(false)}}>Cancel deleting images</div>
-        <label htmlFor="delete-image-modal" className={`btn btn-error hover:bg-red-600 text-white ml-2 ${imageSelectMode && selectedImages.length > 0 ? "": "hidden"}`}>Delete selected images ({selectedImages.length})</label>
-        <p className={`text-lg italic mt-2 ${imageSelectMode ? "": "hidden"}`}>Click on an image to select that image for deletion</p>
-        <input type="checkbox" id="delete-image-modal" className="modal-toggle" />
-        <div className="modal">
-          <div className="modal-box">
-            <h3 className="font-bold text-lg">Confirm deleting images</h3>
-            <p className="py-4">Are you sure you want to delete the {selectedImages.length} images that you selected?</p>
-            <div className="modal-action">
-              <label htmlFor="delete-image-modal" className="btn btn-error text-white">No</label>
-              <div className="btn" onClick={deleteSelectedImages}>Yes</div>
-            </div>
-          </div>
-        </div>
-
-        {successMessage !== '' ? <div className="toast z-40">
-          <div className="alert alert-success">
-            <div>
-              <span>{successMessage}</span>
-            </div>
-          </div>
-        </div> : null}
-        {errorMessage !== '' ? <div className="toast z-40">
-          <div className="alert alert-error">
-            <div>
-              <span>{errorMessage}</span>
-            </div>
-          </div>
-        </div> : null}
-      </div>) : (<div></div>)}
-      <div className="mt-12">
-        {months.map((monthName, index) => historyImages.length > 0 ? (
-          <TagButton key={monthName} text={monthName} active={month===index} style="mr-3 mt-1" onClick={() => {setMonth(index); setShowAll(false);}}/>
-        ) : null)}
-        {months.map((monthName, index) => historyImages.length > 0 ? (
-          <DisplayCase key={index} style={`mt-4 ${index === month ? '': 'hidden'}`}>
-            {historyImages.filter(rec => rec.month === monthName)[0].images.map((imageURL, imageIndex) => (
-              <div key={imageURL} className={`${!showAll && imageIndex > 3 ? 'hidden' : ''}`}>
-                <GalleryImage src={imageURL} style={`mt-8 w-60 h-96 sm:w-72 sm:h-128 mx-auto md:mx-3 ${!imageSelectMode ? "" : "hidden"}`} onClick={() => {setLightBoxSrc(imageURL); setLighBoxOpened(true);}}/>
-                <GalleryImage src={imageURL} selectedMode style={`mt-8 w-72 h-128 mx-auto md:mx-3 ${imageSelectMode ? "" : "hidden"}`} onClick={() => {toggleImageSelectionForDeletion(monthName, imageURL)}}/>
-              </div>
-            ))}
-            {historyImages.filter(rec => rec.month === monthName)[0].images.length > 4 ? (<div className="relative bg-slate-200 hover:bg-slate-300 mt-8 w-60 h-96 sm:w-72 sm:h-128 mx-auto md:mx-3" onClick={() => {setShowAll(!showAll);}}>
-              <p className="font-semibold text-xl absolute inset-0 m-auto w-fit h-fit">See {showAll ? 'less' : 'more'} ...</p>
-            </div>) : null}
-          </DisplayCase>
-        ) : null)}
-      </div>
+      <p className="text-lg lg:text-2xl font-semilight mt-4">Check out my recent trades. I post my trades on <Link href="https://www.facebook.com/profile.php?id=100086521276292" className='link'>Facebook</Link> weekly.</p>
+      <Link href="https://www.facebook.com/profile.php?id=100086521276292" className='btn btn-primary mt-4'>Visit my Facebook</Link>
     </Section>
   )
 }
+
+// export function HistoryGallery({style="", edit=false, initialImages=[], initialMonths=[]}) {
+//   const [historyImages, setHistoryImages] = useState(initialImages);
+//   const [months, setMonths] = useState(initialMonths);
+//   const [month, setMonth] = useState(0);
+//   const [showAll, setShowAll] = useState(false)
+//   const [lighBoxSrc, setLightBoxSrc] = useState('');
+//   const [lighBoxOpened, setLighBoxOpened] = useState(false);
+
+//   // For editing
+//   const [newImageMonth, setNewImageMonth] = useState(0);
+//   const [monthTagInput, setMonthTagInput] = useState(false);
+//   const [newMonth, setNewMonth] = useState('');
+//   const [newImage, setNewImage] = useState(null);
+//   const [fileDataURL, setFileDataURL] = useState(null);
+//   const imageMimeType = /image\/(png|jpg|jpeg)/i;
+//   const [successMessage, setSuccessMessage] = useState('');
+//   const [errorMessage, setErrorMessage] = useState('');
+
+//   // For image deletion
+//   const [imageSelectMode, setImageSelectMode] = useState(false);
+//   const [selectedImages, setSelectedImages] = useState([]);
+
+//   useEffect(() => {
+//     fetch('api/history_image')
+//     .then(res => res.json())
+//     .then(data => {
+//       if (data.historyImages) {
+//         setHistoryImages(data.historyImages);
+//         let historyMonths = []
+//         data.historyImages.forEach(rec => {
+//           historyMonths.push(rec.month);
+//         })
+//         setMonths(historyMonths);
+//       }
+//     })
+//   }, [])
+
+//   useEffect(() => {
+//     if (edit) {
+//       let fileReader, isCancel = false;
+//       if (newImage) {
+//         fileReader = new FileReader();
+//         fileReader.onload = (e) => {
+//           const { result } = e.target;
+//           if (result && !isCancel) {
+//             setFileDataURL(result)
+//           }
+//         }
+//         fileReader.readAsDataURL(newImage);
+//       }
+//       return () => {
+//         isCancel = true;
+//         if (fileReader && fileReader.readyState === 1) {
+//           fileReader.abort();
+//         }
+//       }
+//     }
+//   }, [newImage]);
+  
+//   const updateNewMonth = e => {
+//     setNewMonth(e.target.value);
+//   }
+
+//   const updateNewImage = async (e) => {
+//     const file = e.target.files[0];
+//     if (!file.type.match(imageMimeType)) {
+//       alert("Image mime type is not valid");
+//       return;
+//     }
+//     const options = {
+//       maxSizeMB: 0.1,
+//       maxWidthOrHeight: 1920,
+//       useWebWorker: true,
+//     }
+//     try {
+//       const compressedImage = await imageCompression(file, options);
+//       setNewImage(compressedImage);
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
+
+//   const addMonthTag = e => {
+//     e.preventDefault();
+//     setMonths(
+//       [...months, newMonth]
+//     )
+//     setHistoryImages(
+//       [...historyImages, {
+//         month: newMonth,
+//         images: []
+//       }]
+//     )
+//     setNewMonth('');
+//     setMonthTagInput(false);
+//     setNewImageMonth(months.length);
+//   }
+
+//   const uploadNewImage = e => {
+//     e.preventDefault();
+//     const imageRef = ref(storage, `history/${months[newImageMonth]}_${new Date().getTime()}.jpg`);
+//     // 'file' comes from the Blob or File API
+//     uploadBytes(imageRef, newImage).then((snapshot) => {
+//       getDownloadURL(imageRef).then(url => {
+//         setNewImage(null);
+//         setFileDataURL(null);
+//         document.getElementById('add-image-modal').checked = false;
+//         document.getElementById('image-input').value = "";
+//         fetch('/api/history_image', {
+//           method: "POST",
+//           mode: "cors",
+//           credentials: "same-origin",
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           body: JSON.stringify({
+//             month: months[newImageMonth],
+//             imageURL: url
+//           })
+//         })
+//         .then(res => res.json())
+//         .then(data => {
+//           if (data.success) {
+//             setSuccessMessage("Uploaded image successfully");
+//             let monthFound = false;
+//             let newHistoryImages = historyImages;
+//             for (let i=0; i<newHistoryImages.length; i++) {
+//               if (newHistoryImages[i].month === months[newImageMonth]) {
+//                 newHistoryImages[i].images.push(url);
+//                 monthFound = true;
+//               }
+//             }
+//             if (!monthFound) {
+//               newHistoryImages.push({
+//                 month: months[newImageMonth],
+//                 images: [url]
+//               })
+//               setMonths([...months, newImageMonth])
+//             }
+//             setHistoryImages(newHistoryImages);
+//             setTimeout(() => {setSuccessMessage('')}, 5000);
+//           } else {
+//             setErrorMessage("Failed to upload image");
+//             setTimeout(() => {setErrorMessage('')}, 5000);
+//           }
+//         })
+//       })
+//     });
+//   }
+
+//   const toggleImageSelectionForDeletion = (month, url) => {
+//     let imageSelected = false;
+//     selectedImages.forEach(item => {
+//       if (item[0] === month && item[1] === url) {
+//         imageSelected = true;
+//       }
+//     });
+//     if (imageSelected) {
+//       setSelectedImages(selectedImages.filter(item => item[0] !== month || item[1] !== url))
+//     } else {
+//       setSelectedImages([...selectedImages, [month, url]])
+//     }
+//   }
+
+//   const deleteSelectedImages = () => {
+//     let deletedImageObj = {};
+//     selectedImages.forEach(item => {
+//       if (item[0] in deletedImageObj) {
+//         deletedImageObj[item[0]].push(item[1]);
+//       } else {
+//         deletedImageObj[item[0]] = [item[1]];
+//       }
+//     })
+//     fetch('/api/history_image', {
+//       method: "POST",
+//       mode: "cors",
+//       credentials: "same-origin",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         deletedImages: deletedImageObj
+//       })
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//       if (data.success) {
+//         for (const [_, url] of selectedImages) {
+//           const imageRef = ref(storage, url);
+//           deleteObject(imageRef).then(() => {
+//             setSuccessMessage("Deleted images successfully");
+//             setTimeout(() => {setSuccessMessage('')}, 5000);
+//             setHistoryImages(data.historyImages);
+//             let historyMonths = [];
+//             data.historyImages.forEach(rec => {
+//               historyMonths.push(rec.month);
+//             })
+//             setMonths(historyMonths);
+//             if (historyMonths.length <= month) {
+//               setMonth(0);
+//             }
+//             setImageSelectMode(false);
+//             setSelectedImages([]);
+//             document.getElementById('delete-image-modal').checked = false;
+//           }).catch((error) => {
+//             console.log("Failed to delete image from Firebase storage");
+//             console.log(error);
+//             setErrorMessage("Failed to delete images");
+//             setTimeout(() => {setErrorMessage('')}, 5000);
+//           })
+//         }
+        
+//       } else {
+//         console.log("Failed to delete images from MongoDB");
+//         setErrorMessage("Failed to delete images");
+//         setTimeout(() => {setErrorMessage('')}, 5000);
+//       }
+//     })
+//   }
+
+//   return (
+//     <Section style={`border border-slate-300 ${style}`}>
+//       <LightBox src={lighBoxSrc} opened={lighBoxOpened} closeFunc={() => {setLighBoxOpened(false)}}/>
+//       <h1 className="font-semibold text-4xl lg:text-6xl">History trades</h1>
+//       <p className="text-lg lg:text-2xl font-semilight mt-4">Click on the month to see trades for each month!</p>
+//       {edit ? (
+//       <div className="mt-4">
+//         <label htmlFor="add-image-modal" className="btn">Add image</label>
+//         <input type="checkbox" id="add-image-modal" className="modal-toggle" />
+//         <div className="modal">
+//           <div className="modal-box">
+//             <h3 className="font-bold text-lg">Add an image to history gallery</h3>
+//             <form className="mt-4 text-md" onSubmit={uploadNewImage}>
+//               <label>Month tag:</label>
+//               <div className="mt-1">
+//                 {months.map((monthName, index) => (
+//                   <TagButton key={monthName} text={monthName} active={newImageMonth===index} style="!text-sm mr-2 mt-1" onClick={() => {setNewImageMonth(index)}}/>
+//                 ))}
+//                 <TagButton text="Add tag +" active={monthTagInput} style="!text-sm mr-2 mt-1" onClick={() => {setMonthTagInput(!monthTagInput)}}/>
+//               </div>
+//               <div className={`form-control mt-3 ${monthTagInput ? '' : 'hidden'}`}>
+//                 <div className="input-group">
+//                   <input type="text" placeholder="Input month name" className="input input-bordered" value={newMonth} onChange={updateNewMonth}/>
+//                   <button className={`btn btn-square ${newMonth === '' ? 'btn-disabled' : ''}`} onClick={addMonthTag}>
+//                     <AiOutlinePlus size={20}/>
+//                   </button>
+//                 </div>
+//               </div>
+//               <div className="mt-3 italic">Select the month when this picture was taken</div>
+//               <div className="mt-3">
+//                 <label>New image:</label>
+//                 <input id="image-input" type="file" accept=".png, .jpg, .jpeg" className="form-control mt-1 file-input file-input-bordered w-full max-w-xs" onChange={updateNewImage}/>
+//               </div>
+//               {fileDataURL ?
+//               <div>
+//                 { 
+//                 <div className='relative w-60 h-[21rem] mt-3 mx-auto'>
+//                   <Image src={fileDataURL} alt="preview" fill/>
+//                 </div>
+//                 }
+//               </div> : null}
+//               <div className="modal-action">
+//                 <label htmlFor="add-image-modal" className="btn btn-error text-white hover:bg-red-600">Cancel</label>
+//                 <input type="submit" className={`btn ${newImage === null ? "btn-disabled": ""}`} value="Submit"/>
+//               </div>
+//             </form>
+//           </div>
+//         </div>
+        
+//         <div className={`btn btn-error hover:bg-red-600 text-white ml-2 ${!imageSelectMode ? "": "hidden"}`} onClick={() => {setImageSelectMode(true)}}>Delete images</div>
+//         <div className={`btn btn-error hover:bg-red-600 text-white ml-2 ${imageSelectMode && selectedImages.length === 0 ? "": "hidden"}`} onClick={() => {setImageSelectMode(false)}}>Cancel deleting images</div>
+//         <label htmlFor="delete-image-modal" className={`btn btn-error hover:bg-red-600 text-white ml-2 ${imageSelectMode && selectedImages.length > 0 ? "": "hidden"}`}>Delete selected images ({selectedImages.length})</label>
+//         <p className={`text-lg italic mt-2 ${imageSelectMode ? "": "hidden"}`}>Click on an image to select that image for deletion</p>
+//         <input type="checkbox" id="delete-image-modal" className="modal-toggle" />
+//         <div className="modal">
+//           <div className="modal-box">
+//             <h3 className="font-bold text-lg">Confirm deleting images</h3>
+//             <p className="py-4">Are you sure you want to delete the {selectedImages.length} images that you selected?</p>
+//             <div className="modal-action">
+//               <label htmlFor="delete-image-modal" className="btn btn-error text-white">No</label>
+//               <div className="btn" onClick={deleteSelectedImages}>Yes</div>
+//             </div>
+//           </div>
+//         </div>
+
+//         {successMessage !== '' ? <div className="toast z-40">
+//           <div className="alert alert-success">
+//             <div>
+//               <span>{successMessage}</span>
+//             </div>
+//           </div>
+//         </div> : null}
+//         {errorMessage !== '' ? <div className="toast z-40">
+//           <div className="alert alert-error">
+//             <div>
+//               <span>{errorMessage}</span>
+//             </div>
+//           </div>
+//         </div> : null}
+//       </div>) : (<div></div>)}
+//       <div className="mt-12">
+//         {months.map((monthName, index) => historyImages.length > 0 ? (
+//           <TagButton key={monthName} text={monthName} active={month===index} style="mr-3 mt-1" onClick={() => {setMonth(index); setShowAll(false);}}/>
+//         ) : null)}
+//         {months.map((monthName, index) => historyImages.length > 0 ? (
+//           <DisplayCase key={index} style={`mt-4 ${index === month ? '': 'hidden'}`}>
+//             {historyImages.filter(rec => rec.month === monthName)[0].images.map((imageURL, imageIndex) => (
+//               <div key={imageURL} className={`${!showAll && imageIndex > 3 ? 'hidden' : ''}`}>
+//                 <GalleryImage src={imageURL} style={`mt-8 w-60 h-96 sm:w-72 sm:h-128 mx-auto md:mx-3 ${!imageSelectMode ? "" : "hidden"}`} onClick={() => {setLightBoxSrc(imageURL); setLighBoxOpened(true);}}/>
+//                 <GalleryImage src={imageURL} selectedMode style={`mt-8 w-72 h-128 mx-auto md:mx-3 ${imageSelectMode ? "" : "hidden"}`} onClick={() => {toggleImageSelectionForDeletion(monthName, imageURL)}}/>
+//               </div>
+//             ))}
+//             {historyImages.filter(rec => rec.month === monthName)[0].images.length > 4 ? (<div className="relative bg-slate-200 hover:bg-slate-300 mt-8 w-60 h-96 sm:w-72 sm:h-128 mx-auto md:mx-3" onClick={() => {setShowAll(!showAll);}}>
+//               <p className="font-semibold text-xl absolute inset-0 m-auto w-fit h-fit">See {showAll ? 'less' : 'more'} ...</p>
+//             </div>) : null}
+//           </DisplayCase>
+//         ) : null)}
+//       </div>
+//     </Section>
+//   )
+// }
 
 export function SocialMedia() {
   return (

@@ -423,7 +423,7 @@ export function HistoryGallery({style="", edit=false, initialImages=[], initialM
     <Section style={`border border-slate-300 ${style}`}>
       <LightBox src={lighBoxSrc} opened={lighBoxOpened} closeFunc={() => {setLighBoxOpened(false)}}/>
       <h1 className="font-semibold text-4xl lg:text-6xl">History trades</h1>
-      {/* <p className="text-lg lg:text-2xl font-semilight mt-4">Click on the month to see trades for each month!</p>
+      <p className="text-lg lg:text-2xl font-semilight mt-4">Click on the month to see trades for each month!</p>
       {edit ? (
       <div className="mt-4">
         <label htmlFor="add-image-modal" className="btn">Add image</label>
@@ -516,7 +516,7 @@ export function HistoryGallery({style="", edit=false, initialImages=[], initialM
             </div>) : null}
           </DisplayCase>
         ) : null)}
-      </div> */}
+      </div>
     </Section>
   )
 }

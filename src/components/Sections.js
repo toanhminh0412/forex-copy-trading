@@ -30,6 +30,7 @@ export function Header({style=""}) {
         <p className='text-white text-lg lg:text-2xl mt-2'>What we professional traders gain, you gain the same!</p>
         <div className='w-fit mx-auto mt-10'>
           <Link target="_blank" href="https://join.eightcap.com/visit/?bta=38222&brand=eightcap" className="btn glass">Join Eightcap now!</Link>
+          <Link target="_blank" href="https://apply.gomarkets.com/en/" className="btn glass mt-2 ml-2 sm:ml-4">Join GoMarkets now!</Link>
           <Link target="_blank" href="/contact-us" className="btn glass mt-2 ml-2 sm:ml-4">Contact us</Link>
         </div>
       </div>
